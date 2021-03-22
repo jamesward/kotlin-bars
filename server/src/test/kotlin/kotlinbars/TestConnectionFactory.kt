@@ -13,13 +13,13 @@ import javax.annotation.PreDestroy
 class TestPostgresContainer : PostgreSQLContainer<TestPostgresContainer>("postgres:13.1") {
 
     init {
-        this.withInitScript("init.sql")
-        this.start()
+        withInitScript("init.sql")
+        start()
     }
 
     @PreDestroy
     fun destroy() {
-        this.stop()
+        stop()
     }
 
 }
@@ -29,6 +29,8 @@ class TestConnectionFactory {
 
     @Bean
     fun connectionFactory(container: TestPostgresContainer): ConnectionFactory {
+        println(container.jdbcUrl)
+
         val connectionConfiguration = PostgresqlConnectionConfiguration.builder()
             .host(container.host)
             .port(container.firstMappedPort)
