@@ -1,13 +1,10 @@
 package kotlinbars
-/*
+
 import com.github.jasync.sql.db.SuspendingConnection
 import com.github.jasync.sql.db.asSuspending
 import com.github.jasync.sql.db.postgresql.PostgreSQLConnectionBuilder
 import io.micronaut.context.annotation.Factory
 import io.micronaut.context.annotation.Requires
-import io.micronaut.data.hibernate.operations.HibernateJpaOperations
-import io.micronaut.data.operations.async.AsyncRepositoryOperations
-import org.hibernate.SessionFactory
 import org.testcontainers.containers.PostgreSQLContainer
 import javax.annotation.PreDestroy
 import javax.inject.Singleton
@@ -41,22 +38,3 @@ class TestSuspendingConnectionFactory : AutoCloseable {
     }
 
 }
-
-@Factory
-class TestAsyncRepositoryOperations {
-
-    @Singleton
-    fun sessionFactory(): SessionFactory {
-        println("asdf")
-
-        /*
-        this.sessionFactory = sessionFactory;
-        this.transactionOperations = transactionOperations;
-        this.executorService = executorService;
-         */
-
-    }
-
-}
-
- */

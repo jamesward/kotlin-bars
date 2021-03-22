@@ -1,10 +1,11 @@
 rootProject.name = "kotlin-bars"
 
+include("common", "web", "server")
+
 // when running the root jib task, ignore the android subproject
+// TODO
 if (startParameter.taskRequests.find { it.args.contains(":server:jib") } == null) {
-    include("common", "web", "server", "android")
-} else {
-    include("common", "web", "server")
+    include("android")
 }
 
 pluginManagement {

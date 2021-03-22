@@ -6,7 +6,7 @@
     </appender>
 
     <logger name="io.micronaut.http.client" level="INFO"/>
-    <logger name="io.micronaut.context.condition" level="DEBUG"/>
+    <logger name="io.micronaut.context.condition" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

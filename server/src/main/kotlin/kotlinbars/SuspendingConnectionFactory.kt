@@ -1,6 +1,5 @@
 package kotlinbars
 
-/*
 import com.github.jasync.sql.db.SuspendingConnection
 import com.github.jasync.sql.db.asSuspending
 import com.github.jasync.sql.db.postgresql.PostgreSQLConnectionBuilder
@@ -26,5 +25,3 @@ class SuspendingConnectionFactory(jasyncPoolConfiguration: JasyncPoolConfigurati
         if (connectionPool.isConnected()) connectionPool.disconnect()
     }
 }
-
- */

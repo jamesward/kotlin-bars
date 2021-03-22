@@ -17,15 +17,12 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    //implementation("io.micronaut.sql:micronaut-jasync-sql")
-    //implementation("com.github.jasync-sql:jasync-postgresql:1.1.7")
-    implementation("io.micronaut.r2dbc:micronaut-r2dbc-rxjava2")
-    implementation("io.micronaut.r2dbc:micronaut-data-r2dbc")
-    runtimeOnly("io.r2dbc:r2dbc-postgresql:0.8.7.RELEASE")
+    implementation("io.micronaut.sql:micronaut-jasync-sql")
+    implementation("com.github.jasync-sql:jasync-postgresql:1.1.5")
 
-    kapt("io.micronaut.data:micronaut-data-processor")
-    /*
     kapt("io.micronaut:micronaut-graal")
+
+    /*
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut.data:micronaut-data-processor")
      */
@@ -69,47 +66,19 @@ tasks.register<JavaExec>("testRun") {
     systemProperty("micronaut.server.port", "8080")
 }
 
-kapt {
-    arguments {
-        arg("micronaut.processing.incremental", true)
-    }
+tasks.register<JavaExec>("graalRun") {
+    systemProperty("micronaut.environments", "test")
+    systemProperty("micronaut.server.port", "8080")
+    jvmArgs("-agentlib:native-image-agent=config-output-dir=src/graal")
 }
 
-/*
-application {
-    mainClass.set("com.jamesward.airdraw.WebAppKt")
-}
-
-allOpen {
-    annotation("io.micronaut.aop.Around")
-}
-
-kapt {
-    arguments {
-        arg("micronaut.processing.incremental", true)
-        arg("micronaut.processing.annotations", "com.jamesward.airdraw.*")
-    }
-}
- */
-
-/*
-tasks.withType<JavaExec> {
-jvmArgs = listOf("-XX:TieredStopAtLevel=1", "-Dcom.sun.management.jmxremote")
-
-if (gradle.startParameter.isContinuous) {
-    systemProperties = mapOf(
-            "micronaut.io.watch.restart" to "true",
-            "micronaut.io.watch.enabled" to "true",
-            "micronaut.io.watch.paths" to "src/main"
-    )
-}
-}
- */
-
-/*
 tasks {
-    classes {
-        dependsOn(":web:jsJar")
+    dockerBuildNative {
+        images.set(listOf("kotlin-bars-server"))
+    }
+    nativeImage {
+        args("--verbose")
+        //args("--static")
+        args("--initialize-at-build-time=kotlin.ULong")
     }
 }
- */
