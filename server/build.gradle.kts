@@ -1,8 +1,7 @@
 plugins {
+    application
     kotlin("jvm")
-    kotlin("kapt")
-    kotlin("plugin.allopen")
-    id("io.micronaut.application")
+    id("com.palantir.graal") version "0.7.2"
 }
 
 dependencies {
@@ -10,27 +9,19 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.4.3")
 
-    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
+    implementation("io.ktor:ktor-server-core:1.5.2")
+    implementation("io.ktor:ktor-server-netty:1.5.2")
+    implementation("io.ktor:ktor-jackson:1.5.2")
 
-    runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+    runtimeOnly("io.netty:netty-handler:4.1.60.Final")
+    runtimeOnly("io.netty:netty-transport:4.1.60.Final")
 
-    //implementation("io.micronaut.sql:micronaut-jasync-sql")
-    //implementation("com.github.jasync-sql:jasync-postgresql:1.1.7")
-    implementation("io.micronaut.r2dbc:micronaut-r2dbc-rxjava2")
-    implementation("io.micronaut.r2dbc:micronaut-data-r2dbc")
-    runtimeOnly("io.r2dbc:r2dbc-postgresql:0.8.7.RELEASE")
+    implementation("com.github.jasync-sql:jasync-postgresql:1.1.7")
 
-    kapt("io.micronaut.data:micronaut-data-processor")
-    /*
-    kapt("io.micronaut:micronaut-graal")
-    kapt("io.micronaut:micronaut-inject-java")
-    kapt("io.micronaut.data:micronaut-data-processor")
-     */
+    //implementation("io.r2dbc:r2dbc-postgresql:0.8.7.RELEASE")
 
-    //implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
 
     testImplementation("org.testcontainers:postgresql:1.15.2")
     // for testcontainers to run the schema setup
@@ -48,68 +39,44 @@ tasks.compileKotlin {
     }
 }
 
-micronaut {
-    version.set("2.4.1")
-    runtime("netty")
-    processing {
-        incremental(true)
-        annotations("kotlinbars.*")
-    }
-}
-
 application {
-    mainClass.set("kotlinbars.WebAppKt")
+    mainClass.set("kotlinbars.MainKt")
 }
 
 tasks.register<JavaExec>("testRun") {
     dependsOn("testClasses")
     classpath = sourceSets["test"].runtimeClasspath
-    main = "kotlinbars.WebAppKt"
-    systemProperty("micronaut.environments", "test")
-    systemProperty("micronaut.server.port", "8080")
-}
-
-kapt {
-    arguments {
-        arg("micronaut.processing.incremental", true)
-    }
+    main = "kotlinbars.TestMainKt"
 }
 
 /*
-application {
-    mainClass.set("com.jamesward.airdraw.WebAppKt")
-}
-
-allOpen {
-    annotation("io.micronaut.aop.Around")
-}
-
-kapt {
-    arguments {
-        arg("micronaut.processing.incremental", true)
-        arg("micronaut.processing.annotations", "com.jamesward.airdraw.*")
-    }
-}
+TODO:
+./gradlew :ktor-server:extractGraalTooling
+./gradlew :ktor-server:install
+JAVA_HOME=~/.gradle/caches/com.palantir.graal/20.3.0/11/graalvm-ce-java11-20.3.0 \
+  JAVA_OPTS=-agentlib:native-image-agent=config-output-dir=ktor-server/src/graal \
+  ktor-server/build/install/ktor-server/bin/ktor-server
  */
-
-/*
-tasks.withType<JavaExec> {
-jvmArgs = listOf("-XX:TieredStopAtLevel=1", "-Dcom.sun.management.jmxremote")
-
-if (gradle.startParameter.isContinuous) {
-    systemProperties = mapOf(
-            "micronaut.io.watch.restart" to "true",
-            "micronaut.io.watch.enabled" to "true",
-            "micronaut.io.watch.paths" to "src/main"
-    )
+tasks.register<JavaExec>("graalRun") {
+    classpath = sourceSets["main"].runtimeClasspath
+    main = "kotlinbars.MainKt"
+    jvmArgs("-agentlib:native-image-agent=config-output-dir=src/graal")
 }
-}
- */
 
-/*
-tasks {
-    classes {
-        dependsOn(":web:jsJar")
-    }
+graal {
+    outputName("kotlin-bars-server")
+    graalVersion("21.0.0.2")
+    mainClass(application.mainClass.get())
+    javaVersion("8")
+    option("--verbose")
+    option("--no-server")
+    option("--no-fallback")
+    option("-H:+ReportExceptionStackTraces")
+    option("--allow-incomplete-classpath")
+    option("-H:ConfigurationFileDirectories=src/graal")
+    option("--initialize-at-build-time=org.slf4j.LoggerFactory")
+    option("--initialize-at-build-time=org.slf4j.impl.StaticLoggerBinder")
+    //option("--initialize-at-build-time=ch.qos.logback.classic.Logger")
+    //option("--initialize-at-build-time=ch.qos.logback.classic.Level")
+    option("--initialize-at-build-time=ch.qos.logback")
 }
- */

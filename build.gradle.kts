@@ -6,12 +6,10 @@ plugins {
     kotlin("multiplatform") version "1.4.31" apply false
     kotlin("plugin.allopen") version "1.4.31" apply false
     kotlin("plugin.serialization") version "1.4.31" apply false
-    id("io.micronaut.application") version "1.4.2" apply false
 }
 
 allprojects {
     repositories {
-        mavenLocal()
         mavenCentral()
         jcenter()
         google()
