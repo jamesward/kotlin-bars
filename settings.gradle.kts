@@ -12,6 +12,7 @@ pluginManagement {
         gradlePluginPortal()
         jcenter()
         google()
+        maven("https://repo.spring.io/release")
     }
     resolutionStrategy {
         eachPlugin {

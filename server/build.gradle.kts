@@ -1,7 +1,15 @@
 plugins {
     application
     kotlin("jvm")
-    id("com.palantir.graal") version "0.7.2"
+    kotlin("plugin.spring")
+    id("org.springframework.boot") version "2.4.3"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.springframework.experimental.aot") version "0.9.0"
+}
+
+repositories {
+    mavenCentral()
+    maven("https://repo.spring.io/release")
 }
 
 dependencies {
@@ -10,32 +18,32 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.3")
 
-    implementation("io.ktor:ktor-server-core:1.5.2")
-    implementation("io.ktor:ktor-server-netty:1.5.2")
-    implementation("io.ktor:ktor-jackson:1.5.2")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
 
-    runtimeOnly("io.netty:netty-handler:4.1.60.Final")
-    runtimeOnly("io.netty:netty-transport:4.1.60.Final")
-
-    implementation("com.github.jasync-sql:jasync-postgresql:1.1.7")
-
-    //implementation("io.r2dbc:r2dbc-postgresql:0.8.7.RELEASE")
-
-    runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("io.r2dbc:r2dbc-postgresql")
 
     testImplementation("org.testcontainers:postgresql:1.15.2")
     // for testcontainers to run the schema setup
-    testRuntimeOnly("org.postgresql:postgresql:42.2.6")
+    testRuntimeOnly("org.postgresql:postgresql")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    //developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    implementation("org.springframework.experimental:spring-native:0.9.0")
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
-tasks.compileKotlin {
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        javaParameters = true
     }
 }
 
@@ -43,40 +51,19 @@ application {
     mainClass.set("kotlinbars.MainKt")
 }
 
-tasks.register<JavaExec>("testRun") {
+tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
     dependsOn("testClasses")
-    classpath = sourceSets["test"].runtimeClasspath
-    main = "kotlinbars.TestMainKt"
+    classpath = configurations["developmentOnly"] + sourceSets["test"].runtimeClasspath
 }
 
-/*
-TODO:
-./gradlew :ktor-server:extractGraalTooling
-./gradlew :ktor-server:install
-JAVA_HOME=~/.gradle/caches/com.palantir.graal/20.3.0/11/graalvm-ce-java11-20.3.0 \
-  JAVA_OPTS=-agentlib:native-image-agent=config-output-dir=ktor-server/src/graal \
-  ktor-server/build/install/ktor-server/bin/ktor-server
- */
-tasks.register<JavaExec>("graalRun") {
-    classpath = sourceSets["main"].runtimeClasspath
-    main = "kotlinbars.MainKt"
-    jvmArgs("-agentlib:native-image-agent=config-output-dir=src/graal")
-}
-
-graal {
-    outputName("kotlin-bars-server")
-    graalVersion("21.0.0.2")
-    mainClass(application.mainClass.get())
-    javaVersion("8")
-    option("--verbose")
-    option("--no-server")
-    option("--no-fallback")
-    option("-H:+ReportExceptionStackTraces")
-    option("--allow-incomplete-classpath")
-    option("-H:ConfigurationFileDirectories=src/graal")
-    option("--initialize-at-build-time=org.slf4j.LoggerFactory")
-    option("--initialize-at-build-time=org.slf4j.impl.StaticLoggerBinder")
-    //option("--initialize-at-build-time=ch.qos.logback.classic.Logger")
-    //option("--initialize-at-build-time=ch.qos.logback.classic.Level")
-    option("--initialize-at-build-time=ch.qos.logback")
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
+    val args = setOf(
+        "-Dspring.spel.ignore=true",
+        "-Dspring.native.remove-yaml-support=true"
+    )
+    builder = "paketobuildpacks/builder:tiny"
+    environment = mapOf(
+        "BP_BOOT_NATIVE_IMAGE" to "1",
+        "BP_BOOT_NATIVE_IMAGE_BUILD_ARGUMENTS" to args.joinToString(" ")
+    )
 }

@@ -1,86 +1,41 @@
 package kotlinbars
 
-import com.github.jasync.sql.db.ConnectionPoolConfigurationBuilder
-import com.github.jasync.sql.db.SuspendingConnection
-import com.github.jasync.sql.db.asSuspending
-import com.github.jasync.sql.db.postgresql.PostgreSQLConnectionBuilder
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.jackson.*
-import io.ktor.server.netty.*
-import io.ktor.util.*
+import kotlinx.coroutines.reactive.awaitFirst
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.r2dbc.core.DatabaseClient
+import org.springframework.r2dbc.core.awaitRowsUpdated
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
-class ConnectionFeature {
-    companion object : ApplicationFeature<Application, ConnectionPoolConfigurationBuilder, SuspendingConnection> {
-        override val key: AttributeKey<SuspendingConnection> = AttributeKey("Connection")
 
-        override fun install(pipeline: Application, configure: ConnectionPoolConfigurationBuilder.() -> Unit): SuspendingConnection {
-            val config = ConnectionPoolConfigurationBuilder().apply { configure() }
-            val pool = PostgreSQLConnectionBuilder.createConnectionPool(config)
+@SpringBootApplication
+@RestController
+class WebApp(val client: DatabaseClient) {
 
-            pipeline.intercept(ApplicationCallPipeline.Call) {
-                this.context.attributes.put(key, pool.asSuspending)
-            }
+    @GetMapping("/api/bars")
+    suspend fun getBars() = run {
+        val mapToBar: (Map<String, Any>) -> Bar = { Bar(it["name"] as String) }
 
-            return pool.asSuspending
-        }
+        client.sql("SELECT * FROM bar").fetch().all().map(mapToBar).collectList().awaitFirst()
     }
-}
 
-fun Application.baseModule(other: () -> Any = {}) {
-    other()
+    @PostMapping("/api/bars")
+    suspend fun addBar(@RequestBody bar: Bar): Unit = run {
+        val sql = "INSERT INTO bar (name) VALUES (:name)"
+        val rowsUpdated = client.sql(sql).bind("name", bar.name).fetch().awaitRowsUpdated()
+        if (rowsUpdated == 1)
+            ResponseEntity<Unit>(HttpStatus.NO_CONTENT)
+        else
+            ResponseEntity<Unit>(HttpStatus.INTERNAL_SERVER_ERROR)
+    }
 
-    install(DefaultHeaders)
-    install(CallLogging)
-    install(ContentNegotiation) {
-        jackson()
-    }
-    install(Routing) {
-        route("/api") {
-            route("/bars") {
-                get {
-                    call.attributes.getOrNull(ConnectionFeature.key)?.let { client ->
-                        val bars = client.sendQuery("SELECT * FROM bar").rows.flatMap { row ->
-                            row.getString("name")?.let {
-                                listOf(Bar(it))
-                            } ?: emptyList()
-                        }
-                        call.respond(bars)
-                    }
-                }
-                post {
-                    val bar = call.receive<Bar>()
-                    call.attributes.getOrNull(ConnectionFeature.key)?.let { client ->
-                        val sql = "INSERT INTO BAR (name) VALUES (?)"
-                        val numRows = client.sendPreparedStatement(sql, listOf(bar.name)).rowsAffected
-                        if (numRows == 1L)
-                            call.respond(HttpStatusCode.NoContent)
-                        else
-                            call.respond(HttpStatusCode.InternalServerError)
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Suppress("unused")
-fun Application.prodModule() {
-    baseModule {
-        install(ConnectionFeature) {
-            host = System.getenv("JASYNC_CLIENT_HOST")
-            port = System.getenv("JASYNC_CLIENT_PORT").toInt()
-            database = System.getenv("JASYNC_CLIENT_DATABASE")
-            username = System.getenv("JASYNC_CLIENT_USERNAME")
-            password = System.getenv("JASYNC_CLIENT_PASSWORD")
-        }
-    }
 }
 
 fun main(args: Array<String>) {
-    EngineMain.main(args)
+    runApplication<WebApp>(*args)
 }
