@@ -38,7 +38,7 @@ suspend fun main() {
                 GlobalScope.launch {
                     event.preventDefault()
                     val name = document.getElementById("name") as HTMLInputElement
-                    val bar = Bar(name.value)
+                    val bar = Bar(null, name.value)
                     val req = RequestInit(
                         method = "POST",
                         headers = json("Content-type" to "application/json"),

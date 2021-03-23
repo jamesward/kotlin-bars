@@ -1,3 +1,5 @@
 package kotlinbars
 
-data class Bar(val name: String)
+import org.springframework.data.annotation.Id
+
+data class Bar(@Id val id: Long?, val name: String)
