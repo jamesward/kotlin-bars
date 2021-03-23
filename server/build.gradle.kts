@@ -4,7 +4,7 @@ plugins {
     kotlin("plugin.spring")
     id("org.springframework.boot") version "2.4.4"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.springframework.experimental.aot") version "0.9.0"
+    id("org.springframework.experimental.aot") version "0.9.1"
 }
 
 repositories {
@@ -20,6 +20,10 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("io.r2dbc:r2dbc-postgresql")
 
@@ -27,13 +31,8 @@ dependencies {
     // for testcontainers to run the schema setup
     testRuntimeOnly("org.postgresql:postgresql")
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-
+    // see: https://github.com/spring-projects-experimental/spring-native/issues/532
     //developmentOnly("org.springframework.boot:spring-boot-devtools")
-
-    implementation("org.springframework.experimental:spring-native:0.9.0")
 }
 
 java {
@@ -51,9 +50,16 @@ application {
     mainClass.set("kotlinbars.MainKt")
 }
 
+// add the aot stuff to the run classpath
+tasks.named<JavaExec>("run") {
+    dependsOn("aotClasses")
+    classpath += sourceSets["aot"].runtimeClasspath
+}
+
+// add the test stuff to the bootRun classpath
 tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
     dependsOn("testClasses")
-    classpath = configurations["developmentOnly"] + sourceSets["test"].runtimeClasspath
+    classpath += sourceSets["test"].runtimeClasspath
 }
 
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
