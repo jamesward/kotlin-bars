@@ -63,3 +63,12 @@ Run the Android client:
     ```
 
    And setup the activity to first run *Gradle-aware Make* with a task of `:android:assembleDebug`
+
+Run the desktop client:
+```
+./gradlew :desktop:run
+
+# or with a custom url:
+./gradlew :desktop:run --args='http://YOUR_URL'
+```
+

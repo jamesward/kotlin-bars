@@ -7,7 +7,11 @@ plugins {
 kotlin {
     android()
 
-    jvm()
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = "11"
+        }
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -33,9 +37,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                /*
                 implementation("io.ktor:ktor-client-okhttp:1.5.2")
-                 */
             }
         }
     }
@@ -53,11 +55,5 @@ android {
 
     lintOptions {
         disable("ObsoleteLintCustomCheck")
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
