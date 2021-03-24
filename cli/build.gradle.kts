@@ -19,20 +19,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.3")
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-    implementation("io.r2dbc:r2dbc-postgresql")
-
-    testImplementation("org.testcontainers:postgresql:1.15.2")
-    // for testcontainers to run the schema setup
-    testRuntimeOnly("org.postgresql:postgresql")
-
-    // see: https://github.com/spring-projects-experimental/spring-native/issues/532
-    //developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 }
 
 java {
@@ -47,19 +35,14 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 application {
-    mainClass.set("kotlinbars.server.MainKt")
+    mainClass.set("kotlinbars.cli.MainKt")
 }
 
 // add the aot stuff to the run classpath
 tasks.named<JavaExec>("run") {
     dependsOn("aotClasses")
     classpath += sourceSets["aot"].runtimeClasspath
-}
-
-// add the test stuff to the bootRun classpath
-tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
-    dependsOn("testClasses")
-    classpath += sourceSets["test"].runtimeClasspath
+    standardInput = System.`in`
 }
 
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
@@ -68,6 +51,8 @@ tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
         "-Dspring.native.remove-yaml-support=true"
     )
     builder = "paketobuildpacks/builder:tiny"
+    //isCleanCache = true
+    //isVerboseLogging = true
     environment = mapOf(
         "BP_BOOT_NATIVE_IMAGE" to "1",
         "BP_BOOT_NATIVE_IMAGE_BUILD_ARGUMENTS" to args.joinToString(" ")

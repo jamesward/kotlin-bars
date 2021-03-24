@@ -1,4 +1,4 @@
-package kotlinbars
+package kotlinbars.web
 
 import kotlinx.html.*
 import kotlinx.html.dom.create

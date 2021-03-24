@@ -1,4 +1,4 @@
-package kotlinbars
+package kotlinbars.server
 
 import kotlinbars.common.Bar
 import kotlinx.coroutines.reactive.awaitFirst

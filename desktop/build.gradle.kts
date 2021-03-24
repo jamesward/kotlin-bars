@@ -16,6 +16,7 @@ kotlin {
     sourceSets {
         val jvmMain by getting {
             dependencies {
+                implementation(kotlin("stdlib"))
                 implementation(project(":compose"))
                 implementation(compose.desktop.currentOs)
             }

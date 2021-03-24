@@ -1,4 +1,4 @@
-package kotlinbars
+package kotlinbars.web
 
 import kotlinbars.common.Bar
 import kotlinx.browser.document

@@ -16,7 +16,7 @@ Run the api server:
 
 Create container & run with docker:
 ```
-./gradlew bootBuildImage --imageName=kotlin-bars-server
+./gradlew :server:bootBuildImage --imageName=kotlin-bars-server
 
 docker run -it --network host \
   -eSPRING_R2DBC_URL=r2dbc:postgresql://localhost/postgres \
@@ -69,6 +69,24 @@ Run the desktop client:
 ./gradlew :desktop:run
 
 # or with a custom url:
-./gradlew :desktop:run --args='http://YOUR_URL'
+./gradlew :desktop:run --args='https://YOUR_URL'
 ```
 
+Run the CLI client:
+```
+./gradlew :cli:run -q --console=plain
+```
+
+Create a CLI Native Image container:
+```
+./gradlew :cli:bootBuildImage --imageName=kotlin-bars-cli
+```
+
+Run the CLI:
+```
+# localhost
+docker run -it --network host kotlin-bars-cli
+
+# External
+docker run -it kotlin-bars-cli https://YOUR_URL 
+```

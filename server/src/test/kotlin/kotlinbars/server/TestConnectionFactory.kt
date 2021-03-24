@@ -1,4 +1,4 @@
-package kotlinbars
+package kotlinbars.server
 
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration
 import io.r2dbc.postgresql.PostgresqlConnectionFactory
