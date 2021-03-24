@@ -9,20 +9,10 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3")
 
-    implementation(project(":common"))
+    implementation(project(":compose"))
 
-    implementation(compose.runtime)
-    implementation(compose.foundation)
-    implementation(compose.material)
-    implementation(compose.ui)
     implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("androidx.core:core-ktx:1.3.2")
     implementation("androidx.activity:activity-compose:1.3.0-alpha04")
-
-    implementation("com.github.kittinunf.fuel:fuel-coroutines:2.3.1")
-    implementation("com.github.kittinunf.fuel:fuel-jackson:2.3.1")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
-
 }
 
 android {

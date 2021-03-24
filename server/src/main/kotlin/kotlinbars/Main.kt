@@ -1,5 +1,6 @@
 package kotlinbars
 
+import kotlinbars.common.Bar
 import kotlinx.coroutines.reactive.awaitFirst
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import org.springframework.boot.autoconfigure.SpringBootApplication

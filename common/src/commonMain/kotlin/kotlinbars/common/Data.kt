@@ -1,4 +1,4 @@
-package kotlinbars
+package kotlinbars.common
 
 import org.springframework.data.annotation.Id
 

@@ -4,7 +4,7 @@ include("common", "web", "server")
 
 // todo
 if (startParameter.taskRequests.find { it.args.contains(":server:jib") } == null) {
-    include("android")
+    include("compose", "android")
 }
 
 pluginManagement {
