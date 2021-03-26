@@ -75,6 +75,9 @@ Run the desktop client:
 Run the CLI client:
 ```
 ./gradlew :cli:run -q --console=plain
+
+# or with a custom url
+./gradlew :cli:run -q --console=plain --args=https://YOUR_URL
 ```
 
 Create a CLI Native Image container:
