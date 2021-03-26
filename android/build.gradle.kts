@@ -23,12 +23,12 @@ android {
     defaultConfig {
         minSdkVersion(28)
 
-        val maybeBarsUrl: String? by project
+        val barsUrl: String? by project
         // 10.0.2.2 is the IP for your machine from the Android emulator
-        val barsUrl = maybeBarsUrl ?: "http://10.0.2.2:8080"
-        resValue("string", "bars_url", barsUrl)
+        val barsUrlWithDefault = barsUrl ?: "http://10.0.2.2:8080"
+        resValue("string", "bars_url", barsUrlWithDefault)
 
-        val usesCleartextTraffic = barsUrl.startsWith("http://")
+        val usesCleartextTraffic = barsUrlWithDefault.startsWith("http://")
         manifestPlaceholders["usesCleartextTraffic"] = usesCleartextTraffic
     }
 
