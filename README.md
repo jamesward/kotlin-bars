@@ -1,6 +1,6 @@
 # Kotlin Bars
 
-[![Run on Google Cloud](https://deploy.cloud.run/button.png)](https://deploy.cloud.run)
+<!-- [![Run on Google Cloud](https://deploy.cloud.run/button.png)](https://deploy.cloud.run) -->
 
 ## Local Dev
 
