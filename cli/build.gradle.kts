@@ -19,6 +19,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
 
     testImplementation("org.testcontainers:postgresql:1.15.3")
+    testRuntimeOnly("org.slf4j:slf4j-simple:1.7.30")
+    testRuntimeOnly("org.postgresql:postgresql:42.2.19")
 }
 
 java {
@@ -36,9 +38,11 @@ application {
     mainClass.set("kotlinbars.cli.MainKt")
 }
 
+// todo: this rebuilds the server container every run
 tasks.register<JavaExec>("dev") {
-    dependsOn(":server:bootBuildImage")
+    //dependsOn(":server:bootBuildImage")
     dependsOn("testClasses")
     classpath = sourceSets["test"].runtimeClasspath
     main = "kotlinbars.cli.DevKt"
+    standardInput = System.`in`
 }

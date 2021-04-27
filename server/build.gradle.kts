@@ -19,6 +19,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.3")
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -69,7 +70,7 @@ tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
     )
     builder = "paketobuildpacks/builder:tiny"
     environment = mapOf(
-        "BP_BOOT_NATIVE_IMAGE" to "1",
-        "BP_BOOT_NATIVE_IMAGE_BUILD_ARGUMENTS" to args.joinToString(" ")
+        "BP_NATIVE_IMAGE" to "1",
+        "BP_NATIVE_IMAGE_BUILD_ARGUMENTS" to args.joinToString(" ")
     )
 }
