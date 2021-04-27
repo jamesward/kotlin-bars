@@ -2,9 +2,9 @@ plugins {
     application
     kotlin("jvm")
     kotlin("plugin.spring")
-    id("org.springframework.boot") version "2.4.4"
+    id("org.springframework.boot") version "2.4.5"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.springframework.experimental.aot") version "0.9.1"
+    id("org.springframework.experimental.aot") version "0.9.2"
 }
 
 repositories {
@@ -27,7 +27,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("io.r2dbc:r2dbc-postgresql")
 
-    testImplementation("org.testcontainers:postgresql:1.15.2")
+    testImplementation("org.testcontainers:postgresql:1.15.3")
     // for testcontainers to run the schema setup
     testRuntimeOnly("org.postgresql:postgresql")
 
