@@ -23,7 +23,7 @@ kotlin {
         implementation("org.jetbrains:kotlin-extensions:1.0.1-pre.149-kotlin-1.4.31")
         implementation(project(":common"))
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.4.3")
-        implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.2")
+        implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.3")
 
         implementation(npm("bootstrap", "4.6.0"))
     }

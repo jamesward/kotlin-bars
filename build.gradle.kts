@@ -8,10 +8,9 @@ plugins {
     kotlin("plugin.spring")       version "1.4.31" apply false
 }
 
-allprojects {
+subprojects {
     repositories {
         mavenCentral()
-        jcenter()
         google()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }

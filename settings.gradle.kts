@@ -1,6 +1,6 @@
 rootProject.name = "kotlin-bars"
 
-include("common", "web", "server", "cli")
+include("common", "web", "server", "cli", "dev")
 
 // todo
 if (startParameter.taskRequests.find { it.args.contains(":server:jib") } == null) {

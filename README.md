@@ -70,6 +70,9 @@ Run the desktop client:
 
 # or with a custom url:
 ./gradlew :desktop:run --args='https://YOUR_URL'
+
+# or with the server testcontainer:
+./gradlew :desktop:dev
 ```
 
 Run the CLI client:
@@ -78,18 +81,12 @@ Run the CLI client:
 
 # or with a custom url
 ./gradlew :cli:run -q --console=plain --args=https://YOUR_URL
+
+# or with the server testcontainer:
+./gradlew :cli:dev -q --console=plain
 ```
 
-Create a CLI Native Image container:
+Create a CLI Native Image:
 ```
-./gradlew :cli:bootBuildImage --imageName=kotlin-bars-cli
-```
-
-Run the CLI:
-```
-# localhost
-docker run -it --network host kotlin-bars-cli
-
-# External
-docker run -it kotlin-bars-cli https://YOUR_URL 
+TODO
 ```

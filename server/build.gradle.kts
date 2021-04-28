@@ -37,7 +37,9 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -53,13 +55,16 @@ application {
 
 // add the aot stuff to the run classpath
 tasks.named<JavaExec>("run") {
-    dependsOn("aotClasses")
     classpath += sourceSets["aot"].runtimeClasspath
+}
+
+// workaround an aot plugin incompatiblity with gradle 7
+tasks.named<Copy>("processAotTestResources") {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 // add the test stuff to the bootRun classpath
 tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
-    dependsOn("testClasses")
     classpath += sourceSets["test"].runtimeClasspath
 }
 

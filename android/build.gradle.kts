@@ -12,7 +12,7 @@ dependencies {
     implementation(project(":compose"))
 
     implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("androidx.activity:activity-compose:1.3.0-alpha04")
+    implementation("androidx.activity:activity-compose:1.3.0-alpha07")
 }
 
 android {

@@ -21,6 +21,12 @@ kotlin {
                 implementation(compose.desktop.currentOs)
             }
         }
+
+        val jvmTest by getting {
+            dependencies {
+                implementation(project(":dev"))
+            }
+        }
     }
 }
 
@@ -32,4 +38,14 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+tasks.register<JavaExec>("dev") {
+    dependsOn(":server:bootBuildImage")
+    kotlin {
+        val test = targets["jvm"].compilations["test"]
+        classpath += configurations["jvmTestRuntimeClasspath"]
+        classpath += test.output.allOutputs
+    }
+    main = "kotlinbars.desktop.DevKt"
 }

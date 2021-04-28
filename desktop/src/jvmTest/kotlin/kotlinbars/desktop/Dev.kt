@@ -1,4 +1,4 @@
-package kotlinbars.cli
+package kotlinbars.desktop
 
 import kotlinbars.ServerContainer
 
@@ -6,5 +6,5 @@ fun main() {
     val serverContainer = ServerContainer()
     serverContainer.start()
 
-    loop(serverContainer.url)
+    ui(serverContainer.url)
 }
