@@ -1,11 +1,13 @@
 plugins {
-    id("com.android.application") version "4.1.1"  apply false
-    id("org.jetbrains.compose")   version "0.3.2"  apply false
-    kotlin("android")             version "1.4.31" apply false
-    kotlin("jvm")                 version "1.4.31" apply false
-    kotlin("js")                  version "1.4.31" apply false
-    kotlin("multiplatform")       version "1.4.31" apply false
-    kotlin("plugin.spring")       version "1.4.31" apply false
+    id("com.android.application")           version "4.1.1"  apply false
+    id("org.jetbrains.compose")             version "0.3.2"  apply false
+    id("org.mikeneck.graalvm-native-image") version "1.3.0"  apply false
+    kotlin("android")                       version "1.4.31" apply false
+    kotlin("jvm")                           version "1.4.31" apply false
+    kotlin("js")                            version "1.4.31" apply false
+    kotlin("multiplatform")                 version "1.4.31" apply false
+    kotlin("plugin.serialization")          version "1.4.31" apply false
+    kotlin("plugin.spring")                 version "1.4.31" apply false
 }
 
 subprojects {

@@ -1,6 +1,7 @@
 plugins {
     application
     kotlin("jvm")
+    id("org.mikeneck.graalvm-native-image")
 }
 
 repositories {
@@ -11,7 +12,7 @@ dependencies {
     implementation(project(":common"))
     implementation(kotlin("stdlib-jdk8"))
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.1.0")
 
     testImplementation(project(":dev"))
 }
@@ -31,6 +32,18 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 application {
     mainClass.set("kotlinbars.cli.MainKt")
+}
+
+nativeImage {
+    graalVmHome = System.getenv()["GRAALVM_HOME"] ?: ""
+    mainClass = application.mainClass.get()
+    executableName = "kotlin-bars-cli"
+    arguments(
+        "--no-fallback",
+        "--verbose",
+        "--enable-http",
+        "--enable-https",
+    )
 }
 
 // todo: this rebuilds the server container every run
