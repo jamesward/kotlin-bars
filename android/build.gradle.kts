@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("org.jetbrains.compose")
     id("com.android.application")
@@ -24,8 +26,14 @@ android {
         minSdkVersion(28)
 
         val barsUrl: String? by project
+
+        val props = Properties()
+        props.load(rootProject.file("local.properties").inputStream())
+
+        val barsUrlWithFallback = barsUrl ?: props["barsUrl"] as String?
+
         // 10.0.2.2 is the IP for your machine from the Android emulator
-        val barsUrlWithDefault = barsUrl ?: "http://10.0.2.2:8080"
+        val barsUrlWithDefault = barsUrlWithFallback ?: "http://10.0.2.2:8080/api/bars"
         resValue("string", "bars_url", barsUrlWithDefault)
 
         val usesCleartextTraffic = barsUrlWithDefault.startsWith("http://")

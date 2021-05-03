@@ -8,6 +8,7 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse.BodyHandlers
 import kotlinx.serialization.json.Json
+import java.util.*
 
 fun loop(url: String) {
     val client = HttpClient.newHttpClient()
@@ -36,9 +37,17 @@ fun loop(url: String) {
     }
 }
 
-fun main(args: Array<String>) {
+fun main() {
 
-    val url = args.getOrNull(0) ?: "http://localhost:8080/api/bars"
+    val barsUrl = object {}.javaClass.classLoader.getResourceAsStream("META-INF/app.properties")?.use {
+        val props = Properties()
+        props.load(it)
+        props["barsUrl"] as String?
+    }
+
+    val url = barsUrl ?: "http://localhost:8080/api/bars"
+
+    println("Connecting to: $url")
 
     loop(url)
 }

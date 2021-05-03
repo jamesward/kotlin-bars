@@ -9,7 +9,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val url = resources.getString(R.string.bars_url) + "/api/bars"
+        val url = resources.getString(R.string.bars_url)
 
         setContent {
             Bars(url)

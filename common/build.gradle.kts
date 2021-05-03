@@ -8,7 +8,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
             }
         }
     }

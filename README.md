@@ -54,39 +54,73 @@ Run the Android client:
 
 1. Run on a device using an external server:
     ```
-    ./gradlew android:installDebug -PbarsUrl=https://YOUR_URL
+    ./gradlew :android:installDebug -PbarsUrl=https://YOUR_URL/api/bars
     ```
 
-1. Or to run from Android Studio / IntelliJ, create a `gradle.properties` file in your root project directory containing:
+1. Or to run from Android Studio / IntelliJ, create a `local.properties` file in your root project directory containing:
     ```
-    barsUrl=http://YOUR_URL:8080
+    barsUrl=http://YOUR_URL:8080/api/bars
     ```
 
-   And setup the activity to first run *Gradle-aware Make* with a task of `:android:assembleDebug`
+    And setup the activity to first run *Gradle-aware Make* with a task of `:android:assembleDebug`
 
 Run the desktop client:
+
+Run, connecting to the default `http://localhost:8080/api/bars` url (if `barsUrl` is not set in the `local.properties` file):
 ```
 ./gradlew :desktop:run
+```
 
-# or with a custom url:
-./gradlew :desktop:run --args='https://YOUR_URL'
+Run, connecting to the specified url:
+```
+./gradlew :desktop:run -PbarsUrl=http://YOUR_URL:8080/api/bars
+```
 
-# or with the server testcontainer:
+Start a server with Testcontainers and connect to it:
+```
 ./gradlew :desktop:dev
 ```
 
+Package a native app and run it:
+```
+./gradlew :desktop:runDistributable
+```
+
+Package a native app (for the current platform):
+```
+./gradlew :desktop:package
+```
+
 Run the CLI client:
+
+Run, connecting to the default `http://localhost:8080/api/bars` url (if `barsUrl` is not set in the `local.properties` file):
 ```
 ./gradlew :cli:run -q --console=plain
+```
 
-# or with a custom url
-./gradlew :cli:run -q --console=plain --args=https://YOUR_URL
+Run, connecting to the specified url:
+```
+./gradlew :cli:run -q --console=plain -PbarsUrl=http://YOUR_URL:8080/api/bars
+```
 
-# or with the server testcontainer:
+Start a server with Testcontainers and connect to it:
+```
 ./gradlew :cli:dev -q --console=plain
 ```
 
 Create a CLI Native Image:
+
+Export the location of your GraalVM install:
 ```
-TODO
+export GRAALVM_HOME=YOUR/graalvm-ce-java11-21.1.0
+```
+
+Build the native image:
+```
+./gradlew :cli:nativeImage
+```
+
+Run it:
+```
+cli/build/native-image/kotlin-bars-cli
 ```

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     application
     kotlin("jvm")
@@ -34,6 +36,34 @@ application {
     mainClass.set("kotlinbars.cli.MainKt")
 }
 
+val generatedResourceDir = File("$buildDir/generated-resources/main")
+
+tasks.named<Copy>("processResources") {
+    from(tasks.named("generateResources"))
+}
+
+tasks.register("generateResources") {
+    outputs.upToDateWhen { false }
+    outputs.dir(generatedResourceDir)
+    doLast {
+        val barsUrl: String? by project
+
+        val props = Properties()
+        props.load(rootProject.file("local.properties").inputStream())
+
+        val barsUrlWithFallback = barsUrl ?: props["barsUrl"] as String?
+
+        if (barsUrlWithFallback != null) {
+            val metaInf = File(generatedResourceDir, "META-INF")
+            metaInf.mkdirs()
+            val generated = File(metaInf, "app.properties")
+            generated.writeText("barsUrl=$barsUrlWithFallback")
+        } else {
+            generatedResourceDir.deleteRecursively()
+        }
+    }
+}
+
 nativeImage {
     graalVmHome = System.getenv()["GRAALVM_HOME"] ?: ""
     mainClass = application.mainClass.get()
@@ -43,7 +73,12 @@ nativeImage {
         "--verbose",
         "--enable-http",
         "--enable-https",
+        "-H:IncludeResources=META-INF/app.properties",
     )
+}
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
 }
 
 // todo: this rebuilds the server container every run

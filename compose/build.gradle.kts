@@ -25,19 +25,19 @@ kotlin {
                 api(compose.foundation)
                 api(compose.material)
 
-                implementation("io.ktor:ktor-client-core:1.5.2")
-                implementation("io.ktor:ktor-client-json:1.5.2")
-                implementation("io.ktor:ktor-client-gson:1.5.2")
+                implementation("io.ktor:ktor-client-core:1.5.4")
+                implementation("io.ktor:ktor-client-json:1.5.4")
+                implementation("io.ktor:ktor-client-serialization:1.5.4")
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-android:1.5.2")
+                implementation("io.ktor:ktor-client-android:1.5.4")
             }
         }
         val jvmMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-okhttp:1.5.2")
+                implementation("io.ktor:ktor-client-java:1.5.4")
             }
         }
     }
