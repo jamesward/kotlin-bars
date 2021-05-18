@@ -10,7 +10,6 @@ if (startParameter.taskRequests.find { it.args.contains(":server:jib") } == null
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        jcenter()
         google()
         mavenCentral()
         maven("https://repo.spring.io/release")

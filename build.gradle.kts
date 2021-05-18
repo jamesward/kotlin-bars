@@ -1,7 +1,9 @@
+// Android plugin 4.2 not compatible with IntelliJ yet
+// Compose plugin not compatible with Kotlin 1.5 yet
 plugins {
-    id("com.android.application")           version "4.1.1"  apply false
-    id("org.jetbrains.compose")             version "0.4.0-build185"  apply false
-    id("org.mikeneck.graalvm-native-image") version "1.3.0"  apply false
+    id("com.android.application")           version "4.1.1" apply false
+    id("org.jetbrains.compose")             version "0.4.0-build198" apply false
+    id("org.mikeneck.graalvm-native-image") version "1.4.0" apply false
     kotlin("android")                       version "1.4.32" apply false
     kotlin("jvm")                           version "1.4.32" apply false
     kotlin("js")                            version "1.4.32" apply false
