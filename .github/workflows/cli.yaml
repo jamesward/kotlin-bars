@@ -10,7 +10,6 @@ jobs:
     strategy:
       matrix:
         os: [macos, ubuntu, windows]
-        os: [windows]
         gu-binary: [gu, gu.cmd]
         exclude:
           - os: ubuntu
@@ -38,9 +37,6 @@ jobs:
       - name: setup Visual C Build Tools Workload for Visual Studio 2017 Build Tools
         if: matrix.os == 'windows'
         run: choco install visualstudio2017-workload-vctools
-#      - name: Add msbuild to PATH
-#        if: matrix.os == 'windows'
-#        uses: microsoft/setup-msbuild@v1.0.2
 
       - name: cache
         uses: actions/cache@v1
