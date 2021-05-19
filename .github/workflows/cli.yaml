@@ -84,7 +84,7 @@ jobs:
         uses: crazy-max/ghaction-upx@v1
         with:
           version: latest
-          files: *
+          files: ./*
           args: -7fq
 
       - name: upload binaries to release
