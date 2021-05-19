@@ -61,7 +61,7 @@ jobs:
 #          PROJECT_VERSION: ${{ steps.config.outputs.projectVersion }}
 
       - name: upload ${{ matrix.os }} image
-        uses: actions/upload-artifacts@v1
+        uses: actions/upload-artifact@v2
         with:
           name: kotlin-bars-cli-${{ matrix.os }}
           path: cli/build/native-image/kotlin-bars-cli
