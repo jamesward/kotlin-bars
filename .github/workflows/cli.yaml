@@ -9,7 +9,8 @@ jobs:
     name: build and upload release
     strategy:
       matrix:
-        os: [macos, ubuntu, windows]
+#        os: [macos, ubuntu, windows]
+        os: [windows]
         gu-binary: [gu, gu.cmd]
         exclude:
           - os: ubuntu
@@ -34,9 +35,12 @@ jobs:
       - name: install native-image
         run: ${{ matrix.gu-binary }} install native-image
 
-      - name: setup Visual C Build Tools Workload for Visual Studio 2017 Build Tools
+#      - name: setup Visual C Build Tools Workload for Visual Studio 2017 Build Tools
+#        if: matrix.os == 'windows'
+#        run: choco install visualstudio2017-workload-vctools
+      - name: Add msbuild to PATH
         if: matrix.os == 'windows'
-        run: choco install visualstudio2017-workload-vctools
+        uses: microsoft/setup-msbuild@v1.0.2
 
       - name: cache
         uses: actions/cache@v1
@@ -54,5 +58,5 @@ jobs:
 #      - name: upload ${{ matrix.os }} image
 #        uses: actions/upload-artifacts@v1
 #        with:
-#          name: app-${{ matrix.os }}
-#          path: build/native-image/app
+#          name: kotlin-bars-cli-${{ matrix.os }}
+#          path: cli/build/native-image/kotlin-bars-cli
