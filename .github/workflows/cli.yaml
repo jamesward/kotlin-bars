@@ -9,7 +9,8 @@ jobs:
     name: build and upload release
     strategy:
       matrix:
-        os: [macos, ubuntu, windows]
+#        os: [macos, ubuntu, windows]
+        os: [windows]
         gu-binary: [gu, gu.cmd]
         exclude:
           - os: ubuntu
@@ -64,4 +65,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: kotlin-bars-cli-${{ matrix.os }}
-          path: cli/build/native-image/kotlin-bars-cli
+          path: |
+            cli/build/native-image/kotlin-bars-cli
+            cli/build/native-image/kotlin-bars-cli.exe
