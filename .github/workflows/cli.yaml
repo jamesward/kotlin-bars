@@ -49,9 +49,16 @@ jobs:
           key: gradle-${{ matrix.os }}-${{ hashFiles('build.gradle') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: gradle-${{ matrix.os }}-
 
-      - name: "build for ${{ matrix.os }}"
+      - name: "build for windows"
+        shell: cmd
+        if: matrix.os == 'windows'
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+          ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
+
+      - name: "build for ${{ matrix.os }}"
+        if: matrix.os != 'windows'
+        run: |
           ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
 #        env:
 #          RUNNING_OS: ${{ matrix.os }}
