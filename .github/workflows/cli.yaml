@@ -1,4 +1,5 @@
 on: push
+#on:
 #  push:
 #    tags:
 #      - "v*"
@@ -59,6 +60,13 @@ jobs:
       - name: build for ${{ matrix.os }}
         run: |
           ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
+
+      - name: Run UPX
+        uses: crazy-max/ghaction-upx@v1
+        with:
+          version: latest
+          files: cli/build/native-image/${{ matrix.artifact-name }}
+          args: -7fq
 
       - name: upload ${{ matrix.os }} image
         uses: actions/upload-artifact@v2
