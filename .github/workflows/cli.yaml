@@ -10,14 +10,19 @@ jobs:
     strategy:
       matrix:
         os: [macos, ubuntu, windows]
-        gu-binary: [gu, gu.cmd]
-        exclude:
+        include:
           - os: ubuntu
-            gu-binary: gu.cmd
-          - os: macos
-            gu-binary: gu.cmd
-          - os: windows
             gu-binary: gu
+            artifact-name: kotlin-bars-cli
+            asset-name: kotlin-bars-cli-linux-amd64
+          - os: macos
+            gu-binary: gu
+            artifact-name: kotlin-bars-cli
+            asset-name: kotlin-bars-cli-macos-amd64
+          - os: windows
+            gu-binary: gu.cmd
+            artifact-name: kotlin-bars-cli.exe
+            asset-name: kotlin-bars-cli-windows-amd64.exe
     runs-on: ${{ matrix.os }}-latest
 
     steps:
@@ -27,9 +32,9 @@ jobs:
       - name: setup GraalVM
         uses: DeLaGuardo/setup-graalvm@4.0
         with:
-          graalvm: '21.1.0'
-          java: 'java11'
-          arch: 'amd64'
+          graalvm: 21.1.0
+          java: java11
+          arch: amd64
 
       - name: install native-image
         run: ${{ matrix.gu-binary }} install native-image
@@ -45,25 +50,28 @@ jobs:
           key: gradle-${{ matrix.os }}-${{ hashFiles('build.gradle') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: gradle-${{ matrix.os }}-
 
-      - name: "build for windows"
+      - name: build for windows
         shell: cmd
         if: matrix.os == 'windows'
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
           ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
 
-      - name: "build for ${{ matrix.os }}"
+      - name: build for ${{ matrix.os }}
         if: matrix.os != 'windows'
         run: |
           ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
-#        env:
-#          RUNNING_OS: ${{ matrix.os }}
-#          PROJECT_VERSION: ${{ steps.config.outputs.projectVersion }}
 
       - name: upload ${{ matrix.os }} image
         uses: actions/upload-artifact@v2
         with:
           name: kotlin-bars-cli-${{ matrix.os }}
-          path: |
-            cli/build/native-image/kotlin-bars-cli
-            cli/build/native-image/kotlin-bars-cli.exe
+          path: cli/build/native-image/${{ matrix.artifact-name }}
+
+      - name: upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: cli/build/native-image/${{ matrix.artifact-name }}
+          asset_name: ${{ matrix.asset-name }}
+          tag: ${{ github.ref }}
