@@ -9,7 +9,8 @@ jobs:
     name: build and upload release
     strategy:
       matrix:
-        os: [macos, ubuntu, windows]
+#        os: [macos, ubuntu, windows]
+        os: [ubuntu]
         gu-binary: [gu, gu.cmd]
         exclude:
           - os: ubuntu
