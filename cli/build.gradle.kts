@@ -49,7 +49,9 @@ tasks.register("generateResources") {
         val barsUrl: String? by project
 
         val props = Properties()
-        props.load(rootProject.file("local.properties").inputStream())
+        rootProject.file("local.properties").let {
+            if (it.exists()) it.inputStream().use(props::load)
+        }
 
         val barsUrlWithFallback = barsUrl ?: props["barsUrl"] as String?
 
@@ -65,8 +67,12 @@ tasks.register("generateResources") {
 }
 
 nativeImage {
-    graalVmHome = System.getenv()["GRAALVM_HOME"] ?: ""
-    mainClass = application.mainClass.get()
+    graalVmHome = System.getenv()["GRAALVM_HOME"] ?: System.getProperty("java.home")
+    buildType { build ->
+        build.executable {
+            main = application.mainClass.get()
+        }
+    }
     executableName = "kotlin-bars-cli"
     arguments(
         "--no-fallback",

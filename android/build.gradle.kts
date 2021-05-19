@@ -28,7 +28,9 @@ android {
         val barsUrl: String? by project
 
         val props = Properties()
-        props.load(rootProject.file("local.properties").inputStream())
+        rootProject.file("local.properties").let {
+            if (it.exists()) it.inputStream().use(props::load)
+        }
 
         val barsUrlWithFallback = barsUrl ?: props["barsUrl"] as String?
 
