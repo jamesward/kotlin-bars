@@ -1,8 +1,7 @@
-on: push
-#on:
-#  push:
-#    tags:
-#      - "v*"
+on:
+  push:
+    tags:
+      - "v*"
 
 jobs:
 
@@ -51,9 +50,12 @@ jobs:
 
       - name: setup Visual C Build Tools Workload for Visual Studio 2017 Build Tools
         if: matrix.os == 'windows'
+        run: choco install visualstudio2017-workload-vctools
+
+      - name: setup windows PATH
         shell: cmd
+        if: matrix.os == 'windows'
         run: |
-          choco install visualstudio2017-workload-vctools
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 
       - name: build for ${{ matrix.os }}
