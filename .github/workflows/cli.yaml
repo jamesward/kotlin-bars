@@ -35,12 +35,12 @@ jobs:
       - name: install native-image
         run: ${{ matrix.gu-binary }} install native-image
 
-#      - name: setup Visual C Build Tools Workload for Visual Studio 2017 Build Tools
-#        if: matrix.os == 'windows'
-#        run: choco install visualstudio2017-workload-vctools
-      - name: Add msbuild to PATH
+      - name: setup Visual C Build Tools Workload for Visual Studio 2017 Build Tools
         if: matrix.os == 'windows'
-        uses: microsoft/setup-msbuild@v1.0.2
+        run: choco install visualstudio2017-workload-vctools
+#      - name: Add msbuild to PATH
+#        if: matrix.os == 'windows'
+#        uses: microsoft/setup-msbuild@v1.0.2
 
       - name: cache
         uses: actions/cache@v1
@@ -50,7 +50,9 @@ jobs:
           restore-keys: gradle-${{ matrix.os }}-
 
       - name: "build for ${{ matrix.os }}"
-        run: ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+          ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
 #        env:
 #          RUNNING_OS: ${{ matrix.os }}
 #          PROJECT_VERSION: ${{ steps.config.outputs.projectVersion }}
