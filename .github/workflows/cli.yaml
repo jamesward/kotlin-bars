@@ -1,0 +1,54 @@
+on: push
+#  push:
+#    tags:
+#      - "v*"
+
+jobs:
+
+  build-and-upload:
+    name: build and upload release
+    strategy:
+      matrix:
+        os: [macos, ubuntu, windows]
+        gu-binary: [gu, gu.cmd]
+        exclude:
+          - os: ubuntu
+            gu-binary: gu.cmd
+          - os: macos
+            gu-binary: gu.cmd
+          - os: windows
+            gu-binary: gu
+    runs-on: ${{ matrix.os }}-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup GraalVM
+      - uses: DeLaGuardo/setup-graalvm@4.0
+        with:
+          graalvm: '21.1.0'
+          java: 'java11'
+          arch: 'amd64'
+
+      - name: install native-image
+        run: ${{ matrix.gu-binary }} install native-image
+
+      - name: cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: gradle-${{ matrix.os }}-${{ hashFiles('build.gradle') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ matrix.os }}-
+
+      - name: "build for ${{ matrix.os }}"
+        run: ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
+#        env:
+#          RUNNING_OS: ${{ matrix.os }}
+#          PROJECT_VERSION: ${{ steps.config.outputs.projectVersion }}
+
+#      - name: upload ${{ matrix.os }} image
+#        uses: actions/upload-artifacts@v1
+#        with:
+#          name: app-${{ matrix.os }}
+#          path: build/native-image/app
