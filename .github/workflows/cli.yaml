@@ -9,8 +9,7 @@ jobs:
     name: build and upload release
     strategy:
       matrix:
-#        os: [macos, ubuntu, windows]
-        os: [ubuntu]
+        os: [macos, ubuntu, windows]
         gu-binary: [gu, gu.cmd]
         exclude:
           - os: ubuntu
@@ -34,6 +33,10 @@ jobs:
 
       - name: install native-image
         run: ${{ matrix.gu-binary }} install native-image
+
+      - name: setup Visual C Build Tools Workload for Visual Studio 2017 Build Tools
+        if: matrix.os == 'windows-latest'
+        run: choco install visualstudio2017-workload-vctools
 
       - name: cache
         uses: actions/cache@v1
