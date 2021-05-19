@@ -68,6 +68,7 @@ jobs:
 
   release:
     name: release
+    needs: build-and-upload
     runs-on: ubuntu-latest
 
     steps:
