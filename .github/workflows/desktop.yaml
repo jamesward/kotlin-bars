@@ -13,7 +13,7 @@ jobs:
         include:
           - os: ubuntu
             artifact-name: main/deb/desktop_*_amd64.deb
-            asset-name: kotlin-bars-desktop-amd64.dev
+            asset-name: kotlin-bars-desktop-amd64.deb
           - os: macos
             artifact-name: main/dmg/desktop_*_amd64.dmg
             asset-name: kotlin-bars-desktop-amd64.dmg
@@ -54,6 +54,5 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: desktop/build/compose/binaries/${{ matrix.artifact-name }}
-          asset_name: ${{ matrix.asset-name }}
+          file_glob: desktop/build/compose/binaries/${{ matrix.artifact-name }}
           tag: ${{ github.ref }}
