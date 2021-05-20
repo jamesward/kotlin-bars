@@ -15,7 +15,7 @@ jobs:
             artifact-name: main/deb/desktop_*_amd64.deb
             asset-name: kotlin-bars-desktop-amd64.deb
           - os: macos
-            artifact-name: main/dmg/desktop_*_amd64.dmg
+            artifact-name: main/dmg/desktop-*.dmg
             asset-name: kotlin-bars-desktop-amd64.dmg
           - os: windows
             artifact-name: main/msi/desktop-*.msi
