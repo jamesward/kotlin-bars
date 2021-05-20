@@ -1,0 +1,56 @@
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+
+  build-and-upload:
+    name: build and upload
+    strategy:
+      matrix:
+        os: [macos, ubuntu, windows]
+        include:
+          - os: ubuntu
+            artifact-name: main/deb/desktop_*_amd64.deb
+            asset-name: kotlin-bars-desktop-amd64.dev
+          - os: macos
+            artifact-name: main/dmg/desktop_*_amd64.dmg
+            asset-name: kotlin-bars-desktop-amd64.dmg
+          - os: windows
+            artifact-name: main/msi/desktop_*_amd64.msi
+            asset-name: kotlin-bars-desktop-amd64.msi
+    runs-on: ${{ matrix.os }}-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: gradle-${{ matrix.os }}-${{ hashFiles('build.gradle') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ matrix.os }}-
+
+      - name: build ${{ matrix.os }} package
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '16'
+        env:
+          VERSION: ${{ github.ref }}
+
+      - name: upload ${{ matrix.os }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.asset-name }}
+          path: desktop/build/compose/binaries/${{ matrix.artifact-name }}
+
+      - name: release binaries
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: desktop/build/compose/binaries/${{ matrix.artifact-name }}
+          asset_name: ${{ matrix.asset-name }}
+          tag: ${{ github.ref }}
