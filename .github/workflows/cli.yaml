@@ -52,13 +52,15 @@ jobs:
         if: matrix.os == 'windows'
         run: choco install visualstudio2017-workload-vctools
 
-      - name: setup windows PATH
+      - name: build for windows
         shell: cmd
         if: matrix.os == 'windows'
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+          ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
 
       - name: build for ${{ matrix.os }}
+        if: matrix.os != 'windows'
         run: |
           ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
 
