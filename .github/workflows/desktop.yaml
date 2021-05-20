@@ -18,7 +18,7 @@ jobs:
             artifact-name: main/dmg/desktop_*_amd64.dmg
             asset-name: kotlin-bars-desktop-amd64.dmg
           - os: windows
-            artifact-name: main/msi/desktop_*_amd64.msi
+            artifact-name: main/msi/desktop-*.msi
             asset-name: kotlin-bars-desktop-amd64.msi
     runs-on: ${{ matrix.os }}-latest
 
