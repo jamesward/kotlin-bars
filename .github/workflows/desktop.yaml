@@ -40,6 +40,7 @@ jobs:
           java-version: '16'
         env:
           VERSION: ${{ github.ref }}
+        run: ./gradlew :desktop:package
 
       - name: upload ${{ matrix.os }}
         uses: actions/upload-artifact@v2
