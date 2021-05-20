@@ -62,19 +62,11 @@ jobs:
           ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
 
       - name: run upx on ${{ matrix.os }}
-        uses: crazy-max/ghaction-upx@v1.3.3
-        if: matrix.os != 'macos'
-        with:
-          version: latest
-          file: cli/build/native-image/${{ matrix.artifact-name }}
-          args: '-7'
-
-      - name: run upx on macos
         uses: svenstaro/upx-action@v2
         if: matrix.os == 'macos'
         with:
           file: cli/build/native-image/${{ matrix.artifact-name }}
-          args: '-7'
+          args: --best --lzma
 
       - name: upload ${{ matrix.os }}
         uses: actions/upload-artifact@v2
