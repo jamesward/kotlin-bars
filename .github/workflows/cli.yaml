@@ -64,40 +64,31 @@ jobs:
         run: |
           ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
 
-      - name: upload ${{ matrix.os }} image
+      - name: run upx on ${{ matrix.os }}
+        uses: crazy-max/ghaction-upx@v1.3.3
+        if: matrix.os != 'macos'
+        with:
+          version: latest
+          file: kotlin-bars-cli-${{ matrix.os }}
+          args: '-7'
+
+      - name: run upx on macos
+        uses: svenstaro/upx-action@v2
+        if: matrix.os == 'macos'
+        with:
+          file: cli/build/native-image/${{ matrix.artifact-name }}
+          args: '-7'
+
+      - name: upload ${{ matrix.os }}
         uses: actions/upload-artifact@v2
         with:
           name: kotlin-bars-cli-${{ matrix.os }}
           path: cli/build/native-image/${{ matrix.artifact-name }}
 
-  release:
-    name: release
-    needs: build-and-upload
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - name: download
-        uses: actions/download-artifact@v2
-        with:
-          path: .
-
-      - name: Display structure of downloaded files
-        run: |
-          pwd
-          ls -R
-
-      - name: run upx
-        uses: crazy-max/ghaction-upx@v1
-        with:
-          version: latest
-          files: '*'
-          args: '-7'
-
-      - name: upload binaries to release
+      - name: release binaries
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ./*
+          files: cli/build/native-image/${{ matrix.artifact-name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
