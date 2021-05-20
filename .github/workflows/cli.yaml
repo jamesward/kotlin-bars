@@ -48,14 +48,11 @@ jobs:
       - name: install native-image
         run: ${{ matrix.gu-binary }} install native-image
 
-      - name: setup Visual C Build Tools Workload for Visual Studio 2017 Build Tools
-        if: matrix.os == 'windows'
-        run: choco install visualstudio2017-workload-vctools
-
       - name: build for windows
-        shell: cmd
         if: matrix.os == 'windows'
+        shell: cmd
         run: |
+          choco install visualstudio2017-workload-vctools
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
           ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
 
