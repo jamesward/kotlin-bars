@@ -33,11 +33,13 @@ jobs:
           key: gradle-${{ matrix.os }}-${{ hashFiles('build.gradle') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: gradle-${{ matrix.os }}-
 
-      - name: build ${{ matrix.os }} package
+      - name: setup java
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '16'
+
+      - name: build ${{ matrix.os }} package
         env:
           VERSION: ${{ github.ref }}
         run: ./gradlew :desktop:package

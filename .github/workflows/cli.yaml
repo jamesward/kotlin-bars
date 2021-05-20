@@ -1,7 +1,10 @@
 on:
   push:
-    tags:
-      - "v*"
+    branches-ignore:
+      - '**'
+#  push:
+#    tags:
+#      - "v*"
 
 jobs:
 
