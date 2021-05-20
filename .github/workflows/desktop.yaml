@@ -41,7 +41,7 @@ jobs:
 
       - name: build ${{ matrix.os }} package
         env:
-          VERSION: ${{ github.event.release.tag_name }}
+          VERSION: ${{ github.ref }}
         run: ./gradlew :desktop:package
 
       - name: upload ${{ matrix.os }}
