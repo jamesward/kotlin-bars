@@ -33,12 +33,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: kotlin-bars.apk
-          path: android/build/outputs/apk/release/android-release-unsigned.apk
+          path: android/build/outputs/apk/debug/android-debug.apk
 
       - name: release apk
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           asset_name: kotlin-bars.apk
-          file: android/build/outputs/apk/release/android-release-unsigned.apk
+          file: android/build/outputs/apk/debug/android-debug.apk
           tag: ${{ github.ref }}
