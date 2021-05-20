@@ -66,7 +66,7 @@ jobs:
         if: matrix.os != 'macos'
         with:
           version: latest
-          file: kotlin-bars-cli-${{ matrix.os }}
+          file: cli/build/native-image/${{ matrix.artifact-name }}
           args: '-7'
 
       - name: run upx on macos
