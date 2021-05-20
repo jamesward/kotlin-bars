@@ -63,7 +63,6 @@ jobs:
 
       - name: run upx on ${{ matrix.os }}
         uses: svenstaro/upx-action@v2
-        if: matrix.os == 'macos'
         with:
           file: cli/build/native-image/${{ matrix.artifact-name }}
           args: --best --lzma
