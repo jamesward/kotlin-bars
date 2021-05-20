@@ -76,7 +76,7 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             modules("java.net.http")
             modules("jdk.crypto.ec")
-            packageVersion = System.getenv()["VERSION"]?.removePrefix("refs/tags/v") ?: "255.255.65535"
+            packageVersion = System.getenv()["REF"]?.removePrefix("refs/tags/v") ?: "255.255.65535"
         }
     }
 }

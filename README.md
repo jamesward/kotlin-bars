@@ -127,5 +127,5 @@ cli/build/native-image/kotlin-bars-cli
 
 Testing GitHub Actions:
 ```
-git tag -d v0.0.0; git push --delete origin v0.0.0; git commit -a --allow-empty-message --no-edit; git tag v0.0.0; git push; git push origin v0.0.0
+git tag -d v1.0.0; git push --delete origin v1.0.0; git commit -a --allow-empty-message --no-edit; git tag v1.0.0; git push; git push origin v1.0.0
 ```
