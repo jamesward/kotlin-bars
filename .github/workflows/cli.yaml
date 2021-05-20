@@ -82,12 +82,17 @@ jobs:
         with:
           path: .
 
+      - name: Display structure of downloaded files
+        run: |
+          pwd
+          ls -R
+
       - name: run upx
         uses: crazy-max/ghaction-upx@v1
         with:
           version: latest
-          files: ./*
-          args: -7fq
+          files: '*'
+          args: '-7'
 
       - name: upload binaries to release
         uses: softprops/action-gh-release@v1
