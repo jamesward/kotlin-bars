@@ -1,0 +1,36 @@
+on: push
+
+jobs:
+  build:
+    name: build-and-deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: google-github-actions/setup-gcloud@v0.2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT }}
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+          export_default_credentials: true
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - run: |
+          ./gradlew bootBuildImage --imageName=gcr.io/${{ secrets.GCP_PROJECT }}/${{ github.event.repository.name }}:${{ github.sha }}
+          gcloud auth configure-docker
+          docker push gcr.io/${{ secrets.GCP_PROJECT }}/${{ github.event.repository.name }}:${{ github.sha }}
+
+      - uses: jamesward/easycloudrun/vpcsql@main
+        env:
+          PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+          COMMIT_SHA: ${{ github.sha }}
+          IMAGE_NAME: ${{ github.event.repository.name }}
+          IMAGE_VERSION: ${{ github.sha }}
+          REGION: ${{ secrets.GCP_REGION }}
+          DB_VERSION: POSTGRES_13
+          DB_TIER: db-f1-micro
+          DB_INIT_ARGS: init
