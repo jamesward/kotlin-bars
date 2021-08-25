@@ -1,8 +1,8 @@
 plugins {
     application
-    kotlin("jvm")                              version "1.5.21"
-    kotlin("plugin.serialization")             version "1.5.21"
-    kotlin("plugin.spring")                    version "1.5.21"
+    kotlin("jvm")                              version "1.5.30"
+    kotlin("plugin.serialization")             version "1.5.30"
+    kotlin("plugin.spring")                    version "1.5.30"
     id("org.springframework.boot")             version "2.5.3"
     id("io.spring.dependency-management")      version "1.0.11.RELEASE"
     id("org.springframework.experimental.aot") version "0.10.2"
@@ -18,7 +18,6 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
 
-    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -28,15 +27,16 @@ dependencies {
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
+    implementation("org.webjars:bootstrap:4.5.3")
+
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("io.r2dbc:r2dbc-postgresql")
 
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql:1.15.3")
     // for testcontainers to run the schema setup
     testRuntimeOnly("org.postgresql:postgresql")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
-    implementation("org.webjars:bootstrap:4.5.3")
 
     // see: https://github.com/spring-projects-experimental/spring-native/issues/532
     //developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -84,4 +84,8 @@ tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
         "BP_NATIVE_IMAGE" to "1",
         "BP_NATIVE_IMAGE_BUILD_ARGUMENTS" to args.joinToString(" ")
     )
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

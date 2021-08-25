@@ -20,6 +20,9 @@ jobs:
           java-version: '11'
 
       - run: |
+          ./gradlew test
+
+      - run: |
           ./gradlew bootBuildImage --imageName=gcr.io/${{ secrets.GCP_PROJECT }}/${{ github.event.repository.name }}:${{ github.sha }}
           gcloud auth configure-docker
           docker push gcr.io/${{ secrets.GCP_PROJECT }}/${{ github.event.repository.name }}:${{ github.sha }}
