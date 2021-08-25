@@ -41,8 +41,8 @@ class WebApp(val barRepo: BarRepo) {
     }
 
     @GetMapping("/bars")
-    suspend fun getBars() = run {
-        barRepo.findAll().collectList().awaitFirst()
+    suspend fun getBars(): List<Bar> {
+        return barRepo.findAll().collectList().awaitFirst()
     }
 
     @PostMapping("/bars")
