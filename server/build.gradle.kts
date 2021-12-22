@@ -1,10 +1,12 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent.*
+
 plugins {
     application
     kotlin("jvm")
     kotlin("plugin.spring")
-    id("org.springframework.boot") version "2.4.5"
+    id("org.springframework.boot") version "2.6.2"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.springframework.experimental.aot") version "0.9.2"
+    id("org.springframework.experimental.aot") version "0.11.1"
 }
 
 repositories {
@@ -16,19 +18,19 @@ dependencies {
     implementation(project(":common"))
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.0")
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("io.r2dbc:r2dbc-postgresql")
 
-    testImplementation("org.testcontainers:postgresql:1.15.3")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    testImplementation("org.testcontainers:postgresql:1.16.2")
     // for testcontainers to run the schema setup
     testRuntimeOnly("org.postgresql:postgresql")
 
@@ -53,19 +55,27 @@ application {
     mainClass.set("kotlinbars.server.MainKt")
 }
 
+/*
 // add the aot stuff to the run classpath
 tasks.named<JavaExec>("run") {
     classpath += sourceSets["aot"].runtimeClasspath
 }
-
-// workaround an aot plugin incompatiblity with gradle 7
-tasks.named<Copy>("processAotTestResources") {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
+ */
 
 // add the test stuff to the bootRun classpath
 tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
-    classpath += sourceSets["test"].runtimeClasspath
+    classpath = sourceSets["test"].runtimeClasspath
+    args("--spring.profiles.active=dev")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+
+    testLogging {
+        showStandardStreams = true
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        events(STARTED, PASSED, SKIPPED, FAILED)
+    }
 }
 
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {

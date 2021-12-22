@@ -1,10 +1,12 @@
 package kotlinbars.desktop
 
 import kotlinbars.ServerContainer
+import kotlinbars.compose.BarsRPC
 
 fun main() {
     val serverContainer = ServerContainer()
     serverContainer.start()
 
-    ui(serverContainer.url)
+    val barsRPC = BarsRPC(serverContainer.url)
+    ui(barsRPC)
 }

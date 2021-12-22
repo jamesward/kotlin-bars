@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose")
+    kotlin("plugin.serialization")
     id("com.android.library")
 }
 
@@ -11,35 +11,29 @@ java {
 }
 
 kotlin {
-    android()
+    android {
+
+    }
 
     jvm {
 
     }
 
-    /*
     js(IR) {
         browser()
     }
-     */
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("stdlib"))
-                implementation(kotlin("reflect"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                api(project(":common"))
 
-                api(project(":rpc"))
-
-                api(compose.runtime)
-                api(compose.ui)
-                api(compose.foundation)
-                api(compose.material)
+                implementation("io.ktor:ktor-client-core:1.6.4")
+                implementation("io.ktor:ktor-client-json:1.6.4")
+                implementation("io.ktor:ktor-client-serialization:1.6.4")
             }
         }
 
-        /*
         val androidMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-android:1.6.4")
@@ -50,37 +44,68 @@ kotlin {
                  */
             }
         }
+
         val jvmMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-java:1.6.4")
+                /*
                 api(compose.ui)
                 api(compose.foundation)
                 api(compose.material)
+                 */
             }
         }
+
         val jsMain by getting {
+            /*
             dependencies {
                 //implementation(compose.web.core)
                 implementation(compose.web.widgets)
             }
+             */
         }
-         */
-    }
-}
-
-android {
-    compileSdk = 31
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].java.srcDirs("src/commonMain/kotlin")
-
-    defaultConfig {
-        minSdk = 28
     }
 
     /*
-    lintOptions {
-        disable("ObsoleteLintCustomCheck")
+    android {
+        /*
+        compilations.all {
+            kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
+        }
+         */
+    }
+
+    jvm {
+        /*
+        compilations.all {
+            kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
+        }
+         */
+    }
+
+    js(IR) {
+        browser()
     }
      */
+}
+
+/*
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+*/
+
+android {
+    compileSdk = 31
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    defaultConfig {
+        minSdk = 24
+        targetSdk = 31
+    }
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_11)
+        targetCompatibility(JavaVersion.VERSION_11)
+    }
 }

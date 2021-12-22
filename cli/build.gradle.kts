@@ -14,7 +14,7 @@ dependencies {
     implementation(project(":common"))
     implementation(kotlin("stdlib-jdk8"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.3.0")
 
     testImplementation(project(":dev"))
 }
@@ -92,6 +92,6 @@ tasks.register<JavaExec>("dev") {
     dependsOn(":server:bootBuildImage")
     dependsOn("testClasses")
     classpath = sourceSets["test"].runtimeClasspath
-    main = "kotlinbars.cli.DevKt"
+    mainClass.set("kotlinbars.cli.DevKt")
     standardInput = System.`in`
 }

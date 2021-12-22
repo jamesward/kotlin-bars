@@ -2,17 +2,22 @@
 
 <!-- [![Run on Google Cloud](https://deploy.cloud.run/button.png)](https://deploy.cloud.run) -->
 
-## Local Dev
-
-Run the web asset server:
-```
-./gradlew -t :web:run
-```
+## API Server
 
 Run the api server:
 ```
 ./gradlew :server:bootRun
 ```
+
+Create a bar:
+```
+curl -X POST http://localhost:8080/api/bars \
+   -H 'Content-Type: application/json' \
+   -d '{"name": "Test"}'
+```
+
+Fetch the bars: [localhost:8080/api/bars](http://localhost:8080/api/bars)
+
 
 Create container & run with docker:
 ```
@@ -25,46 +30,108 @@ docker run -it --network host \
   kotlin-bars-server
 ```
 
-Run the Android client:
 
-1. [Download Android Command Line Tools:](https://developer.android.com/studio)
+## Web Server
+
+Run the web asset server:
+```
+./gradlew -t :web:run
+```
+
+
+## Android Client
+
+*NOTE: You must use JDK 11 or higher*
+
+Start the server:
+
+  ```sh
+  ./gradlew :server:bootRun
+  ```
+
+Run the client:
+
+1. [Download Android Command Line Tools](https://developer.android.com/studio)
 
 1. Install the SDK:
-    ```
+
+    ```sh
     mkdir android-sdk
     cd android-sdk
     unzip PATH_TO_SDK_ZIP/sdk-tools-linux-VERSION.zip
-    tools/bin/sdkmanager --update
-    tools/bin/sdkmanager "platforms;android-30" "build-tools;30.0.2" "extras;google;m2repository" "extras;android;m2repository"
-    tools/bin/sdkmanager --licenses
+    mv cmdline-tools latest
+    mkdir cmdline-tools
+    mv latest cmdline-tools
+    cmdline-tools/latest/bin/sdkmanager --update
+    cmdline-tools/latest/bin/sdkmanager "platforms;android-31" "build-tools;31.0.0" "extras;google;m2repository" "extras;android;m2repository"
+    cmdline-tools/latest/bin/sdkmanager --licenses
     ```
 
-1. Set an env var
-    ```
+1. Set an env var pointing to the `android-sdk`
+
+    ```sh
     export ANDROID_SDK_ROOT=PATH_TO_SDK/android-sdk
-    echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+    echo "sdk.dir=$(realpath $ANDROID_SDK_ROOT)" > local.properties
     ```
 
 1. Run the build from this project's dir:
-    ```
+
+    ```sh
     ./gradlew :android:build
     ```
 
-1. For a physical device, [setup adb](https://developer.android.com/studio/run/device)
+1. You can either run on an emulator or a physical device and you can either
+   connect to the server running on your local machine, or connect to a server
+   you deployed on the cloud.
 
-1. Run on a device using an external server:
-    ```
-    ./gradlew :android:installDebug -PbarsUrl=https://YOUR_URL/api/bars
-    ```
+   * Emulator + Local Server:
 
-1. Or to run from Android Studio / IntelliJ, create a `local.properties` file in your root project directory containing:
-    ```
-    barsUrl=http://YOUR_URL:8080/api/bars
-    ```
+      * From the command line:
 
-    And setup the activity to first run *Gradle-aware Make* with a task of `:android:assembleDebug`
+        ```sh
+        ./gradlew :android:installDebug
+        ```
 
-Run the desktop client:
+      * From Android Studio / IntelliJ, navigate to
+        `android/src/main/kotlin/kotlinbars/android` and right-click on
+        `MainActivity` and select `Run`.
+
+   * Physical Device + Local Server:
+
+      * From the command line:
+
+         1. [Setup adb](https://developer.android.com/studio/run/device)
+         1. `./gradlew :android:installDebug -PserverUrl=http://YOUR_MACHINE_IP:50051/`
+
+      * From Android Studio / IntelliJ:
+
+         1. Create a `gradle.properties` file in your root project directory containing:
+
+             ```sh
+             serverUrl=http://YOUR_MACHINE_IP:50051/
+             ```
+
+         1. Navigate to `android/src/main/kotlin/kotlinbars/android` and right-click on `MainActivity` and select `Run`.
+
+   * Emulator or Physical Device + Cloud:
+
+      * From the command line:
+
+         1. [setup adb](https://developer.android.com/studio/run/device)
+         1. `./gradlew :android:installDebug -PserverUrl=https://YOUR_SERVER/`
+
+      * From Android Studio / IntelliJ:
+
+         1. Create a `gradle.properties` file in your root project directory containing:
+
+             ```sh
+             serverUrl=https://YOUR_SERVER/
+             ```
+
+         1. Navigate to `android/src/main/kotlin/kotlinbars/android` and right-click on `MainActivity` and select `Run`.
+
+
+## Desktop Client
 
 Run, connecting to the default `http://localhost:8080/api/bars` url (if `barsUrl` is not set in the `local.properties` file):
 ```
@@ -91,7 +158,7 @@ Package a native app (for the current platform):
 ./gradlew :desktop:package
 ```
 
-Run the CLI client:
+## CLI Client
 
 Run, connecting to the default `http://localhost:8080/api/bars` url (if `barsUrl` is not set in the `local.properties` file):
 ```
@@ -124,6 +191,8 @@ Run it:
 ```
 cli/build/native-image/kotlin-bars-cli
 ```
+
+## GitHub Actions
 
 Testing GitHub Actions:
 ```

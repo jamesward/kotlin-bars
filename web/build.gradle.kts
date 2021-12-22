@@ -1,7 +1,42 @@
 plugins {
     kotlin("js")
+    id("org.jetbrains.compose")
 }
 
+kotlin {
+    js(IR) {
+        browser {
+            //useCommonJs()
+            binaries.executable()
+        }
+    }
+
+    sourceSets["main"].dependencies {
+        implementation(project(":compose"))
+                /*
+                implementation(compose.runtime)
+                implementation(compose.web.widgets)
+                implementation(project(":common:utils"))
+                implementation(project(":common:database"))
+                implementation(project(":common:root"))
+                implementation(project(":common:main"))
+                implementation(project(":common:edit"))
+                implementation(Deps.ArkIvanov.Decompose.decompose)
+                implementation(Deps.ArkIvanov.MVIKotlin.mvikotlin)
+                implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinMain)
+                implementation(npm("copy-webpack-plugin", "9.0.0"))
+                implementation(npm("@material-ui/icons", "4.11.2"))
+                 */
+    }
+}
+
+/*
+plugins {
+    kotlin("js")
+}
+ */
+
+/*
 repositories {
     maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers")
 }
@@ -28,6 +63,7 @@ kotlin {
         implementation(npm("bootstrap", "4.6.0"))
     }
 }
+ */
 
 /*
 tasks.named<Jar>("jsJar") {

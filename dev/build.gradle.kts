@@ -10,9 +10,9 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
-    api("org.testcontainers:postgresql:1.15.3")
-    runtimeOnly("org.slf4j:slf4j-simple:1.7.30")
-    runtimeOnly("org.postgresql:postgresql:42.2.19")
+    api("org.testcontainers:postgresql:1.16.2")
+    runtimeOnly("org.slf4j:slf4j-simple:1.7.32")
+    runtimeOnly("org.postgresql:postgresql:42.3.1")
 }
 
 java {

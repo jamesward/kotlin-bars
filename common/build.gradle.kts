@@ -4,33 +4,43 @@ plugins {
     id("com.android.library")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 kotlin {
+    android {
+
+    }
+
+    jvm {
+
+    }
+
+    js(IR) {
+        browser()
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
             }
         }
-    }
-
-    android()
-
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-    }
-
-    js {
-        browser()
     }
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 31
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(24)
-        targetSdkVersion(30)
+        minSdk = 24
+        targetSdk = 31
+    }
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_11)
+        targetCompatibility(JavaVersion.VERSION_11)
     }
 }

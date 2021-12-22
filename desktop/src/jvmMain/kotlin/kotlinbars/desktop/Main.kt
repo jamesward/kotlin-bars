@@ -1,12 +1,22 @@
 package kotlinbars.desktop
 
 import kotlinbars.compose.Bars
-import androidx.compose.desktop.Window
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
+import androidx.compose.material.MaterialTheme
+import kotlinbars.compose.BarsRPC
 import java.util.*
 
-fun ui(url: String) {
-    Window {
-        Bars(url)
+fun ui(barsRPC: BarsRPC) {
+    application {
+        Window(
+            onCloseRequest = ::exitApplication,
+            title = "Bars",
+        ) {
+            MaterialTheme {
+                Bars(barsRPC)
+            }
+        }
     }
 }
 
@@ -21,5 +31,7 @@ fun main() {
 
     println("Connecting to: $url")
 
-    ui(url)
+    val barsRpc = BarsRPC(url)
+
+    ui(barsRpc)
 }

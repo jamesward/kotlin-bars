@@ -7,10 +7,16 @@ plugins {
     id("org.jetbrains.compose")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 kotlin {
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
         }
     }
 
@@ -20,14 +26,6 @@ kotlin {
                 implementation(kotlin("stdlib"))
                 implementation(project(":compose"))
                 implementation(compose.desktop.currentOs)
-                val os = System.getProperty("os.name")
-                val currentTarget = when {
-                    os.equals("Mac OS X", ignoreCase = true) -> "macos"
-                    os.startsWith("Win", ignoreCase = true) -> "windows"
-                    os.startsWith("Linux", ignoreCase = true) -> "linux"
-                    else -> error("Unknown OS name: $os")
-                }
-                runtimeOnly("org.jetbrains.skiko:skiko-jvm-runtime-${currentTarget}-x64:0.2.33")
             }
         }
 
@@ -88,5 +86,5 @@ tasks.register<JavaExec>("dev") {
         classpath += configurations["jvmTestRuntimeClasspath"]
         classpath += test.output.allOutputs
     }
-    main = "kotlinbars.desktop.DevKt"
+    mainClass.set("kotlinbars.desktop.DevKt")
 }

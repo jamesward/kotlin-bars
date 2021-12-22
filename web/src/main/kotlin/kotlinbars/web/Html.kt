@@ -1,5 +1,6 @@
 package kotlinbars.web
 
+/*
 import kotlinx.html.*
 import kotlinx.html.dom.create
 import kotlinx.html.stream.createHTML
@@ -41,3 +42,5 @@ object Html {
     }
 
 }
+
+ */

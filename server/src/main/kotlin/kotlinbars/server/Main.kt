@@ -4,6 +4,8 @@ import kotlinbars.common.Bar
 import kotlinx.coroutines.reactive.awaitFirst
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.WebApplicationType
@@ -16,12 +18,16 @@ import org.springframework.core.io.Resource
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.codec.ServerCodecConfigurer
+import org.springframework.http.codec.json.KotlinSerializationJsonDecoder
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.r2dbc.core.await
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.reactive.config.WebFluxConfigurer
+
 
 interface BarRepo : ReactiveCrudRepository<Bar, Long>
 
@@ -57,6 +63,21 @@ class InitConfiguration {
         }
     }
 
+    @ExperimentalSerializationApi
+    @Bean
+    fun kotlinSerializationJsonDecoder() = KotlinSerializationJsonDecoder(Json {
+        explicitNulls = false
+    })
+
+}
+
+@ExperimentalSerializationApi
+@Configuration
+class WebConfig(val decoder: KotlinSerializationJsonDecoder) : WebFluxConfigurer {
+    override fun configureHttpMessageCodecs(configurer: ServerCodecConfigurer) {
+        super.configureHttpMessageCodecs(configurer)
+        configurer.defaultCodecs().kotlinSerializationJsonDecoder(decoder)
+    }
 }
 
 fun main(args: Array<String>) {
