@@ -4,7 +4,7 @@ import kotlinbars.compose.Bars
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.material.MaterialTheme
-import kotlinbars.compose.BarsRPC
+import kotlinbars.rpc.BarsRPC
 import java.util.*
 
 fun ui(barsRPC: BarsRPC) {

@@ -16,13 +16,13 @@ jobs:
         include:
           - os: ubuntu
             artifact-name: kotlin-bars
-            asset-name: kotlin-bars-linux-amd64
+            asset-name: kotlin-bars-cli-linux-amd64
           - os: macos
             artifact-name: kotlin-bars
-            asset-name: kotlin-bars-macos-amd64
+            asset-name: kotlin-bars-cli-macos-amd64
           - os: windows
             artifact-name: kotlin-bars.exe
-            asset-name: kotlin-bars-windows-amd64.exe
+            asset-name: kotlin-bars-cli-windows-amd64.exe
     runs-on: ${{ matrix.os }}-latest
 
     steps:

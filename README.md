@@ -149,11 +149,13 @@ Start a server with Testcontainers and connect to it:
 ```
 
 Package a native app and run it:
+*Note: Requires JDK 15+*
 ```
 ./gradlew :desktop:runDistributable
 ```
 
 Package a native app (for the current platform):
+*Note: Requires JDK 15+*
 ```
 ./gradlew :desktop:package
 ```

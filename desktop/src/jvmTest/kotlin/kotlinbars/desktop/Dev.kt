@@ -1,7 +1,7 @@
 package kotlinbars.desktop
 
 import kotlinbars.ServerContainer
-import kotlinbars.compose.BarsRPC
+import kotlinbars.rpc.BarsRPC
 
 fun main() {
     val serverContainer = ServerContainer()
