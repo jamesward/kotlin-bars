@@ -51,19 +51,19 @@ jobs:
       - name: run upx on ${{ matrix.os }}
         uses: svenstaro/upx-action@v2
         with:
-          file: cli/build/native-image/${{ matrix.artifact-name }}
+          file: cli/build/graal/${{ matrix.artifact-name }}
           args: --best --lzma
 
       - name: upload ${{ matrix.os }}
         uses: actions/upload-artifact@v2
         with:
           name: kotlin-bars-cli-${{ matrix.os }}
-          path: cli/build/native-image/${{ matrix.artifact-name }}
+          path: cli/build/graal/${{ matrix.artifact-name }}
 
       - name: release binaries
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: cli/build/native-image/${{ matrix.artifact-name }}
+          file: cli/build/graal/${{ matrix.artifact-name }}
           asset_name: ${{ matrix.asset-name }}
           tag: ${{ github.ref }}
