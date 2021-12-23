@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")           version "7.0.2" apply false
     id("org.jetbrains.compose")             version "1.1.0-alpha1-dev536" apply false
-    id("org.mikeneck.graalvm-native-image") version "1.4.1" apply false
     kotlin("android")                       version "1.6.10" apply false
     kotlin("jvm")                           version "1.6.10" apply false
     kotlin("js")                            version "1.6.10" apply false

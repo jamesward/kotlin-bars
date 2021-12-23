@@ -1,10 +1,10 @@
 on:
-  push:
-    branches-ignore:
-      - '**'
 #  push:
-#    tags:
-#      - "v*"
+#    branches-ignore:
+#      - '**'
+  push:
+    tags:
+      - "v*"
 
 jobs:
 
@@ -15,48 +15,32 @@ jobs:
         os: [macos, ubuntu, windows]
         include:
           - os: ubuntu
-            gu-binary: gu
-            artifact-name: kotlin-bars-cli
-            asset-name: kotlin-bars-cli-linux-amd64
+            artifact-name: kotlin-bars
+            asset-name: kotlin-bars-linux-amd64
           - os: macos
-            gu-binary: gu
-            artifact-name: kotlin-bars-cli
-            asset-name: kotlin-bars-cli-macos-amd64
+            artifact-name: kotlin-bars
+            asset-name: kotlin-bars-macos-amd64
           - os: windows
-            gu-binary: gu.cmd
-            artifact-name: kotlin-bars-cli.exe
-            asset-name: kotlin-bars-cli-windows-amd64.exe
+            artifact-name: kotlin-bars.exe
+            asset-name: kotlin-bars-windows-amd64.exe
     runs-on: ${{ matrix.os }}-latest
 
     steps:
       - name: checkout
         uses: actions/checkout@v2
 
-      # todo: cache GraalVM, etc
-      - name: cache
-        uses: actions/cache@v1
+      - uses: actions/setup-java@v2
         with:
-          path: ~/.gradle/caches
-          key: gradle-${{ matrix.os }}-${{ hashFiles('build.gradle') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: gradle-${{ matrix.os }}-
-
-      # todo: static image?
-      - name: setup GraalVM
-        uses: DeLaGuardo/setup-graalvm@4.0
-        with:
-          graalvm: 21.3.0
-          java: java11
-          arch: amd64
-
-      - name: install native-image
-        run: ${{ matrix.gu-binary }} install native-image
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'gradle'
 
       - name: build for windows
         if: matrix.os == 'windows'
         shell: cmd
         run: |
           choco install visualstudio2017-workload-vctools
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+          # call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
           ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
 
       - name: build for ${{ matrix.os }}

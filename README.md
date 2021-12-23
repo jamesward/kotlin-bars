@@ -175,21 +175,14 @@ Start a server with Testcontainers and connect to it:
 ./gradlew :cli:dev -q --console=plain
 ```
 
-Create a CLI Native Image:
-
-Export the location of your GraalVM install:
-```
-export GRAALVM_HOME=YOUR/graalvm-ce-java11-21.1.0
-```
-
-Build the native image:
+Build the native image executable:
 ```
 ./gradlew :cli:nativeImage
 ```
 
 Run it:
 ```
-cli/build/native-image/kotlin-bars-cli
+cli/build/graal/kotlin-bars
 ```
 
 ## GitHub Actions

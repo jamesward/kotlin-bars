@@ -3,7 +3,7 @@ import java.util.Properties
 plugins {
     application
     kotlin("jvm")
-    id("org.mikeneck.graalvm-native-image")
+    id("com.palantir.graal") version "0.10.0"
 }
 
 repositories {
@@ -14,7 +14,7 @@ dependencies {
     implementation(project(":common"))
     implementation(kotlin("stdlib-jdk8"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.3.1")
 
     testImplementation(project(":dev"))
 }
@@ -66,21 +66,18 @@ tasks.register("generateResources") {
     }
 }
 
-nativeImage {
-    graalVmHome = System.getenv()["GRAALVM_HOME"] ?: System.getProperty("java.home")
-    buildType { build ->
-        build.executable {
-            main = application.mainClass.get()
-        }
-    }
-    executableName = "kotlin-bars-cli"
-    arguments(
-        "--no-fallback",
-        "--verbose",
-        "--enable-http",
-        "--enable-https",
-        "-H:IncludeResources=META-INF/app.properties",
-    )
+graal {
+    graalVersion("21.3.0")
+    javaVersion("11")
+    mainClass(application.mainClass.get())
+    outputName("kotlin-bars")
+    option("--verbose")
+    option("--no-server")
+    option("--no-fallback")
+    option("-H:+ReportExceptionStackTraces")
+    option("-H:IncludeResources=META-INF/app.properties")
+    option("--enable-http")
+    option("--enable-https")
 }
 
 tasks.named<JavaExec>("run") {
