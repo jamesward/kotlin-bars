@@ -189,6 +189,42 @@ cli/build/graal/kotlin-bars
 
 ## GitHub Actions
 
+Required APIs:
+- servicenetworking.googleapis.com
+- sqladmin.googleapis.com
+- vpcaccess.googleapis.com
+- run.googleapis.com
+- containerregistry.googleapis.com
+
+Enable APIs via gcloud:
+```
+gcloud services enable \
+  servicenetworking.googleapis.com \
+  sqladmin.googleapis.com \
+  vpcaccess.googleapis.com \
+  run.googleapis.com \
+  containerregistry.googleapis.com
+```
+
+Service Account Roles:
+```
+roles/run.admin
+roles/compute.networkAdmin
+roles/compute.instanceAdmin.v1
+roles/cloudsql.admin
+roles/iam.serviceAccountUser
+roles/iam.serviceAccountAdmin
+roles/vpcaccess.admin
+roles/iam.securityAdmin
+```
+
+TODO: Service Account Instructions
+
+Create GitHub secrets for:
+- `GCP_PROJECT`
+- `GCP_REGION`
+- `GCP_CREDENTIALS`
+
 Testing GitHub Actions:
 ```
 git tag -d v1.0.0; git push --delete origin v1.0.0; git commit -a --allow-empty-message --no-edit; git tag v1.0.0; git push; git push origin v1.0.0

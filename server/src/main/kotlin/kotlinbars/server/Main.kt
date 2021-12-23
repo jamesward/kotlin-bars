@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.reactive.config.WebFluxConfigurer
+import java.net.URI
+import java.util.*
 
 
 interface BarRepo : ReactiveCrudRepository<Bar, Long>
@@ -81,10 +83,22 @@ class WebConfig(val decoder: KotlinSerializationJsonDecoder) : WebFluxConfigurer
 }
 
 fun main(args: Array<String>) {
+    val props = Properties()
+
+    System.getenv()["DATABASE_URL"]?.let {
+        val dbUri = URI(it)
+        props["spring.r2dbc.url"] = "r2dbc:postgresql://" + dbUri.host + dbUri.path
+        props["spring.r2dbc.username"] = dbUri.userInfo.split(":")[0]
+        props["spring.r2dbc.password"] = dbUri.userInfo.split(":")[1]
+    }
+
     runApplication<WebApp>(*args) {
         if (args.contains("init")) {
             webApplicationType = WebApplicationType.NONE
             setAdditionalProfiles("init")
+            props["spring.devtools.add-properties"] = false
+            props["spring.devtools.livereload.enabled"] = false
         }
+        setDefaultProperties(props)
     }
 }
