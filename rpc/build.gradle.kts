@@ -28,74 +28,31 @@ kotlin {
             dependencies {
                 api(project(":common"))
 
-                implementation("io.ktor:ktor-client-core:1.6.4")
-                implementation("io.ktor:ktor-client-json:1.6.4")
-                implementation("io.ktor:ktor-client-serialization:1.6.4")
+                implementation("io.ktor:ktor-client-core:1.6.7")
+                implementation("io.ktor:ktor-client-json:1.6.7")
+                implementation("io.ktor:ktor-client-serialization:1.6.7")
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-android:1.6.4")
-                /*
-                api(compose.ui)
-                api(compose.foundation)
-                api(compose.material)
-                 */
+                implementation("io.ktor:ktor-client-android:1.6.7")
             }
         }
 
         val jvmMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-java:1.6.4")
-                /*
-                api(compose.ui)
-                api(compose.foundation)
-                api(compose.material)
-                 */
+                implementation("io.ktor:ktor-client-java:1.6.7")
             }
         }
 
         val jsMain by getting {
-            /*
             dependencies {
-                //implementation(compose.web.core)
-                implementation(compose.web.widgets)
+                implementation("io.ktor:ktor-client-js:1.6.7")
             }
-             */
         }
-    }
-
-    /*
-    android {
-        /*
-        compilations.all {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
-        }
-         */
-    }
-
-    jvm {
-        /*
-        compilations.all {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
-        }
-         */
-    }
-
-    js(IR) {
-        browser()
-    }
-     */
-}
-
-/*
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "11"
     }
 }
-*/
 
 android {
     compileSdk = 31

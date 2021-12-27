@@ -13,18 +13,12 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
-      - name: cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches
-          key: gradle-${{ matrix.os }}-${{ hashFiles('build.gradle') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: gradle-${{ matrix.os }}-
-
       - name: setup java
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '11'
+          cache: 'gradle'
 
       - name: build apk
         run: ./gradlew :android:build -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars

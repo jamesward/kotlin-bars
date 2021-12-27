@@ -35,7 +35,7 @@ docker run -it --network host \
 
 Run the web asset server:
 ```
-./gradlew -t :web:run
+./gradlew -t :web:jsBrowserRun
 ```
 
 

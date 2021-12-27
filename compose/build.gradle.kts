@@ -38,33 +38,6 @@ kotlin {
                 api(compose.material)
             }
         }
-
-        /*
-        val androidMain by getting {
-            dependencies {
-                implementation("io.ktor:ktor-client-android:1.6.4")
-                /*
-                api(compose.ui)
-                api(compose.foundation)
-                api(compose.material)
-                 */
-            }
-        }
-        val jvmMain by getting {
-            dependencies {
-                implementation("io.ktor:ktor-client-java:1.6.4")
-                api(compose.ui)
-                api(compose.foundation)
-                api(compose.material)
-            }
-        }
-        val jsMain by getting {
-            dependencies {
-                //implementation(compose.web.core)
-                implementation(compose.web.widgets)
-            }
-        }
-         */
     }
 }
 

@@ -1,16 +1,19 @@
 plugins {
-    kotlin("js")
+    kotlin("multiplatform")
     id("org.jetbrains.compose")
 }
 
 kotlin {
     js(IR) {
         browser {
-            //useCommonJs()
-            binaries.executable()
+            runTask {
+                devServer = devServer?.copy(port = 8081, proxy = mutableMapOf("/api" to "http://localhost:8080"))
+            }
         }
+        binaries.executable()
     }
 
+    /*
     sourceSets["main"].dependencies {
         implementation(project(":compose"))
                 /*
@@ -28,6 +31,18 @@ kotlin {
                 implementation(npm("@material-ui/icons", "4.11.2"))
                  */
     }
+     */
+
+    sourceSets {
+        val jsMain by getting {
+            dependencies {
+                implementation(project(":rpc"))
+                implementation(compose.web.core)
+                implementation(compose.runtime)
+            }
+        }
+    }
+
 }
 
 /*
