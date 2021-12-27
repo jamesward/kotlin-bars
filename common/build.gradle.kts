@@ -23,6 +23,14 @@ kotlin {
         browser()
     }
 
+    ios {
+        binaries {
+            framework {
+                baseName = "kotlinbars.common"
+            }
+        }
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {

@@ -23,6 +23,14 @@ kotlin {
         browser()
     }
 
+    ios {
+        binaries {
+            framework {
+                baseName = "kotlinbars.rpc"
+            }
+        }
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
