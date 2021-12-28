@@ -1,7 +1,4 @@
 on:
-#  push:
-#    branches-ignore:
-#      - '**'
   push:
     tags:
       - "v*"
@@ -39,7 +36,7 @@ jobs:
       - name: build ${{ matrix.os }} package
         env:
           REF: ${{ github.ref }}
-        run: ./gradlew :desktop:package
+        run: ./gradlew :desktop:package -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
 
       - name: upload ${{ matrix.os }}
         uses: actions/upload-artifact@v2

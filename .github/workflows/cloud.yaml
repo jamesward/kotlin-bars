@@ -29,7 +29,7 @@ jobs:
           ./gradlew :server:bootBuildImage --imageName=gcr.io/${{ secrets.GCP_PROJECT }}/${{ github.event.repository.name }}:${{ github.sha }}
           docker push gcr.io/${{ secrets.GCP_PROJECT }}/${{ github.event.repository.name }}:${{ github.sha }}
 
-      - name: Deploy
+      - name: Deploy Service and DB
         uses: jamesward/easycloudrun/vpcsql@main
         env:
           PROJECT_ID: ${{ secrets.GCP_PROJECT }}
@@ -40,3 +40,19 @@ jobs:
           DB_VERSION: POSTGRES_13
           DB_TIER: db-f1-micro
           DB_INIT_ARGS: init
+
+      - name: Create Static Site
+        run: |
+          ./gradlew :web:jsBrowserDistribution
+
+      - name: Deploy Static
+        uses: jamesward/easycloudrun/staticandapi@main
+        env:
+          PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+          COMMIT_SHA: ${{ github.sha }}
+          IMAGE_NAME: ${{ github.event.repository.name }}
+          IMAGE_VERSION: ${{ github.sha }}
+          REGION: ${{ secrets.GCP_REGION }}
+          DOMAINS: ${{ secrets.DOMAINS }}
+          FILE_PATH: /web/build/distributions
+          API_PATH: /api

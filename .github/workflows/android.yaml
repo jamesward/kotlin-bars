@@ -21,7 +21,7 @@ jobs:
           cache: 'gradle'
 
       - name: build apk
-        run: ./gradlew :android:build -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
+        run: ./gradlew :android:build -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
 
       - name: upload apk
         uses: actions/upload-artifact@v2

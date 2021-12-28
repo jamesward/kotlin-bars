@@ -1,7 +1,4 @@
 on:
-#  push:
-#    branches-ignore:
-#      - '**'
   push:
     tags:
       - "v*"
@@ -46,7 +43,7 @@ jobs:
       - name: build for ${{ matrix.os }}
         if: matrix.os != 'windows'
         run: |
-          ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
+          ./gradlew :cli:nativeImage -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
 
       - name: run upx on ${{ matrix.os }}
         uses: svenstaro/upx-action@v2
