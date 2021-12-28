@@ -189,13 +189,6 @@ cli/build/graal/kotlin-bars
 
 ## GitHub Actions
 
-Required APIs:
-- servicenetworking.googleapis.com
-- sqladmin.googleapis.com
-- vpcaccess.googleapis.com
-- run.googleapis.com
-- containerregistry.googleapis.com
-
 Enable APIs via gcloud:
 ```
 gcloud services enable \
@@ -206,24 +199,69 @@ gcloud services enable \
   containerregistry.googleapis.com
 ```
 
-Service Account Roles:
+Create a Service Account:
 ```
-roles/run.admin
-roles/compute.networkAdmin
-roles/compute.instanceAdmin.v1
-roles/cloudsql.admin
-roles/iam.serviceAccountUser
-roles/iam.serviceAccountAdmin
-roles/vpcaccess.admin
-roles/iam.securityAdmin
+export PROJECT_ID=YOUR_GCP_PROJECT
+
+gcloud iam service-accounts create kotlin-bars-gha --project=$PROJECT_ID
+
+export SA_EMAIL="kotlin-bars-gha@$PROJECT_ID.iam.gserviceaccount.com"
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:$SA_EMAIL \
+  --role=roles/container.admin
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:$SA_EMAIL \
+  --role=roles/storage.admin
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:$SA_EMAIL \
+  --role=roles/run.admin
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:$SA_EMAIL \
+  --role=roles/compute.networkAdmin \
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:$SA_EMAIL \
+  --role=roles/compute.instanceAdmin.v1 \
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:$SA_EMAIL \
+  --role=roles/cloudsql.admin \
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:$SA_EMAIL \
+  --role=roles/iam.serviceAccountUser \
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:$SA_EMAIL \
+  --role=roles/iam.serviceAccountAdmin \
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:$SA_EMAIL \
+  --role=roles/vpcaccess.admin \
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:$SA_EMAIL \
+  --role=roles/iam.securityAdmin
 ```
 
-TODO: Service Account Instructions
+Create a key for the service account:
+```
+gcloud iam service-accounts keys create /dev/stdout \
+  --iam-account=$SA_EMAIL \
+  --project=$PROJECT_ID 2>/dev/null
+```
+
+Copy the JSON key from STDOUT and use it as the value of `GCP_CREDENTIALS` in the next step.
 
 Create GitHub secrets for:
 - `GCP_PROJECT`
 - `GCP_REGION`
 - `GCP_CREDENTIALS`
+- `DOMAINS`
 
 Testing GitHub Actions:
 ```
