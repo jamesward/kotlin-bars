@@ -44,11 +44,11 @@ jobs:
           name: ${{ matrix.asset-name }}
           path: desktop/build/compose/binaries/${{ matrix.artifact-name }}
 
-      # todo: find a way to use asset-name
       - name: release ${{ matrix.os }} package
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: desktop/build/compose/binaries/${{ matrix.artifact-name }}
+          asset_name: ${{ matrix.asset-name }}
           file_glob: true
           tag: ${{ github.ref }}

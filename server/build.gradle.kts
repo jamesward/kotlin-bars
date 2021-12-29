@@ -4,14 +4,9 @@ plugins {
     application
     kotlin("jvm")
     kotlin("plugin.spring")
-    id("org.springframework.boot") version "2.6.2"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.springframework.experimental.aot") version "0.11.1"
-}
-
-repositories {
-    mavenCentral()
-    maven("https://repo.spring.io/release")
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
+    id("org.springframework.experimental.aot")
 }
 
 dependencies {
@@ -55,17 +50,17 @@ application {
     mainClass.set("kotlinbars.server.MainKt")
 }
 
-/*
-// add the aot stuff to the run classpath
-tasks.named<JavaExec>("run") {
-    classpath += sourceSets["aot"].runtimeClasspath
-}
- */
-
 // add the test stuff to the bootRun classpath
 tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
     classpath = sourceSets["test"].runtimeClasspath
-    args("--spring.profiles.active=dev")
+}
+
+springAot {
+    //mode.set(org.springframework.aot.gradle.dsl.AotMode.NATIVE_AGENT)
+    removeXmlSupport.set(true)
+    removeSpelSupport.set(true)
+    removeYamlSupport.set(true)
+    removeJmxSupport.set(true)
 }
 
 tasks.withType<Test> {
@@ -79,13 +74,6 @@ tasks.withType<Test> {
 }
 
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
-    val args = setOf(
-        "-Dspring.spel.ignore=true",
-        "-Dspring.native.remove-yaml-support=true"
-    )
     builder = "paketobuildpacks/builder:tiny"
-    environment = mapOf(
-        "BP_NATIVE_IMAGE" to "1",
-        "BP_NATIVE_IMAGE_BUILD_ARGUMENTS" to args.joinToString(" ")
-    )
+    environment = mapOf("BP_NATIVE_IMAGE" to "1")
 }

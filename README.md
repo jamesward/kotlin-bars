@@ -19,17 +19,35 @@ curl -X POST http://localhost:8080/api/bars \
 Fetch the bars: [localhost:8080/api/bars](http://localhost:8080/api/bars)
 
 
-Create container & run with docker:
+Create container:
 ```
 ./gradlew :server:bootBuildImage --imageName=kotlin-bars-server
+```
 
+Start Postgres manually:
+```
+docker run --rm -ePOSTGRES_PASSWORD=password -p5432:5432 --name my-postgres postgres:13.1
+```
+
+Init the schema:
+```
+docker run -it --network host \
+  -eSPRING_R2DBC_URL=r2dbc:postgresql://localhost/postgres \
+  -eSPRING_R2DBC_USERNAME=postgres \
+  -eSPRING_R2DBC_PASSWORD=password \
+  kotlin-bars-server \
+  init \
+  --spring.main.web-application-type=none
+```
+
+Start the server:
+```
 docker run -it --network host \
   -eSPRING_R2DBC_URL=r2dbc:postgresql://localhost/postgres \
   -eSPRING_R2DBC_USERNAME=postgres \
   -eSPRING_R2DBC_PASSWORD=password \
   kotlin-bars-server
 ```
-
 
 ## Web Server
 
@@ -221,27 +239,31 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member=serviceAccount:$SA_EMAIL \
-  --role=roles/compute.networkAdmin \
+  --role=roles/compute.networkAdmin
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member=serviceAccount:$SA_EMAIL \
-  --role=roles/compute.instanceAdmin.v1 \
+  --role=roles/compute.loadBalancerAdmin
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member=serviceAccount:$SA_EMAIL \
-  --role=roles/cloudsql.admin \
+  --role=roles/compute.instanceAdmin.v1
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member=serviceAccount:$SA_EMAIL \
-  --role=roles/iam.serviceAccountUser \
+  --role=roles/cloudsql.admin
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member=serviceAccount:$SA_EMAIL \
-  --role=roles/iam.serviceAccountAdmin \
+  --role=roles/iam.serviceAccountUser
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member=serviceAccount:$SA_EMAIL \
-  --role=roles/vpcaccess.admin \
+  --role=roles/iam.serviceAccountAdmin
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:$SA_EMAIL \
+  --role=roles/vpcaccess.admin
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member=serviceAccount:$SA_EMAIL \
