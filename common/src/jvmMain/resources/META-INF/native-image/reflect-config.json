@@ -1,0 +1,10 @@
+[
+  {
+    "name":"kotlinbars.common.Bar",
+    "fields":[{"name":"Companion"}]
+  },
+  {
+    "name":"kotlinbars.common.Bar$Companion",
+    "methods":[{"name":"serializer","parameterTypes":[] }]
+  }
+]
