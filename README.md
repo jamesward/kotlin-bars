@@ -207,6 +207,10 @@ cli/build/graal/kotlin-bars
 
 ## GitHub Actions
 
+```
+export PROJECT_ID=YOUR_GCP_PROJECT
+```
+
 Enable APIs via gcloud:
 ```
 gcloud services enable \
@@ -214,13 +218,12 @@ gcloud services enable \
   sqladmin.googleapis.com \
   vpcaccess.googleapis.com \
   run.googleapis.com \
-  containerregistry.googleapis.com
+  containerregistry.googleapis.com \
+  --project=$PROJECT_ID
 ```
 
 Create a Service Account:
 ```
-export PROJECT_ID=YOUR_GCP_PROJECT
-
 gcloud iam service-accounts create kotlin-bars-gha --project=$PROJECT_ID
 
 export SA_EMAIL="kotlin-bars-gha@$PROJECT_ID.iam.gserviceaccount.com"
@@ -285,7 +288,12 @@ Create GitHub secrets for:
 - `GCP_CREDENTIALS`
 - `DOMAINS`
 
-Testing GitHub Actions:
+Your `DOMAINS` then need to be mapped to the IP listed in the output of the `cloud` GitHub Action.
+
+Tag a release to trigger the CLI, Android, and Desktop release builds.
+
+
+### Testing GitHub Actions:
 ```
 git tag -d v1.0.0; git push --delete origin v1.0.0; git commit -a --allow-empty-message --no-edit; git tag v1.0.0; git push; git push origin v1.0.0
 ```
