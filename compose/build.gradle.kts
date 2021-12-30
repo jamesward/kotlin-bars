@@ -4,56 +4,56 @@ plugins {
     id("com.android.library")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 kotlin {
     android()
 
     jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
+
     }
+
+    /*
+    js(IR) {
+        browser()
+    }
+     */
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib"))
                 implementation(kotlin("reflect"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 
-                api(project(":common"))
+                api(project(":rpc"))
 
                 api(compose.runtime)
+                api(compose.ui)
                 api(compose.foundation)
                 api(compose.material)
-
-                implementation("io.ktor:ktor-client-core:1.5.2")
-                implementation("io.ktor:ktor-client-json:1.5.2")
-                implementation("io.ktor:ktor-client-gson:1.5.2")
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                implementation("io.ktor:ktor-client-android:1.5.2")
-            }
-        }
-        val jvmMain by getting {
-            dependencies {
-                implementation("io.ktor:ktor-client-okhttp:1.5.2")
             }
         }
     }
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 31
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].java.srcDirs("src/commonMain/kotlin")
 
     defaultConfig {
-        minSdkVersion(28)
+        minSdk = 28
     }
 
+    /*
     lintOptions {
         disable("ObsoleteLintCustomCheck")
     }
+     */
 }

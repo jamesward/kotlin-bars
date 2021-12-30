@@ -1,27 +1,22 @@
 package kotlinbars.compose
 
+import androidx.compose.runtime.*
+import kotlinbars.common.Bar
+import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import io.ktor.client.*
-import io.ktor.client.features.json.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import kotlinbars.common.Bar
-import kotlinx.coroutines.launch
+import kotlinbars.rpc.BarsRPC
+
 
 @Composable
-fun Bars(url: String) {
-    val client = HttpClient {
-        install(JsonFeature)
-    }
+fun Bars(barsRpc: BarsRPC) {
 
     val barsState = remember { mutableStateListOf<Bar>() }
 
@@ -29,14 +24,14 @@ fun Bars(url: String) {
 
     val scope = rememberCoroutineScope()
 
-    suspend fun fetchBars() {
-        val bars = client.get<List<Bar>>(url)
+    suspend fun updateBars() {
+        val bars = barsRpc.fetchBars()
         barsState.clear()
         barsState.addAll(bars)
     }
 
     LaunchedEffect(Unit) {
-        fetchBars()
+        updateBars()
     }
 
     Column(Modifier.fillMaxWidth().fillMaxHeight().padding(10.dp), Arrangement.Top) {
@@ -55,13 +50,9 @@ fun Bars(url: String) {
                 val bar = Bar(null, nameState.value.text)
 
                 try {
-                    client.post<Unit> {
-                        url(url)
-                        contentType(ContentType.Application.Json)
-                        body = bar
-                    }
+                    barsRpc.addBar(bar)
                     nameState.value = TextFieldValue()
-                    fetchBars()
+                    updateBars()
                 } catch (e: Exception) {
                     println(e.message)
                 }

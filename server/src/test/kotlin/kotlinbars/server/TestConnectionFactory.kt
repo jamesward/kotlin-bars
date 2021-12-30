@@ -29,8 +29,6 @@ class TestConnectionFactory {
 
     @Bean
     fun connectionFactory(container: TestPostgresContainer): ConnectionFactory {
-        println(container.jdbcUrl)
-
         val connectionConfiguration = PostgresqlConnectionConfiguration.builder()
             .host(container.host)
             .port(container.firstMappedPort)

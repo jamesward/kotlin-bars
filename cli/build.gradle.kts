@@ -1,30 +1,28 @@
+import java.util.Properties
+
 plugins {
     application
     kotlin("jvm")
-    kotlin("plugin.spring")
-    id("org.springframework.boot") version "2.4.4"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.springframework.experimental.aot") version "0.9.1"
+    id("com.palantir.graal") version "0.10.0"
 }
 
 repositories {
     mavenCentral()
-    maven("https://repo.spring.io/release")
 }
 
 dependencies {
     implementation(project(":common"))
     implementation(kotlin("stdlib-jdk8"))
-    implementation(kotlin("reflect"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.3")
 
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.3.2")
+
+    testImplementation(project(":dev"))
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -38,23 +36,59 @@ application {
     mainClass.set("kotlinbars.cli.MainKt")
 }
 
-// add the aot stuff to the run classpath
+val generatedResourceDir = File("$buildDir/generated-resources/main")
+
+tasks.named<Copy>("processResources") {
+    from(tasks.named("generateResources"))
+}
+
+tasks.register("generateResources") {
+    outputs.upToDateWhen { false }
+    outputs.dir(generatedResourceDir)
+    doLast {
+        val barsUrl: String? by project
+
+        val props = Properties()
+        rootProject.file("local.properties").let {
+            if (it.exists()) it.inputStream().use(props::load)
+        }
+
+        val barsUrlWithFallback = barsUrl ?: props["barsUrl"] as String?
+
+        if (barsUrlWithFallback != null) {
+            val metaInf = File(generatedResourceDir, "META-INF")
+            metaInf.mkdirs()
+            val generated = File(metaInf, "app.properties")
+            generated.writeText("barsUrl=$barsUrlWithFallback")
+        } else {
+            generatedResourceDir.deleteRecursively()
+        }
+    }
+}
+
+graal {
+    graalVersion("21.3.0")
+    javaVersion("11")
+    mainClass(application.mainClass.get())
+    outputName("kotlin-bars")
+    option("--verbose")
+    option("--no-server")
+    option("--no-fallback")
+    option("-H:+ReportExceptionStackTraces")
+    option("-H:IncludeResources=META-INF/app.properties")
+    option("--enable-http")
+    option("--enable-https")
+}
+
 tasks.named<JavaExec>("run") {
-    dependsOn("aotClasses")
-    classpath += sourceSets["aot"].runtimeClasspath
     standardInput = System.`in`
 }
 
-tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
-    val args = setOf(
-        "-Dspring.spel.ignore=true",
-        "-Dspring.native.remove-yaml-support=true"
-    )
-    builder = "paketobuildpacks/builder:tiny"
-    //isCleanCache = true
-    //isVerboseLogging = true
-    environment = mapOf(
-        "BP_BOOT_NATIVE_IMAGE" to "1",
-        "BP_BOOT_NATIVE_IMAGE_BUILD_ARGUMENTS" to args.joinToString(" ")
-    )
+// todo: this rebuilds the server container every run
+tasks.register<JavaExec>("dev") {
+    dependsOn(":server:bootBuildImage")
+    dependsOn("testClasses")
+    classpath = sourceSets["test"].runtimeClasspath
+    mainClass.set("kotlinbars.cli.DevKt")
+    standardInput = System.`in`
 }

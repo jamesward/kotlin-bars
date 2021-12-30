@@ -1,0 +1,38 @@
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+          cache: 'gradle'
+
+      - name: build apk
+        run: ./gradlew :android:build -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
+
+      - name: upload apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: kotlin-bars.apk
+          path: android/build/outputs/apk/debug/android-debug.apk
+
+      - name: release apk
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          asset_name: kotlin-bars.apk
+          file: android/build/outputs/apk/debug/android-debug.apk
+          tag: ${{ github.ref }}

@@ -1,0 +1,24 @@
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+
+  build:
+    name: build
+    runs-on: macos-11
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+          cache: 'gradle'
+
+      - name: build rpc
+        run: ./gradlew :rpc:build

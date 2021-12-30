@@ -1,0 +1,67 @@
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+
+  build-and-upload:
+    name: build and upload
+    strategy:
+      matrix:
+        os: [macos, ubuntu, windows]
+        include:
+          - os: ubuntu
+            artifact-name: kotlin-bars
+            asset-name: kotlin-bars-cli-linux-amd64
+          - os: macos
+            artifact-name: kotlin-bars
+            asset-name: kotlin-bars-cli-macos-amd64
+          - os: windows
+            artifact-name: kotlin-bars.exe
+            asset-name: kotlin-bars-cli-windows-amd64.exe
+    runs-on: ${{ matrix.os }}-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'gradle'
+
+      - name: build for windows
+        if: matrix.os == 'windows'
+        shell: cmd
+        run: |
+          choco install visualstudio2017-workload-vctools
+          # call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+          ./gradlew :cli:nativeImage -PbarsUrl=https://kotlinbars.jamesward.dev/api/bars
+
+      - name: build for ${{ matrix.os }}
+        if: matrix.os != 'windows'
+        run: |
+          ./gradlew :cli:nativeImage -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
+
+      - name: run upx on ${{ matrix.os }}
+        uses: svenstaro/upx-action@v2
+        with:
+          file: cli/build/graal/${{ matrix.artifact-name }}
+          args: --best --lzma
+
+      - name: upload ${{ matrix.os }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: kotlin-bars-cli-${{ matrix.os }}
+          path: cli/build/graal/${{ matrix.artifact-name }}
+
+      - name: release binaries
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: cli/build/graal/${{ matrix.artifact-name }}
+          asset_name: ${{ matrix.asset-name }}
+          overwrite: true
+          tag: ${{ github.ref }}

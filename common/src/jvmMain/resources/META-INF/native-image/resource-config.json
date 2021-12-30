@@ -1,0 +1,9 @@
+{
+  "resources":{
+  "includes":[
+    {
+      "pattern":"\\Qinit.sql\\E"
+    }
+  ]},
+  "bundles":[]
+}
