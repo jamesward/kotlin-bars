@@ -36,19 +36,20 @@ jobs:
       - name: build ${{ matrix.os }} package
         env:
           REF: ${{ github.ref }}
-        run: ./gradlew :desktop:package -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
+        run: |
+          ./gradlew :desktop:package -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
+          mv desktop/build/compose/binaries/${{ matrix.artifact-name }} desktop/build/compose/binaries/${{ matrix.asset-name }}
 
       - name: upload ${{ matrix.os }}
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.asset-name }}
-          path: desktop/build/compose/binaries/${{ matrix.artifact-name }}
+          path: desktop/build/compose/binaries/${{ matrix.asset-name }}
 
       - name: release ${{ matrix.os }} package
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: desktop/build/compose/binaries/${{ matrix.artifact-name }}
-          asset_name: ${{ matrix.asset-name }}
-          file_glob: true
+          file: desktop/build/compose/binaries/${{ matrix.asset-name }}
+          overwrite: true
           tag: ${{ github.ref }}

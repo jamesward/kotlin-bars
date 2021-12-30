@@ -36,3 +36,4 @@ jobs:
           asset_name: kotlin-bars.apk
           file: android/build/outputs/apk/debug/android-debug.apk
           tag: ${{ github.ref }}
+          overwrite: true
