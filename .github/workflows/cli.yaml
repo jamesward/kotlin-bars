@@ -63,4 +63,5 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: cli/build/graal/${{ matrix.artifact-name }}
           asset_name: ${{ matrix.asset-name }}
+          overwrite: true
           tag: ${{ github.ref }}
