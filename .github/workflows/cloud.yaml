@@ -39,7 +39,7 @@ jobs:
           REGION: ${{ secrets.GCP_REGION }}
           DB_VERSION: POSTGRES_13
           DB_TIER: db-f1-micro
-          DB_INIT_ARGS: init --spring.main.web-application-type=none
+          DB_INIT_ARGS: "init --spring.main.web-application-type=none"
 
       - name: Create Static Site
         run: |
