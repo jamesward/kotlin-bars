@@ -1,6 +1,8 @@
+.DS_Store
 .gradle/
 .idea/
 build/
 *.iml
 /local.properties
 /kotlin-js-store/
+xcuserdata/

@@ -23,11 +23,21 @@ kotlin {
         browser()
     }
 
-    ios {
-        binaries {
-            framework {
-                baseName = "kotlinbars.rpc"
-            }
+    iosX64 {
+        binaries.framework {
+            baseName = "kotlinbars_rpc"
+        }
+    }
+
+    iosArm64 {
+        binaries.framework {
+            baseName = "kotlinbars_rpc"
+        }
+    }
+
+    iosSimulatorArm64 {
+        binaries.framework {
+            baseName = "kotlinbars_rpc"
         }
     }
 
@@ -58,6 +68,22 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-js:1.6.7")
             }
+        }
+
+        val iosMain by creating {
+            dependsOn(commonMain)
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:1.6.7")
+            }
+        }
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
         }
     }
 }
