@@ -16,7 +16,7 @@ struct Kotlin_BarsApp: App {
     
     var body: some Scene {
         WindowGroup {
-            BarsView()
+            BarsView<LiveBarsViewModel>(viewModel: LiveBarsViewModel())
         }
     }
 }

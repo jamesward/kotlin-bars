@@ -3,7 +3,15 @@ import kotlinbars_common
 import kotlinbars_rpc
 
 @MainActor
-class BarsViewModel: ObservableObject {
+protocol BarsViewModel: ObservableObject {
+    var bars: [CommonBar] { get }
+    
+    func refresh() async throws
+    func add(bar: CommonBar) async throws
+}
+
+@MainActor
+class LiveBarsViewModel: BarsViewModel {
     @Published var bars: [CommonBar] = []
 
     let barsRPC: BarsRPC
@@ -16,33 +24,72 @@ class BarsViewModel: ObservableObject {
         bars = try await barsRPC.fetchBars()
     }
     
+    func add(bar: CommonBar) async throws {
+        try await barsRPC.addBar(bar: bar)
+        try await refresh()
+    }
+    
     deinit {
         barsRPC.close()
     }
 }
  
 
-struct BarsView: View {
-    @StateObject var viewModel = BarsViewModel()
+struct BarsView<ViewModel>: View where ViewModel: BarsViewModel {
+    @ObservedObject var viewModel: ViewModel
     
-    //    let bar = Bar(id: 1, name: "asdf")
+    @State private var barName: String = ""
     
     var body: some View {
-        List(viewModel.bars, id: \.id) { bar in
-            Text(bar.name).padding()
-        }
-        .task {
-            try? await viewModel.refresh()
-        }
-        .refreshable {
-            try? await viewModel.refresh()
+        VStack {
+            Text("Bars:")
+            
+            List(viewModel.bars, id: \.id) { bar in
+                Text(bar.name).padding()
+            }
+            .task {
+                try? await viewModel.refresh()
+            }
+            .refreshable {
+                try? await viewModel.refresh()
+            }
+            
+            TextField(
+                    "New Bar",
+                    text: $barName
+                )
+                .onSubmit {
+                    Task {
+                        let bar = CommonBar(id: nil, name: barName)
+                        try? await viewModel.add(bar: bar)
+                        barName = ""
+                    }
+                }
+                .textFieldStyle(.roundedBorder)
+                .padding()
+
         }
     }
     
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct BarsView_Previews: PreviewProvider {
+    class PreviewBarsViewModel: BarsViewModel {
+        @Published var bars: [CommonBar] = [
+            CommonBar(id: 1, name: "Foo"),
+            CommonBar(id: 2, name: "Bar")
+        ]
+        
+        func refresh() async throws {
+            // do nothing
+        }
+        
+        func add(bar: CommonBar) async throws {
+            bars.append(bar) // todo: increment id
+        }
+    }
+    
     static var previews: some View {
-        BarsView()
+        BarsView<PreviewBarsViewModel>(viewModel: PreviewBarsViewModel())
     }
 }
