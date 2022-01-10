@@ -16,8 +16,9 @@ class LiveBarsViewModel: BarsViewModel {
 
     let barsRPC: BarsRPC
     
-    required init() {
-        barsRPC = BarsRPC(barUrl: "https://kotlinbars.jamesward.com/api/bars")
+    required init(barsUrl: String) {
+        print("Connecting to: " + barsUrl)
+        barsRPC = BarsRPC(barsUrl: barsUrl)
     }
     
     func refresh() async throws {

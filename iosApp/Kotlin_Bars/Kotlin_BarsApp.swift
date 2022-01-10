@@ -6,17 +6,17 @@ import kotlinbars_rpc
 @main
 struct Kotlin_BarsApp: App {
     
-    /*
-    let barsRPC: BarsRPC
+    let barsUrl = Bundle.main.infoDictionary?["BarsUrl"] as! String
     
-    required init() {
-        barsRPC = BarsRPC(barUrl: "https://kotlinbars.jamesward.com/api/bars")
+    init() {
+        if (barsUrl == "") {
+            fatalError("No info for BarsUrl")
+        }
     }
-    */
     
     var body: some Scene {
         WindowGroup {
-            BarsView<LiveBarsViewModel>(viewModel: LiveBarsViewModel())
+            BarsView<LiveBarsViewModel>(viewModel: LiveBarsViewModel(barsUrl: barsUrl))
         }
     }
 }

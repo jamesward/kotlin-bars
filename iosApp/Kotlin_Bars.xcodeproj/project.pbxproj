@@ -19,6 +19,7 @@
 		CBEBA97F278A264B0032E6E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CBEBA981278A264C0032E6E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CBEBA984278A264C0032E6E5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		CBEBA98F278CC53D0032E6E5 /* Kotlin-Bars-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Kotlin-Bars-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +52,7 @@
 		CBEBA97C278A264B0032E6E5 /* Kotlin_Bars */ = {
 			isa = PBXGroup;
 			children = (
+				CBEBA98F278CC53D0032E6E5 /* Kotlin-Bars-Info.plist */,
 				CBEBA97D278A264B0032E6E5 /* Kotlin_BarsApp.swift */,
 				CBEBA97F278A264B0032E6E5 /* ContentView.swift */,
 				CBEBA981278A264C0032E6E5 /* Assets.xcassets */,
@@ -149,8 +151,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd \"$SRCROOT/..\"\n./gradlew :common:embedAndSignAppleFrameworkForXcode\n./gradlew :rpc:embedAndSignAppleFrameworkForXcode\n";
+			shellPath = /bin/bash;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd \"$SRCROOT/..\"\n./gradlew :common:embedAndSignAppleFrameworkForXcode\n./gradlew :rpc:embedAndSignAppleFrameworkForXcode\n\nline=$(grep ^barsUrl= local.properties)\n\nbarsUrl='$(BARS_URL)'\n\nif [ \"$line\" != \"\" ]; then\n  barsUrl=${line:8}\nfi\n\ncat <<EOF > iosApp/Kotlin-Bars-Info.plist\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>BarsUrl</key>\n    <string>$barsUrl</string>\n</dict>\n</plist>\nEOF\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -288,6 +290,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"BARS_URL[sdk=iphonesimulator*]" = "http://localhost:8080/api/bars";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Kotlin_Bars/Preview Content\"";
@@ -298,6 +301,7 @@
 					"$(SRCROOT)/../rpc/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Kotlin-Bars-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -327,6 +331,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				BARS_URL = "";
+				"BARS_URL[sdk=iphonesimulator*]" = "http://localhost:8080/api/bars";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Kotlin_Bars/Preview Content\"";
@@ -337,6 +343,7 @@
 					"$(SRCROOT)/../rpc/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Kotlin-Bars-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
