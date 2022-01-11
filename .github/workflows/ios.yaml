@@ -40,6 +40,19 @@ jobs:
           barsUrl=https://${{ secrets.DOMAINS }}/api/bar
           EOF
           
+          # todo: this is duplicated in the build phase run script
+          #       because for some reason the file needs to be there before we run xcodebuild
+          cat <<EOF > Kotlin-Bars-Info.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+            <dict>
+              <key>BarsUrl</key>
+              <string>https://${{ secrets.DOMAINS }}/api/bar</string>
+            </dict>
+          </plist>
+          EOF
+          
           mkdir private_keys
           echo "${{ secrets.ASC_AUTH_KEY }}" > private_keys/AuthKey_${{ secrets.ASC_API_KEY }}.p8
           
