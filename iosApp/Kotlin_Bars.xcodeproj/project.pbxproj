@@ -152,7 +152,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd \"$SRCROOT/..\"\n./gradlew :common:embedAndSignAppleFrameworkForXcode\n./gradlew :rpc:embedAndSignAppleFrameworkForXcode\n\nline=$(grep ^barsUrl= local.properties)\n\nbarsUrl='$(BARS_URL)'\n\nif [ \"$line\" != \"\" ]; then\n  barsUrl=${line:8}\nfi\n\ncat <<EOF > iosApp/Kotlin-Bars-Info.plist\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>BarsUrl</key>\n    <string>$barsUrl</string>\n</dict>\n</plist>\nEOF\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd \"$SRCROOT/..\"\n./gradlew :common:embedAndSignAppleFrameworkForXcode\n./gradlew :rpc:embedAndSignAppleFrameworkForXcode\n\ncat local.properties\n\nline=$(grep ^barsUrl= local.properties)\n\necho $line\n\nbarsUrl='$(BARS_URL)'\n\nif [ \"$line\" != \"\" ]; then\n  barsUrl=${line:8}\nfi\n\necho $barsUrl\n\ncat <<EOF > iosApp/Kotlin-Bars-Info.plist\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>BarsUrl</key>\n    <string>$barsUrl</string>\n</dict>\n</plist>\nEOF\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
