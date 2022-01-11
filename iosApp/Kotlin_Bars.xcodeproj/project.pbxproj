@@ -11,7 +11,6 @@
 		CBEBA980278A264B0032E6E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEBA97F278A264B0032E6E5 /* ContentView.swift */; };
 		CBEBA982278A264C0032E6E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBEBA981278A264C0032E6E5 /* Assets.xcassets */; };
 		CBEBA985278A264C0032E6E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBEBA984278A264C0032E6E5 /* Preview Assets.xcassets */; };
-		CBEBA991278D2E0A0032E6E5 /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = CBEBA990278D2E0A0032E6E5 /* AppIcon.appiconset */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +20,6 @@
 		CBEBA981278A264C0032E6E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CBEBA984278A264C0032E6E5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CBEBA98F278CC53D0032E6E5 /* Kotlin-Bars-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Kotlin-Bars-Info.plist"; sourceTree = SOURCE_ROOT; };
-		CBEBA990278D2E0A0032E6E5 /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppIcon.appiconset; path = "../../../../../../var/folders/ks/kyz1dvgs4qq5n99pdylf6k2h0000gn/T/com.goodsnooze.bakery/0C115A03-98C3-49BF-BD11-1077E185E28E-5534-000004FEAEFDDAE3/AppIcon.appiconset"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +52,6 @@
 		CBEBA97C278A264B0032E6E5 /* Kotlin_Bars */ = {
 			isa = PBXGroup;
 			children = (
-				CBEBA990278D2E0A0032E6E5 /* AppIcon.appiconset */,
 				CBEBA98F278CC53D0032E6E5 /* Kotlin-Bars-Info.plist */,
 				CBEBA97D278A264B0032E6E5 /* Kotlin_BarsApp.swift */,
 				CBEBA97F278A264B0032E6E5 /* ContentView.swift */,
@@ -132,7 +129,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBEBA985278A264C0032E6E5 /* Preview Assets.xcassets in Resources */,
-				CBEBA991278D2E0A0032E6E5 /* AppIcon.appiconset in Resources */,
 				CBEBA982278A264C0032E6E5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
