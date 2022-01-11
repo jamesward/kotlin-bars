@@ -23,14 +23,14 @@ jobs:
           p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
           p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
 
-#      - name: download provisioning profiles
-#        uses: apple-actions/download-provisioning-profiles@v1
-#        with:
-#          bundle-id: 'com.jamesward.Kotlin-Bars'
-#          profile-type: 'IOS_APP_STORE'
-#          issuer-id: ${{ secrets.ASC_API_ISSUER }}
-#          api-key-id: ${{ secrets.ASC_API_KEY }}
-#          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+      - name: download provisioning profiles
+        uses: apple-actions/download-provisioning-profiles@v1
+        with:
+          bundle-id: 'com.jamesward.Kotlin-Bars'
+          profile-type: 'IOS_APP_STORE'
+          issuer-id: ${{ secrets.ASC_API_ISSUER }}
+          api-key-id: ${{ secrets.ASC_API_KEY }}
+          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
 
       - name: create archive
         working-directory: iosApp
