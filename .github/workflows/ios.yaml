@@ -17,20 +17,20 @@ jobs:
           java-version: '11'
           cache: 'gradle'
 
-      - name: import certs
-        uses: apple-actions/import-codesign-certs@v1
-        with:
-          p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
-          p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
-
-      - name: download provisioning profiles
-        uses: apple-actions/download-provisioning-profiles@v1
-        with:
-          bundle-id: 'com.jamesward.Kotlin-Bars'
-          profile-type: 'IOS_APP_STORE'
-          issuer-id: ${{ secrets.ASC_API_ISSUER }}
-          api-key-id: ${{ secrets.ASC_API_KEY }}
-          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+#      - name: import certs
+#        uses: apple-actions/import-codesign-certs@v1
+#        with:
+#          p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
+#          p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
+#
+#      - name: download provisioning profiles
+#        uses: apple-actions/download-provisioning-profiles@v1
+#        with:
+#          bundle-id: 'com.jamesward.Kotlin-Bars'
+#          profile-type: 'IOS_APP_STORE'
+#          issuer-id: ${{ secrets.ASC_API_ISSUER }}
+#          api-key-id: ${{ secrets.ASC_API_KEY }}
+#          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
 
       - name: create archive
         working-directory: iosApp
@@ -40,7 +40,9 @@ jobs:
           barsUrl=https://${{ secrets.DOMAINS }}/api/bar
           EOF
           
-          xcrun xcodebuild archive -scheme Kotlin_Bars -sdk iphoneos -configuration Release -archivePath build/Kotlin_Bars.xcarchive
+          echo ${{ secrets.ASC_AUTH_KEY }} > private_keys/AuthKey_${{ secrets.ASC_API_KEY }}.p8
+          
+          xcrun xcodebuild -destination platform:iOS -scheme Kotlin_Bars -sdk iphoneos -configuration Release -archivePath build/Kotlin_Bars.xcarchive -allowProvisioningUpdates -authenticationKeyPath private_keys/AuthKey_${{ secrets.ASC_API_KEY }}.p8 -authenticationKeyID ${{ secrets.ASC_API_KEY }} -authenticationKeyIssuerID ${{ secrets.ASC_API_ISSUER }} archive
 
       - name: export archive
         working-directory: iosApp
