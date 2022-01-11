@@ -18,9 +18,10 @@ jobs:
           cache: 'gradle'
 
       - name: create archive
+        working-directory: iosApp
         run: |
           
-          cat <<EOF > local.properties
+          cat <<EOF > ../local.properties
           barsUrl=https://${{ secrets.DOMAINS }}/api/bar
           EOF
           
@@ -57,7 +58,7 @@ jobs:
 
           xcrun xcodebuild -exportArchive -archivePath build/Kotlin_Bars.xcarchive -exportOptionsPlist build/ExportOptions.plist -exportPath build
 
-      - name: export archive
+      - name: upload archive
         working-directory: iosApp
         run: |
           
