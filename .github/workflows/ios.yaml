@@ -17,6 +17,15 @@ jobs:
           java-version: '11'
           cache: 'gradle'
 
+      - name: download provisioning profiles
+        uses: apple-actions/download-provisioning-profiles@v1
+        with:
+          bundle-id: 'com.jamesward.Kotlin-Bars'
+          profile-type: 'IOS_APP_STORE'
+          issuer-id: ${{ secrets.ASC_API_ISSUER }}
+          api-key-id: ${{ secrets.ASC_API_KEY }}
+          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+
       - name: create archive
         working-directory: iosApp
         run: |
@@ -58,10 +67,18 @@ jobs:
 
           xcrun xcodebuild -exportArchive -archivePath build/Kotlin_Bars.xcarchive -exportOptionsPlist build/ExportOptions.plist -exportPath build
 
-      - name: upload archive
-        working-directory: iosApp
-        run: |
-          
-          echo $ASC_AUTH_KEY > private_keys/AuthKey_${{ secrets.ASC_API_KEY }}.p8
+      - name: upload app
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: 'iosApp/build/Kotlin_Bars.ipa'
+          issuer-id: ${{ secrets.ASC_API_ISSUER }}
+          api-key-id: ${{ secrets.ASC_API_KEY }}
+          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
 
-          xcrun altool --upload-app -f build/Kotlin_Bars.ipa -t ios --apiKey "${{ secrets.ASC_API_KEY }}" --apiIssuer "${{ secrets.ASC_API_ISSUER }}"
+#      - name: upload archive
+#        working-directory: iosApp
+#        run: |
+#
+#          echo $ASC_AUTH_KEY > private_keys/AuthKey_${{ secrets.ASC_API_KEY }}.p8
+#
+#          xcrun altool --upload-app -f build/Kotlin_Bars.ipa -t ios --apiKey "${{ secrets.ASC_API_KEY }}" --apiIssuer "${{ secrets.ASC_API_ISSUER }}"
