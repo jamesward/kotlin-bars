@@ -25,7 +25,7 @@ jobs:
           barsUrl=https://${{ secrets.DOMAINS }}/api/bar
           EOF
           
-          xcrun xcodebuild archive -workspace Kotlin_Bars.xcodeproj/project.xcworkspace -scheme Kotlin_Bars -sdk iphoneos -configuration Release -archivePath build/Kotlin_Bars.xcarchive
+          xcrun xcodebuild archive -scheme Kotlin_Bars -sdk iphoneos -configuration Release -archivePath build/Kotlin_Bars.xcarchive
 
       - name: export archive
         working-directory: iosApp
