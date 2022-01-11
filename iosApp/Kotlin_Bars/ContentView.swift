@@ -1,6 +1,6 @@
 import SwiftUI
-import kotlinbars_common
-import kotlinbars_rpc
+import KotlinbarsCommon
+import KotlinbarsRpc
 
 @MainActor
 protocol BarsViewModel: ObservableObject {

@@ -11,6 +11,7 @@
 		CBEBA980278A264B0032E6E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEBA97F278A264B0032E6E5 /* ContentView.swift */; };
 		CBEBA982278A264C0032E6E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBEBA981278A264C0032E6E5 /* Assets.xcassets */; };
 		CBEBA985278A264C0032E6E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBEBA984278A264C0032E6E5 /* Preview Assets.xcassets */; };
+		CBEBA991278D2E0A0032E6E5 /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = CBEBA990278D2E0A0032E6E5 /* AppIcon.appiconset */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		CBEBA981278A264C0032E6E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CBEBA984278A264C0032E6E5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CBEBA98F278CC53D0032E6E5 /* Kotlin-Bars-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Kotlin-Bars-Info.plist"; sourceTree = SOURCE_ROOT; };
+		CBEBA990278D2E0A0032E6E5 /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppIcon.appiconset; path = "../../../../../../var/folders/ks/kyz1dvgs4qq5n99pdylf6k2h0000gn/T/com.goodsnooze.bakery/0C115A03-98C3-49BF-BD11-1077E185E28E-5534-000004FEAEFDDAE3/AppIcon.appiconset"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +54,7 @@
 		CBEBA97C278A264B0032E6E5 /* Kotlin_Bars */ = {
 			isa = PBXGroup;
 			children = (
+				CBEBA990278D2E0A0032E6E5 /* AppIcon.appiconset */,
 				CBEBA98F278CC53D0032E6E5 /* Kotlin-Bars-Info.plist */,
 				CBEBA97D278A264B0032E6E5 /* Kotlin_BarsApp.swift */,
 				CBEBA97F278A264B0032E6E5 /* ContentView.swift */,
@@ -129,6 +132,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBEBA985278A264C0032E6E5 /* Preview Assets.xcassets in Resources */,
+				CBEBA991278D2E0A0032E6E5 /* AppIcon.appiconset in Resources */,
 				CBEBA982278A264C0032E6E5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -221,6 +225,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				ITSAppUsesNonExemptEncryption = NO;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -276,6 +281,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				ITSAppUsesNonExemptEncryption = NO;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -292,7 +298,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				"BARS_URL[sdk=iphonesimulator*]" = "http://localhost:8080/api/bars";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Kotlin_Bars/Preview Content\"";
 				DEVELOPMENT_TEAM = B6VWQJ68PP;
 				ENABLE_PREVIEWS = YES;
@@ -302,6 +308,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kotlin-Bars-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Kotlin Bars";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -314,9 +321,9 @@
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"-framework",
-					kotlinbars_common,
+					KotlinbarsCommon,
 					"-framework",
-					kotlinbars_rpc,
+					KotlinbarsRpc,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jamesward.Kotlin-Bars";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -334,7 +341,7 @@
 				BARS_URL = "";
 				"BARS_URL[sdk=iphonesimulator*]" = "http://localhost:8080/api/bars";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Kotlin_Bars/Preview Content\"";
 				DEVELOPMENT_TEAM = B6VWQJ68PP;
 				ENABLE_PREVIEWS = YES;
@@ -344,6 +351,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kotlin-Bars-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Kotlin Bars";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -356,9 +364,9 @@
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"-framework",
-					kotlinbars_common,
+					KotlinbarsCommon,
 					"-framework",
-					kotlinbars_rpc,
+					KotlinbarsRpc,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jamesward.Kotlin-Bars";
 				PRODUCT_NAME = "$(TARGET_NAME)";

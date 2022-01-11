@@ -1,7 +1,7 @@
 import SwiftUI
 
-import kotlinbars_common
-import kotlinbars_rpc
+import KotlinbarsCommon
+import KotlinbarsRpc
 
 @main
 struct Kotlin_BarsApp: App {

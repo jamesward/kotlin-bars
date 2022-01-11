@@ -25,19 +25,19 @@ kotlin {
 
     iosX64 {
         binaries.framework {
-            baseName = "kotlinbars_common"
+            baseName = "KotlinbarsCommon"
         }
     }
 
     iosArm64 {
         binaries.framework {
-            baseName = "kotlinbars_common"
+            baseName = "KotlinbarsCommon"
         }
     }
 
     iosSimulatorArm64 {
         binaries.framework {
-            baseName = "kotlinbars_common"
+            baseName = "KotlinbarsCommon"
         }
     }
 

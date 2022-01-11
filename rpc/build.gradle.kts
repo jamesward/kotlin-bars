@@ -25,19 +25,19 @@ kotlin {
 
     iosX64 {
         binaries.framework {
-            baseName = "kotlinbars_rpc"
+            baseName = "KotlinbarsRpc"
         }
     }
 
     iosArm64 {
         binaries.framework {
-            baseName = "kotlinbars_rpc"
+            baseName = "KotlinbarsRpc"
         }
     }
 
     iosSimulatorArm64 {
         binaries.framework {
-            baseName = "kotlinbars_rpc"
+            baseName = "KotlinbarsRpc"
         }
     }
 

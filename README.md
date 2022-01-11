@@ -149,6 +149,22 @@ Run the client:
          1. Navigate to `android/src/main/kotlin/kotlinbars/android` and right-click on `MainActivity` and select `Run`.
 
 
+## iOS Client
+
+Open `iosApp/Kotlin_Bars.xcodeproj` in XCode.
+
+You will need a "bars" API server for the app to connect to so, start the server:
+```
+./gradle :server:bootRun
+```
+
+If you run in an emulator, the app will connect by default to `localhost` so no additional configuration is needed.  For running on a physical device you need to set the following in your `local.properties` file:
+```
+barsUrl=http://YOUR_IP:8080/api/bars
+```
+
+
+
 ## Desktop Client
 
 Run, connecting to the default `http://localhost:8080/api/bars` url (if `barsUrl` is not set in the `local.properties` file):

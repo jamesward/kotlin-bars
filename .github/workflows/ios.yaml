@@ -1,7 +1,4 @@
-on:
-  push:
-    tags:
-      - "v*"
+on: push
 
 jobs:
 
@@ -20,5 +17,50 @@ jobs:
           java-version: '11'
           cache: 'gradle'
 
-      - name: build rpc
-        run: ./gradlew :rpc:build
+      - name: create archive
+        run: |
+          
+          cat <<EOF > local.properties
+          barsUrl=https://${{ secrets.DOMAINS }}/api/bar
+          EOF
+          
+          xcrun xcodebuild archive -workspace Kotlin_Bars.xcodeproj/project.xcworkspace -scheme Kotlin_Bars -sdk iphoneos -configuration Release -archivePath build/Kotlin_Bars.xcarchive
+
+      - name: export archive
+        working-directory: iosApp
+        run: |
+
+          cat <<EOF > build/ExportOptions.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+            <dict>
+              <key>generateAppStoreInformation</key>
+              <false/>
+              <key>manageAppVersionAndBuildNumber</key>
+              <true/>
+              <key>method</key>
+              <string>app-store</string>
+              <key>signingStyle</key>
+              <string>automatic</string>
+              <key>stripSwiftSymbols</key>
+              <true/>
+              <key>teamID</key>
+              <string>${{ secrets.ASC_TEAM_ID }}</string>
+              <key>uploadBitcode</key>
+              <true/>
+              <key>uploadSymbols</key>
+              <true/>
+            </dict>
+          </plist>
+          EOF
+
+          xcrun xcodebuild -exportArchive -archivePath build/Kotlin_Bars.xcarchive -exportOptionsPlist build/ExportOptions.plist -exportPath build
+
+      - name: export archive
+        working-directory: iosApp
+        run: |
+          
+          echo $ASC_AUTH_KEY > private_keys/AuthKey_${{ secrets.ASC_API_KEY }}.p8
+
+          xcrun altool --upload-app -f build/Kotlin_Bars.ipa -t ios --apiKey "${{ secrets.ASC_API_KEY }}" --apiIssuer "${{ secrets.ASC_API_ISSUER }}"
