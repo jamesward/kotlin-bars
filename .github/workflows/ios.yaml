@@ -52,11 +52,7 @@ jobs:
             </dict>
           </plist>
           EOF
-          
-          #mkdir private_keys
-          #echo "${{ secrets.ASC_AUTH_KEY }}" > private_keys/AuthKey_${{ secrets.ASC_API_KEY }}.p8
-          
-          #xcrun xcodebuild -scheme Kotlin_Bars -sdk iphoneos -configuration Release -destination 'generic/platform=iOS' -archivePath build/Kotlin_Bars.xcarchive -allowProvisioningUpdates -authenticationKeyPath $PWD/private_keys/AuthKey_${{ secrets.ASC_API_KEY }}.p8 -authenticationKeyID ${{ secrets.ASC_API_KEY }} -authenticationKeyIssuerID ${{ secrets.ASC_API_ISSUER }} archive
+        
           xcrun xcodebuild -scheme Kotlin_Bars -sdk iphoneos -configuration Release -destination 'generic/platform=iOS' -archivePath build/Kotlin_Bars.xcarchive archive
 
       - name: export archive
