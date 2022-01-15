@@ -61,6 +61,8 @@ jobs:
             </dict>
           </plist>
           EOF
+          
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${GITHUB_RUN_NUMBER}" "Kotlin-Bars-Info.plist"
         
           xcrun xcodebuild -scheme Kotlin_Bars -sdk iphoneos -configuration Release -destination 'generic/platform=iOS' -archivePath build/Kotlin_Bars.xcarchive archive
 
