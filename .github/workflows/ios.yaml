@@ -58,11 +58,19 @@ jobs:
             <dict>
               <key>BarsUrl</key>
               <string>https://${{ secrets.DOMAINS }}/api/bar</string>
-              <key>CFBundleVersion</key>
-              <string>${GITHUB_RUN_NUMBER}</string>
             </dict>
           </plist>
           EOF
+          
+          if [ "${{ github.ref_type }}" == "tag" ]; then
+            agvtool new-marketing-version ${GITHUB_REF_NAME#v}
+          fi
+          
+          xcrun agvtool what-marketing-version
+          
+          xcrun agvtool new-version -all ${GITHUB_RUN_NUMBER}
+          
+          xcrun agvtool what-version
         
           xcrun xcodebuild -scheme Kotlin_Bars -sdk iphoneos -configuration Release -destination 'generic/platform=iOS' -archivePath build/Kotlin_Bars.xcarchive archive
 

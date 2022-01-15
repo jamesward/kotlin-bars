@@ -295,7 +295,7 @@
 				"BARS_URL[sdk=iphonesimulator*]" = "http://localhost:8080/api/bars";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Kotlin_Bars/Preview Content\"";
 				DEVELOPMENT_TEAM = B6VWQJ68PP;
 				ENABLE_PREVIEWS = YES;
@@ -341,7 +341,7 @@
 				"BARS_URL[sdk=iphonesimulator*]" = "http://localhost:8080/api/bars";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Kotlin_Bars/Preview Content\"";
 				DEVELOPMENT_TEAM = B6VWQJ68PP;
 				ENABLE_PREVIEWS = YES;
