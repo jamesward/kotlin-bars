@@ -58,11 +58,13 @@ jobs:
             <dict>
               <key>BarsUrl</key>
               <string>https://${{ secrets.DOMAINS }}/api/bar</string>
+              <key>ITSAppUsesNonExemptEncryption</key>
+              <false/>
             </dict>
           </plist>
           EOF
           
-          if [ "${{ github.event.ref_type }}" = "tag" ]; then
+          if [ "${{ github.ref_type }}" = "tag" ]; then
             agvtool new-marketing-version ${GITHUB_REF_NAME#v}
           fi
           
