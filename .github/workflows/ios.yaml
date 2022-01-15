@@ -26,7 +26,7 @@ jobs:
       - name: download dev provisioning profiles
         uses: apple-actions/download-provisioning-profiles@v1
         with:
-          profile-type: 'IOS_APP_STORE'
+          profile-type: 'IOS_APP_DEVELOPMENT'
           bundle-id: ${{ secrets.ASC_BUNDLE_ID }}
           issuer-id: ${{ secrets.ASC_API_ISSUER }}
           api-key-id: ${{ secrets.ASC_API_KEY }}
