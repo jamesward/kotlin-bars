@@ -9,7 +9,7 @@ struct Kotlin_BarsApp: App {
     let barsUrl = Bundle.main.infoDictionary?["BarsUrl"] as! String
     
     init() {
-        println(init)
+        print(init)
         print(barsUrl)
         if (barsUrl == "") {
             fatalError("No info for BarsUrl")
