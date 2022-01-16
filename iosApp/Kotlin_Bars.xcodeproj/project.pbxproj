@@ -34,7 +34,6 @@
 
 /* Begin PBXFileReference section */
 		CBB2D3542793D45900B45D23 /* KotlinbarsCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KotlinbarsCommon.framework; path = "../common/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)/KotlinbarsCommon.framework"; sourceTree = "<group>"; };
-		CBB2D3582793D47200B45D23 /* KotlinbarsRpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KotlinbarsRpc.framework; path = "../rpc/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)/KotlinbarsRpc.framework"; sourceTree = "<group>"; };
 		CBB2D3642793DE9600B45D23 /* KotlinbarsRpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KotlinbarsRpc.framework; path = "../rpc/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)/KotlinbarsRpc.framework"; sourceTree = "<group>"; };
 		CBEBA97A278A264B0032E6E5 /* Kotlin_Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kotlin_Bars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBEBA97D278A264B0032E6E5 /* Kotlin_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kotlin_BarsApp.swift; sourceTree = "<group>"; };
@@ -60,7 +59,6 @@
 		CBB2D3532793D45900B45D23 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CBB2D3582793D47200B45D23 /* KotlinbarsRpc.framework */,
 				CBB2D3642793DE9600B45D23 /* KotlinbarsRpc.framework */,
 				CBB2D3542793D45900B45D23 /* KotlinbarsCommon.framework */,
 			);
