@@ -7,34 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CBB2D3612793DDE000B45D23 /* KotlinbarsCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB2D3542793D45900B45D23 /* KotlinbarsCommon.framework */; };
-		CBB2D3622793DDE000B45D23 /* KotlinbarsCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBB2D3542793D45900B45D23 /* KotlinbarsCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CBB2D3652793DE9600B45D23 /* KotlinbarsRpc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB2D3642793DE9600B45D23 /* KotlinbarsRpc.framework */; };
-		CBB2D3662793DE9600B45D23 /* KotlinbarsRpc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBB2D3642793DE9600B45D23 /* KotlinbarsRpc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CBEBA97E278A264B0032E6E5 /* Kotlin_BarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEBA97D278A264B0032E6E5 /* Kotlin_BarsApp.swift */; };
 		CBEBA980278A264B0032E6E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEBA97F278A264B0032E6E5 /* ContentView.swift */; };
 		CBEBA982278A264C0032E6E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBEBA981278A264C0032E6E5 /* Assets.xcassets */; };
 		CBEBA985278A264C0032E6E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBEBA984278A264C0032E6E5 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		CBB2D3632793DDE000B45D23 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CBB2D3622793DDE000B45D23 /* KotlinbarsCommon.framework in Embed Frameworks */,
-				CBB2D3662793DE9600B45D23 /* KotlinbarsRpc.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		CBB2D3542793D45900B45D23 /* KotlinbarsCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KotlinbarsCommon.framework; path = "../common/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)/KotlinbarsCommon.framework"; sourceTree = "<group>"; };
-		CBB2D3642793DE9600B45D23 /* KotlinbarsRpc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KotlinbarsRpc.framework; path = "../rpc/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)/KotlinbarsRpc.framework"; sourceTree = "<group>"; };
 		CBEBA97A278A264B0032E6E5 /* Kotlin_Bars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kotlin_Bars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBEBA97D278A264B0032E6E5 /* Kotlin_BarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kotlin_BarsApp.swift; sourceTree = "<group>"; };
 		CBEBA97F278A264B0032E6E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -48,29 +27,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBB2D3612793DDE000B45D23 /* KotlinbarsCommon.framework in Frameworks */,
-				CBB2D3652793DE9600B45D23 /* KotlinbarsRpc.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CBB2D3532793D45900B45D23 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				CBB2D3642793DE9600B45D23 /* KotlinbarsRpc.framework */,
-				CBB2D3542793D45900B45D23 /* KotlinbarsCommon.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		CBEBA971278A264B0032E6E5 = {
 			isa = PBXGroup;
 			children = (
 				CBEBA97C278A264B0032E6E5 /* Kotlin_Bars */,
 				CBEBA97B278A264B0032E6E5 /* Products */,
-				CBB2D3532793D45900B45D23 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -113,7 +80,6 @@
 				CBEBA976278A264B0032E6E5 /* Sources */,
 				CBEBA977278A264B0032E6E5 /* Frameworks */,
 				CBEBA978278A264B0032E6E5 /* Resources */,
-				CBB2D3632793DDE000B45D23 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

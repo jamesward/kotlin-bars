@@ -46,7 +46,7 @@ jobs:
         run: |
           
           cat <<EOF > ../local.properties
-          barsUrl=https://${{ secrets.DOMAINS }}/api/bar
+          barsUrl=https://${{ secrets.DOMAINS }}/api/bars
           EOF
           
           # todo: this is duplicated in the build phase run script
