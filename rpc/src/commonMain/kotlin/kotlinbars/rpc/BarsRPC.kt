@@ -6,19 +6,19 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinbars.common.Bar
 
-class BarsRPC(private val barUrl: String) {
+class BarsRPC(private val barsUrl: String) {
 
     private val client = HttpClient {
         install(JsonFeature)
     }
 
     suspend fun fetchBars(): List<Bar> {
-        return client.get(barUrl)
+        return client.get(barsUrl)
     }
 
     suspend fun addBar(bar: Bar) {
         return client.post {
-            url(barUrl)
+            url(barsUrl)
             contentType(ContentType.Application.Json)
             body = bar
         }

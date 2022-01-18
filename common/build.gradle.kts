@@ -23,11 +23,21 @@ kotlin {
         browser()
     }
 
-    ios {
-        binaries {
-            framework {
-                baseName = "kotlinbars.common"
-            }
+    iosX64 {
+        binaries.framework {
+            baseName = "KotlinbarsCommon"
+        }
+    }
+
+    iosArm64 {
+        binaries.framework {
+            baseName = "KotlinbarsCommon"
+        }
+    }
+
+    iosSimulatorArm64 {
+        binaries.framework {
+            baseName = "KotlinbarsCommon"
         }
     }
 
@@ -41,6 +51,18 @@ kotlin {
             dependencies {
                 implementation("org.springframework.data:spring-data-commons:2.6.0")
             }
+        }
+        val iosMain by creating {
+            dependsOn(commonMain)
+        }
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
         }
     }
 }

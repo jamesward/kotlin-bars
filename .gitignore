@@ -1,6 +1,11 @@
+.DS_Store
 .gradle/
 .idea/
 build/
 *.iml
 /local.properties
 /kotlin-js-store/
+xcuserdata/
+/iosApp/Kotlin-Bars-Info.plist
+/iosApp/private_keys/
+/iosApp/Kotlin_Bars.xcodeproj/project.xcworkspace/

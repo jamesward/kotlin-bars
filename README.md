@@ -119,14 +119,14 @@ Run the client:
       * From the command line:
 
          1. [Setup adb](https://developer.android.com/studio/run/device)
-         1. `./gradlew :android:installDebug -PserverUrl=http://YOUR_MACHINE_IP:50051/`
+         1. `./gradlew :android:installDebug -PbarsUrl=http://YOUR_MACHINE_IP:8080/`
 
       * From Android Studio / IntelliJ:
 
-         1. Create a `gradle.properties` file in your root project directory containing:
+         1. Create a `local.properties` file in your root project directory containing:
 
              ```sh
-             serverUrl=http://YOUR_MACHINE_IP:50051/
+             barsUrl=http://YOUR_MACHINE_IP:8080/
              ```
 
          1. Navigate to `android/src/main/kotlin/kotlinbars/android` and right-click on `MainActivity` and select `Run`.
@@ -136,17 +136,33 @@ Run the client:
       * From the command line:
 
          1. [setup adb](https://developer.android.com/studio/run/device)
-         1. `./gradlew :android:installDebug -PserverUrl=https://YOUR_SERVER/`
+         1. `./gradlew :android:installDebug -PbarsUrl=https://YOUR_SERVER/`
 
       * From Android Studio / IntelliJ:
 
-         1. Create a `gradle.properties` file in your root project directory containing:
+         1. Create a `local.properties` file in your root project directory containing:
 
              ```sh
-             serverUrl=https://YOUR_SERVER/
+             barsUrl=https://YOUR_SERVER/
              ```
 
          1. Navigate to `android/src/main/kotlin/kotlinbars/android` and right-click on `MainActivity` and select `Run`.
+
+
+## iOS Client
+
+Open `iosApp/Kotlin_Bars.xcodeproj` in XCode.
+
+You will need a "bars" API server for the app to connect to so, start the server:
+```
+./gradle :server:bootRun
+```
+
+If you run in an emulator, the app will connect by default to `localhost` so no additional configuration is needed.  For running on a physical device you need to set the following in your `local.properties` file:
+```
+barsUrl=http://YOUR_IP:8080/api/bars
+```
+
 
 
 ## Desktop Client

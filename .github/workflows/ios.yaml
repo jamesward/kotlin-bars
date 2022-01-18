@@ -1,7 +1,4 @@
-on:
-  push:
-    tags:
-      - "v*"
+on: push
 
 jobs:
 
@@ -20,5 +17,102 @@ jobs:
           java-version: '11'
           cache: 'gradle'
 
-      - name: build rpc
-        run: ./gradlew :rpc:build
+      - name: import certs
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
+          p12-password: ${{ secrets.CERTIFICATES_PASSWORD }}
+
+      - name: download dev provisioning profiles
+        uses: apple-actions/download-provisioning-profiles@v1
+        with:
+          profile-type: 'IOS_APP_DEVELOPMENT'
+          bundle-id: ${{ secrets.ASC_BUNDLE_ID }}
+          issuer-id: ${{ secrets.ASC_API_ISSUER }}
+          api-key-id: ${{ secrets.ASC_API_KEY }}
+          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+
+      - name: download dist provisioning profiles
+        uses: apple-actions/download-provisioning-profiles@v1
+        with:
+          profile-type: 'IOS_APP_STORE'
+          bundle-id: ${{ secrets.ASC_BUNDLE_ID }}
+          issuer-id: ${{ secrets.ASC_API_ISSUER }}
+          api-key-id: ${{ secrets.ASC_API_KEY }}
+          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+
+      - name: create archive
+        working-directory: iosApp
+        run: |
+          
+          cat <<EOF > ../local.properties
+          barsUrl=https://${{ secrets.DOMAINS }}/api/bars
+          EOF
+          
+          # todo: this is duplicated in the build phase run script
+          #       because for some reason the file needs to be there before we run xcodebuild
+          cat <<EOF > Kotlin-Bars-Info.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+            <dict>
+              <key>BarsUrl</key>
+              <string>https://${{ secrets.DOMAINS }}/api/bars</string>
+            </dict>
+          </plist>
+          EOF
+          
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            agvtool new-marketing-version ${GITHUB_REF_NAME#v}
+          fi
+          
+          xcrun agvtool new-version -all ${GITHUB_RUN_NUMBER}
+        
+          xcrun xcodebuild -scheme Kotlin_Bars -sdk iphoneos -configuration Release -destination 'generic/platform=iOS' -archivePath build/Kotlin_Bars.xcarchive archive
+
+      - name: export archive
+        working-directory: iosApp
+        run: |
+
+          cat <<EOF > build/ExportOptions.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+            <dict>
+              <key>generateAppStoreInformation</key>
+              <false/>
+              <key>manageAppVersionAndBuildNumber</key>
+              <true/>
+              <key>method</key>
+              <string>app-store</string>
+              <key>signingStyle</key>
+              <string>automatic</string>
+              <key>stripSwiftSymbols</key>
+              <true/>
+              <key>teamID</key>
+              <string>${{ secrets.ASC_TEAM_ID }}</string>
+              <key>uploadBitcode</key>
+              <true/>
+              <key>uploadSymbols</key>
+              <true/>
+            </dict>
+          </plist>
+          EOF
+
+          xcrun xcodebuild -exportArchive -archivePath build/Kotlin_Bars.xcarchive -exportOptionsPlist build/ExportOptions.plist -exportPath build
+
+      - name: upload app
+        uses: apple-actions/upload-testflight-build@v1
+        with:
+          app-path: 'iosApp/build/Kotlin_Bars.ipa'
+          issuer-id: ${{ secrets.ASC_API_ISSUER }}
+          api-key-id: ${{ secrets.ASC_API_KEY }}
+          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+
+#      - name: upload archive
+#        working-directory: iosApp
+#        run: |
+#
+#          echo $ASC_AUTH_KEY > private_keys/AuthKey_${{ secrets.ASC_API_KEY }}.p8
+#
+#          xcrun altool --upload-app -f build/Kotlin_Bars.ipa -t ios --apiKey "${{ secrets.ASC_API_KEY }}" --apiIssuer "${{ secrets.ASC_API_ISSUER }}"
