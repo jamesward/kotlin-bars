@@ -2,6 +2,21 @@
 
 <!-- [![Run on Google Cloud](https://deploy.cloud.run/button.png)](https://deploy.cloud.run) -->
 
+This sample uses Kotlin Multiplatform for a data-oriented application sharing as much code as possible across: API server, web app, Android app, iPhone app, desktop app, and a CLI.  Releases are automated using GitHub Actions, deploying server pieces on Google Cloud and client binaries to GitHub and TestFlight.
+
+Layout:
+ - `common` - Shared data class
+ - `rpc` - Shared RPC using Ktor
+ - `server` - Spring Boot REST API Server using a Postgres database
+ - `dev` - Testcontainer for the API Server (used for development of some clients)
+ - `cli` - Basic CLI using GraalVM Native Image resulting in 6MB executables for Mac, Windows, and Linux
+ - `compose` - Shared Compose UI
+ - `android` - Mobile UI re-using `compose` and `rpc`
+ - `desktop` - Desktop UI re-using `compose` and `rpc` with native binaries for Mac, Windows, and Linux
+ - `web` - Compose Web UI re-using `rpc`
+ - `iosApp` - iPhone app with Swift UI re-using `rpc`
+
+
 ## API Server
 
 Run the api server:
