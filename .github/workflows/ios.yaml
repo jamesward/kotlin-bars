@@ -108,11 +108,3 @@ jobs:
           issuer-id: ${{ secrets.ASC_API_ISSUER }}
           api-key-id: ${{ secrets.ASC_API_KEY }}
           api-private-key: ${{ secrets.ASC_AUTH_KEY }}
-
-#      - name: upload archive
-#        working-directory: iosApp
-#        run: |
-#
-#          echo $ASC_AUTH_KEY > private_keys/AuthKey_${{ secrets.ASC_API_KEY }}.p8
-#
-#          xcrun altool --upload-app -f build/Kotlin_Bars.ipa -t ios --apiKey "${{ secrets.ASC_API_KEY }}" --apiIssuer "${{ secrets.ASC_API_ISSUER }}"
