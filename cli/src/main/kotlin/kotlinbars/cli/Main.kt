@@ -12,7 +12,7 @@ import java.util.*
 
 fun loop(url: String) {
     val client = HttpClient.newHttpClient()
-    fun requestBuilder() = HttpRequest.newBuilder().uri(URI.create(url))
+    fun requestBuilder() = HttpRequest.newBuilder().version(HttpClient.Version.HTTP_1_1).uri(URI.create(url))
 
     while (true) {
         val response = client.send(requestBuilder().build(), BodyHandlers.ofString())

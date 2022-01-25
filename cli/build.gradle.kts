@@ -67,7 +67,7 @@ tasks.register("generateResources") {
 }
 
 graal {
-    graalVersion("21.3.0")
+    graalVersion("22.0.0.2")
     javaVersion("11")
     mainClass(application.mainClass.get())
     outputName("kotlin-bars")
