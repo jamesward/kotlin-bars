@@ -87,18 +87,6 @@ kotlin {
             dependsOn(iosMain)
         }
     }
-
-    /*
-    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
-        binaries.all {
-            freeCompilerArgs += "-Xadd-light-debug=enable"
-        }
-
-        binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
-            isStatic = true
-        }
-    }
-     */
 }
 
 android {
