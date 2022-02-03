@@ -88,6 +88,7 @@ kotlin {
         }
     }
 
+    /*
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
         binaries.all {
             freeCompilerArgs += "-Xadd-light-debug=enable"
@@ -97,6 +98,7 @@ kotlin {
             isStatic = true
         }
     }
+     */
 }
 
 android {
