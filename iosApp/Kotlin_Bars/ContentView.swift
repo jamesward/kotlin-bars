@@ -17,11 +17,13 @@ class LiveBarsViewModel: BarsViewModel {
     let barsRPC: BarsRPC
     
     required init(barsUrl: String) {
-        print("Connecting to: " + barsUrl)
+        NSLog("init start")
         barsRPC = BarsRPC(barsUrl: barsUrl)
+        NSLog("init done")
     }
     
     func refresh() async throws {
+        NSLog("do refresh")
         bars = try await barsRPC.fetchBars()
     }
     
@@ -49,6 +51,7 @@ struct BarsView<ViewModel>: View where ViewModel: BarsViewModel {
                 Text(bar.name).padding()
             }
             .task {
+                NSLog("VStack.task")
                 try? await viewModel.refresh()
             }
             .refreshable {
