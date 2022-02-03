@@ -52,6 +52,24 @@ kotlin {
             }
         }
 
+        val androidMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-android:1.6.7")
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-java:1.6.7")
+            }
+        }
+
+        val jsMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-js:1.6.7")
+            }
+        }
+
         val iosMain by creating {
             dependsOn(commonMain)
             dependencies {
