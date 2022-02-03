@@ -152,7 +152,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :common:embedAndSignAppleFrameworkForXcode\n./gradlew :rpc:embedAndSignAppleFrameworkForXcode\n\nls common/build/xcode-frameworks/Release\n\nline=$(grep ^barsUrl= local.properties)\n\nbarsUrl='$(BARS_URL)'\n\nif [ \"$line\" != \"\" ]; then\n  barsUrl=${line:8}\nfi\n\ncat <<EOF > iosApp/Kotlin-Bars-Info.plist\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>BarsUrl</key>\n    <string>$barsUrl</string>\n    <key>ITSAppUsesNonExemptEncryption</key>\n    <false/>\n</dict>\n</plist>\nEOF\n";
+			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :common:embedAndSignAppleFrameworkForXcode\n./gradlew :rpc:embedAndSignAppleFrameworkForXcode\n\nline=$(grep ^barsUrl= local.properties)\n\nbarsUrl='$(BARS_URL)'\n\nif [ \"$line\" != \"\" ]; then\n  barsUrl=${line:8}\nfi\n\ncat <<EOF > iosApp/Kotlin-Bars-Info.plist\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>BarsUrl</key>\n    <string>$barsUrl</string>\n    <key>ITSAppUsesNonExemptEncryption</key>\n    <false/>\n</dict>\n</plist>\nEOF\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

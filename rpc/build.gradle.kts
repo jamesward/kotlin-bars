@@ -54,7 +54,11 @@ kotlin {
 
         val iosMain by creating {
             dependsOn(commonMain)
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:1.6.7")
+            }
         }
+
         val iosX64Main by getting {
             dependsOn(iosMain)
         }
@@ -63,6 +67,16 @@ kotlin {
         }
         val iosSimulatorArm64Main by getting {
             dependsOn(iosMain)
+        }
+    }
+
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+        binaries.all {
+            freeCompilerArgs += "-Xadd-light-debug=enable"
+        }
+
+        binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
+            isStatic = true
         }
     }
 }
