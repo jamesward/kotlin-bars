@@ -75,5 +75,5 @@ tasks.withType<Test> {
 
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
     builder = "paketobuildpacks/builder:tiny"
-    environment = mapOf("BP_NATIVE_IMAGE" to "1")
+    environment = mapOf("BP_NATIVE_IMAGE" to "1", "BP_JVM_VERSION" to "17", "BP_BINARY_COMPRESSION_METHOD" to "upx")
 }
