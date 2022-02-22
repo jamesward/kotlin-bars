@@ -4,17 +4,49 @@
 
 This sample uses Kotlin Multiplatform for a data-oriented application sharing as much code as possible across: API server, web app, Android app, iPhone app, desktop app, and a CLI.  Releases are automated using GitHub Actions, deploying server pieces on Google Cloud and client binaries to GitHub and TestFlight.
 
-Layout:
- - `common` - Shared data class
- - `rpc` - Shared RPC using Ktor
- - `server` - Spring Boot REST API Server using a Postgres database
- - `dev` - Testcontainer for the API Server (used for development of some clients)
- - `cli` - Basic CLI using GraalVM Native Image resulting in 6MB executables for Mac, Windows, and Linux
- - `compose` - Shared Compose UI
- - `android` - Mobile UI re-using `compose` and `rpc`
- - `desktop` - Desktop UI re-using `compose` and `rpc` with native binaries for Mac, Windows, and Linux
- - `web` - Compose Web UI re-using `rpc`
- - `iosApp` - iPhone app with Swift UI re-using `rpc`
+```mermaid
+graph TD
+    common(<b>common</b><br/><i>data classes</i>)
+    rpc(<b>rpc</b><br/><i>Ktor REST client</i>)
+    server{{<b>server</b><br/><i>Spring Boot REST</i>}}
+    cli[<b>cli</b><br/><i>GraalVM Native Image<br/>Windows, Mac, Linux</i>]
+    compose(<b>compose</b><br/><i>Shared UI</i>)
+    web[<b>web</b><br/><i>Browser App</i>]
+    iosApp[<b>iosApp</b><br/><i>SwiftUI iOS App</i>]
+    android[<b>android</b><br/><i>Android App</i>]
+    desktop[<b>desktop</b><br/><i>Desktop App<br/>Windows, Mac, Linux</i>]
+    dev([<b>dev</b><br/><i>Testcontainer Server</i>])
+
+    common --> server
+
+    common --> cli
+
+    common --> rpc ---> web & iosApp
+               rpc --> compose --> android & desktop
+
+    server -.- dev -...- cli & web & desktop
+
+    classDef lib fill:#f96;
+    classDef client fill:#96f;
+    classDef server fill:#9f6;
+    classDef dev fill:#69f;
+
+    class common,rpc,compose lib;
+    class cli,desktop,android,web,iosApp client;
+    class server,postgresql server;
+    class dev dev;
+
+    click common "https://github.com/jamesward/kotlin-bars/tree/main/common"
+    click rpc "https://github.com/jamesward/kotlin-bars/tree/main/rpc"
+    click server "https://github.com/jamesward/kotlin-bars/tree/main/server"
+    click cli "https://github.com/jamesward/kotlin-bars/tree/main/cli"
+    click compose "https://github.com/jamesward/kotlin-bars/tree/main/compose"
+    click web "https://github.com/jamesward/kotlin-bars/tree/main/web"
+    click iosApp "https://github.com/jamesward/kotlin-bars/tree/main/iosApp"
+    click android "https://github.com/jamesward/kotlin-bars/tree/main/android"
+    click desktop "https://github.com/jamesward/kotlin-bars/tree/main/desktop"
+    click dev "https://github.com/jamesward/kotlin-bars/tree/main/dev"
+```
 
 
 ## API Server
