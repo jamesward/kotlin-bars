@@ -74,6 +74,7 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             modules("java.net.http")
             modules("jdk.crypto.ec")
+            packageName = "Kotlin Bars"
             packageVersion = System.getenv()["REF"]?.removePrefix("refs/tags/v") ?: "255.255.65535"
         }
     }

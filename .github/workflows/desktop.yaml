@@ -14,12 +14,18 @@ jobs:
           - os: ubuntu
             artifact-name: main/deb/desktop_*_amd64.deb
             asset-name: kotlin-bars-desktop-amd64.deb
+            app-distributable: main/app/desktop/bin/desktop
+            app-name: kotlin-bars-desktop-linux-amd64
           - os: macos
             artifact-name: main/dmg/desktop-*.dmg
             asset-name: kotlin-bars-desktop-amd64.dmg
+            app-distributable: main/app/desktop/bin/desktop
+            app-name: kotlin-bars-desktop-macos-amd64
           - os: windows
             artifact-name: main/msi/desktop-*.msi
             asset-name: kotlin-bars-desktop-amd64.msi
+            app-distributable: main/app/desktop/bin/desktop.exe
+            app-name: kotlin-bars-desktop-windows-amd64
     runs-on: ${{ matrix.os }}-latest
 
     steps:
@@ -38,18 +44,34 @@ jobs:
           REF: ${{ github.ref }}
         run: |
           ./gradlew :desktop:package -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
+          ./gradlew :desktop:createDistributable -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
           mv desktop/build/compose/binaries/${{ matrix.artifact-name }} desktop/build/compose/binaries/${{ matrix.asset-name }}
+          mv desktop/build/compose/binaries/${{ matrix.app-distributable }} desktop/build/compose/binaries/${{ matrix.app-name }}
 
-      - name: upload ${{ matrix.os }}
+      - name: upload ${{ matrix.os }} package
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.asset-name }}
           path: desktop/build/compose/binaries/${{ matrix.asset-name }}
+
+      - name: upload ${{ matrix.os }} app
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.app-name }}
+          path: desktop/build/compose/binaries/${{ matrix.app-name }}
 
       - name: release ${{ matrix.os }} package
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: desktop/build/compose/binaries/${{ matrix.asset-name }}
+          overwrite: true
+          tag: ${{ github.ref }}
+
+      - name: release ${{ matrix.os }} package
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: desktop/build/compose/binaries/${{ matrix.app-name }}
           overwrite: true
           tag: ${{ github.ref }}
