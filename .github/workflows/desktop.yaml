@@ -12,19 +12,19 @@ jobs:
         os: [macos, ubuntu, windows]
         include:
           - os: ubuntu
-            artifact-name: main/deb/desktop_*_amd64.deb
+            artifact-name: main/deb/kotlin-bars_*_amd64.deb
             asset-name: kotlin-bars-desktop-amd64.deb
-            app-distributable: main/app/desktop/bin/desktop
+            app-distributable: main/app/Kotlin\ Bars/bin/Kotlin\ Bars
             app-name: kotlin-bars-desktop-linux-amd64
           - os: macos
-            artifact-name: main/dmg/desktop-*.dmg
+            artifact-name: main/dmg/kotlin-bars-*.dmg
             asset-name: kotlin-bars-desktop-amd64.dmg
-            app-distributable: main/app/desktop/bin/desktop
+            app-distributable: main/app/Kotlin\ Bars/bin/Kotlin\ Bars
             app-name: kotlin-bars-desktop-macos-amd64
           - os: windows
-            artifact-name: main/msi/desktop-*.msi
+            artifact-name: main/msi/kotlin-bars-*.msi
             asset-name: kotlin-bars-desktop-amd64.msi
-            app-distributable: main/app/desktop/bin/desktop.exe
+            app-distributable: main/app/Kotlin\ Bars/bin/Kotlin\ Bars.exe
             app-name: kotlin-bars-desktop-windows-amd64
     runs-on: ${{ matrix.os }}-latest
 
