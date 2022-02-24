@@ -33,12 +33,28 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
+      - name: import certs
+        if: matrix.os == 'macos'
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
+          p12-password: ${{ secrets.CERTIFICATES_PASSWORD }}
+
       - name: build ${{ matrix.os }} package
         env:
           REF: ${{ github.ref }}
         run: |
-          ./gradlew :desktop:package -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
+          ./gradlew :desktop:package -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars \
+            -Pcompose.desktop.mac.sign=true \
+            -Pcompose.desktop.mac.bundleID=${{ secrets.ASC_BUNDLE_ID }} \
+            -Pcompose.desktop.mac.notarization.ascProvider=${{ secrets.ASC_TEAM_ID }}
           mv desktop/build/compose/binaries/${{ matrix.artifact-name }} desktop/build/compose/binaries/${{ matrix.asset-name }}
+
+      - name: notarize
+        if: matrix.os == 'macos'
+        run: |
+          ./gradlew :desktop:notarizeDmg
+          mv desktop/build/compose/notarization/main/*.dmg desktop/build/compose/binaries/${{ matrix.asset-name }}
 
       - name: upload ${{ matrix.os }} package
         uses: actions/upload-artifact@v2
