@@ -48,6 +48,7 @@ jobs:
           ./gradlew :cli:nativeImage -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
 
       - name: run upx on ${{ matrix.os }}
+        if: matrix.os != 'windows'
         uses: svenstaro/upx-action@v2
         with:
           file: cli/build/graal/${{ matrix.artifact-name }}
