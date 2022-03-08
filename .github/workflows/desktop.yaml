@@ -49,6 +49,7 @@ jobs:
           NOTARIZATION_PASSWORD: ${{ secrets.NOTARIZATION_PASSWORD }}
         run: |
           ./gradlew :desktop:package -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
+          mv desktop/build/compose/binaries/${{ matrix.artifact-name }} desktop/build/compose/binaries/${{ matrix.asset-name }}
 
       - name: notarize
         if: matrix.os == 'macos'
