@@ -1,8 +1,7 @@
 on:
-  push
-#  push:
-#    tags:
-#      - "v*"
+  push:
+    tags:
+      - "v*"
 
 jobs:
 
@@ -10,8 +9,7 @@ jobs:
     name: build and upload
     strategy:
       matrix:
-        #os: [macos, ubuntu, windows]
-        os: [windows]
+        os: [macos, ubuntu, windows]
         include:
           - os: ubuntu
             runs: ubuntu-latest
