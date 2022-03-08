@@ -18,7 +18,7 @@ jobs:
             artifact-name: main/dmg/Kotlin\ Bars-*.dmg
             asset-name: kotlin-bars-desktop-amd64.dmg
           - os: windows
-            artifact-name: main/msi/Kotlin Bars-*.msi
+            artifact-name: main/msi/"Kotlin Bars-*.msi"
             asset-name: kotlin-bars-desktop-amd64.msi
     runs-on: ${{ matrix.os }}-latest
 
@@ -51,7 +51,7 @@ jobs:
       - name: copy ${{ matrix.os }} package
         if: matrix.os != 'macos'
         run: |
-          mv "desktop/build/compose/binaries/${{ matrix.artifact-name }}" desktop/build/compose/binaries/${{ matrix.asset-name }}
+          mv desktop/build/compose/binaries/${{ matrix.artifact-name }} desktop/build/compose/binaries/${{ matrix.asset-name }}
 
       - name: notarize
         if: matrix.os == 'macos'
