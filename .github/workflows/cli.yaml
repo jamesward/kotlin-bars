@@ -41,9 +41,7 @@ jobs:
         if: matrix.os == 'windows'
         shell: cmd
         run: |
-#          choco install visualstudio2019-workload-vctools
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-#          C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise
           ./gradlew :cli:nativeImage -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
 
       - name: build for ${{ matrix.os }}
