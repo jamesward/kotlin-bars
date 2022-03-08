@@ -47,19 +47,13 @@ jobs:
         run: |
           ./gradlew :cli:nativeImage -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
 
+      # disable on window: https://github.com/upx/upx/issues/559
       - name: run upx on ${{ matrix.os }}
         if: matrix.os != 'windows'
         uses: svenstaro/upx-action@v2
         with:
           file: cli/build/graal/${{ matrix.artifact-name }}
           args: --best --lzma
-
-      - name: run upx on ${{ matrix.os }}
-        if: matrix.os == 'windows'
-        uses: svenstaro/upx-action@v2
-        with:
-          file: cli/build/graal/${{ matrix.artifact-name }}
-          args: --best
 
       - name: upload ${{ matrix.os }}
         uses: actions/upload-artifact@v2
