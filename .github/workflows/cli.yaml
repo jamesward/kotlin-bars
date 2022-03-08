@@ -1,7 +1,8 @@
 on:
-  push:
-    tags:
-      - "v*"
+  push
+#  push:
+#    tags:
+#      - "v*"
 
 jobs:
 
@@ -9,7 +10,8 @@ jobs:
     name: build and upload
     strategy:
       matrix:
-        os: [macos, ubuntu, windows]
+        #os: [macos, ubuntu, windows]
+        os: [windows]
         include:
           - os: ubuntu
             artifact-name: kotlin-bars
@@ -36,8 +38,8 @@ jobs:
         if: matrix.os == 'windows'
         shell: cmd
         run: |
-          choco install visualstudio2017-workload-vctools
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+          # choco install visualstudio2017-workload-vctools
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat"
           ./gradlew :cli:nativeImage -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
 
       - name: build for ${{ matrix.os }}
