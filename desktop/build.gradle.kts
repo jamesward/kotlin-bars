@@ -82,6 +82,10 @@ compose.desktop {
                     sign.set(System.getenv()["DESKTOP_CERT_NAME"] != null)
                     identity.set(System.getenv()["DESKTOP_CERT_NAME"])
                 }
+                notarization {
+                    appleID.set(System.getenv()["NOTARIZATION_APPLEID"])
+                    password.set(System.getenv()["NOTARIZATION_PASSWORD"])
+                }
             }
         }
     }
