@@ -62,7 +62,7 @@ jobs:
           NOTARIZATION_APPLEID: ${{ secrets.NOTARIZATION_APPLEID }}
           NOTARIZATION_PASSWORD: ${{ secrets.NOTARIZATION_PASSWORD }}
         run: |
-          ./gradlew :desktop:notarizeDmg
+          ./gradlew :desktop:notarizeDmg -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
           mv desktop/build/compose/notarization/main/*/*.dmg desktop/build/compose/binaries/${{ matrix.asset-name }}
 
       - name: upload ${{ matrix.os }} package
