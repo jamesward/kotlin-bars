@@ -45,14 +45,17 @@ jobs:
           REF: ${{ github.ref }}
           ASC_BUNDLE_ID: ${{ secrets.ASC_BUNDLE_ID }}
           DESKTOP_CERT_NAME: ${{ secrets.DESKTOP_CERT_NAME }}
-          NOTARIZATION_APPLEID: ${{ secrets.NOTARIZATION_APPLEID }}
-          NOTARIZATION_PASSWORD: ${{ secrets.NOTARIZATION_PASSWORD }}
         run: |
           ./gradlew :desktop:package -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
           mv desktop/build/compose/binaries/${{ matrix.artifact-name }} desktop/build/compose/binaries/${{ matrix.asset-name }}
 
       - name: notarize
         if: matrix.os == 'macos'
+        env:
+          REF: ${{ github.ref }}
+          ASC_BUNDLE_ID: ${{ secrets.ASC_BUNDLE_ID }}
+          NOTARIZATION_APPLEID: ${{ secrets.NOTARIZATION_APPLEID }}
+          NOTARIZATION_PASSWORD: ${{ secrets.NOTARIZATION_PASSWORD }}
         run: |
           ./gradlew :desktop:notarizeDmg
           mv desktop/build/compose/notarization/main/*/*.dmg desktop/build/compose/binaries/${{ matrix.asset-name }}
