@@ -72,7 +72,6 @@ graal {
     mainClass(application.mainClass.get())
     outputName("kotlin-bars")
     option("--verbose")
-    option("--no-server")
     option("--no-fallback")
     option("-H:+ReportExceptionStackTraces")
     option("-H:IncludeResources=META-INF/app.properties")
