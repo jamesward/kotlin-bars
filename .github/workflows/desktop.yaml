@@ -37,17 +37,16 @@ jobs:
         if: matrix.os == 'macos'
         uses: apple-actions/import-codesign-certs@v1
         with:
-          p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
-          p12-password: ${{ secrets.CERTIFICATES_PASSWORD }}
+          p12-file-base64: ${{ secrets.DESKTOP_CERT_P12 }}
+          p12-password: ${{ secrets.DESKTOP_CERT_PASSWORD }}
 
       - name: build ${{ matrix.os }} package
         env:
           REF: ${{ github.ref }}
+          ASC_BUNDLE_ID: ${{ secrets.ASC_BUNDLE_ID }}
+          DESKTOP_CERT_NAME: ${{ secrets.DESKTOP_CERT_NAME }}
         run: |
-          ./gradlew :desktop:package -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars \
-            -Pcompose.desktop.mac.sign=true \
-            -Pcompose.desktop.mac.bundleID=${{ secrets.ASC_BUNDLE_ID }} \
-            -Pcompose.desktop.mac.notarization.ascProvider=${{ secrets.ASC_TEAM_ID }}
+          ./gradlew :desktop:package -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
           mv desktop/build/compose/binaries/${{ matrix.artifact-name }} desktop/build/compose/binaries/${{ matrix.asset-name }}
 
       - name: notarize

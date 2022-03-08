@@ -76,6 +76,13 @@ compose.desktop {
             modules("jdk.crypto.ec")
             packageName = "Kotlin Bars"
             packageVersion = System.getenv()["REF"]?.removePrefix("refs/tags/v") ?: "255.255.65535"
+            macOS {
+                bundleID = System.getenv()["ASC_BUNDLE_ID"]
+                signing {
+                    sign.set(System.getenv()["DESKTOP_CERT_NAME"] != null)
+                    identity.set(System.getenv()["DESKTOP_CERT_NAME"])
+                }
+            }
         }
     }
 }
