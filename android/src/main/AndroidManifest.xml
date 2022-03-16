@@ -8,7 +8,6 @@
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@android:drawable/btn_star"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:label="@string/app_label"
         android:usesCleartextTraffic="${usesCleartextTraffic}">
         <activity android:name=".MainActivity" android:exported="true">

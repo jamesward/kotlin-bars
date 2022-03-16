@@ -16,11 +16,34 @@ import kotlinbars.rpc.BarsRPC
 
 
 @Composable
-fun Bars(barsRpc: BarsRPC) {
+fun Bars(bars: List<Bar>, addBar: (String) -> Unit) {
+    val nameState = remember { mutableStateOf(TextFieldValue()) }
+
+    Column(Modifier.fillMaxWidth().fillMaxHeight().padding(10.dp), Arrangement.Top) {
+        Text("Bars:")
+
+        LazyColumn {
+            items(bars, { it.id!! }) { bar ->
+                Text(bar.name, modifier = Modifier.padding(5.dp))
+            }
+        }
+
+        OutlinedTextField(nameState.value, { nameState.value = it })
+
+        Button({
+            addBar(nameState.value.text)
+            nameState.value = TextFieldValue()
+        }, Modifier.padding(top = 10.dp)
+        ) {
+            Text("Add Bar")
+        }
+    }
+}
+
+@Composable
+fun BarsLive(barsRpc: BarsRPC) {
 
     val barsState = remember { mutableStateListOf<Bar>() }
-
-    val nameState = remember { mutableStateOf(TextFieldValue()) }
 
     val scope = rememberCoroutineScope()
 
@@ -34,32 +57,17 @@ fun Bars(barsRpc: BarsRPC) {
         updateBars()
     }
 
-    Column(Modifier.fillMaxWidth().fillMaxHeight().padding(10.dp), Arrangement.Top) {
-        Text("Bars:")
-
-        LazyColumn {
-            items(barsState.toList(), { it.id!! }) { bar ->
-                Text(bar.name, modifier = Modifier.padding(5.dp))
-            }
-        }
-
-        OutlinedTextField(nameState.value, { nameState.value = it })
-
-        Button({
-            scope.launch {
-                val bar = Bar(null, nameState.value.text)
+    Bars(barsState.toList()) { barName ->
+        scope.launch {
+                val bar = Bar(null, barName)
 
                 try {
                     barsRpc.addBar(bar)
-                    nameState.value = TextFieldValue()
                     updateBars()
                 } catch (e: Exception) {
                     println(e.message)
                 }
             }
-        }, Modifier.padding(top = 10.dp)) {
-            Text("Add Bar")
-        }
     }
 
 }

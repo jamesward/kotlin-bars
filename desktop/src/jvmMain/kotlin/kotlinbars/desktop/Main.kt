@@ -1,6 +1,6 @@
 package kotlinbars.desktop
 
-import kotlinbars.compose.Bars
+import kotlinbars.compose.BarsLive
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.material.MaterialTheme
@@ -14,7 +14,7 @@ fun ui(barsRPC: BarsRPC) {
             title = "Bars",
         ) {
             MaterialTheme {
-                Bars(barsRPC)
+                BarsLive(barsRPC)
             }
         }
     }
