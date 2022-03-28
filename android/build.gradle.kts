@@ -19,8 +19,6 @@ dependencies {
 android {
     compileSdk = 31 // This Android Gradle plugin (7.0.2) was tested up to compileSdk = 31
 
-    sourceSets["main"].java.srcDirs("src/main/kotlin")
-
     defaultConfig {
         minSdk = 28
 
@@ -40,11 +38,5 @@ android {
         val usesCleartextTraffic = barsUrlWithDefault.startsWith("http://")
         manifestPlaceholders["usesCleartextTraffic"] = usesCleartextTraffic
     }
-
-    /*
-    lintOptions {
-        disable("ObsoleteLintCustomCheck")
-    }
-     */
 
 }
