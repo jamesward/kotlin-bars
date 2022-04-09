@@ -41,6 +41,10 @@ kotlin {
         }
     }
 
+    linuxX64 {
+
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -99,6 +103,12 @@ kotlin {
         }
         val iosSimulatorArm64Main by getting {
             dependsOn(iosMain)
+        }
+
+        val linuxX64Main by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-curl:1.6.7")
+            }
         }
     }
 }
