@@ -49,7 +49,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation("org.springframework.data:spring-data-commons:2.6.0")
+                implementation("org.springframework.data:spring-data-commons:2.6.3")
             }
         }
         val iosMain by creating {

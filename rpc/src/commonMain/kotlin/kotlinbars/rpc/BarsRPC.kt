@@ -1,27 +1,30 @@
 package kotlinbars.rpc
 
 import io.ktor.client.*
-import io.ktor.client.features.json.*
+import io.ktor.client.call.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinbars.common.Bar
 
 class BarsRPC(private val barsUrl: String) {
 
     private val client = HttpClient {
-        install(JsonFeature)
+        install(ContentNegotiation) {
+            json()
+        }
     }
 
     suspend fun fetchBars(): List<Bar> {
-        return client.get(barsUrl)
+        return client.get(barsUrl).body()
     }
 
     suspend fun addBar(bar: Bar) {
-        return client.post {
-            url(barsUrl)
+        return client.post(barsUrl) {
             contentType(ContentType.Application.Json)
-            body = bar
-        }
+            setBody(bar)
+        }.body()
     }
 
     fun close() {

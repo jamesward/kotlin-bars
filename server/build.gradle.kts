@@ -13,7 +13,7 @@ dependencies {
     implementation(project(":common"))
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.1")
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -25,7 +25,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    testImplementation("org.testcontainers:postgresql:1.16.2")
+    testImplementation("org.testcontainers:postgresql:1.16.3")
     // for testcontainers to run the schema setup
     testRuntimeOnly("org.postgresql:postgresql")
 

@@ -185,14 +185,14 @@ Run the client:
       * From the command line:
 
          1. [setup adb](https://developer.android.com/studio/run/device)
-         1. `./gradlew :android:installDebug -PbarsUrl=https://YOUR_SERVER/`
+         1. `./gradlew :android:installDebug -PbarsUrl=https://YOUR_SERVER/api/bars`
 
       * From Android Studio / IntelliJ:
 
          1. Create a `local.properties` file in your root project directory containing:
 
              ```sh
-             barsUrl=https://YOUR_SERVER/
+             barsUrl=https://YOUR_SERVER/api/bars
              ```
 
          1. Navigate to `android/src/main/kotlin/kotlinbars/android` and right-click on `MainActivity` and select `Run`.

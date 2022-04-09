@@ -46,34 +46,34 @@ kotlin {
             dependencies {
                 api(project(":common"))
 
-                implementation("io.ktor:ktor-client-core:1.6.7")
-                implementation("io.ktor:ktor-client-json:1.6.7")
-                implementation("io.ktor:ktor-client-serialization:1.6.7")
+                implementation("io.ktor:ktor-client-core:2.0.0")
+                implementation("io.ktor:ktor-client-content-negotiation:2.0.0")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.0")
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-android:1.6.7")
+                implementation("io.ktor:ktor-client-android:2.0.0")
             }
         }
 
         val jvmMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-java:1.6.7")
+                implementation("io.ktor:ktor-client-java:2.0.0")
             }
         }
 
         val jsMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-js:1.6.7")
+                implementation("io.ktor:ktor-client-js:2.0.0")
             }
         }
 
         val iosMain by creating {
             dependsOn(commonMain)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:1.6.7")
+                implementation("io.ktor:ktor-client-ios:2.0.0")
             }
         }
 
