@@ -46,34 +46,48 @@ kotlin {
             dependencies {
                 api(project(":common"))
 
-                implementation("io.ktor:ktor-client-core:2.0.0")
-                implementation("io.ktor:ktor-client-content-negotiation:2.0.0")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.0")
+                implementation("io.ktor:ktor-client-core:2.0.0") {
+                    exclude("org.jetbrains.kotlin")
+                }
+                implementation("io.ktor:ktor-client-content-negotiation:2.0.0") {
+                    exclude("org.jetbrains.kotlin")
+                }
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.0") {
+                    exclude("org.jetbrains.kotlin")
+                }
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-android:2.0.0")
+                implementation("io.ktor:ktor-client-android:2.0.0") {
+                    exclude("org.jetbrains.kotlin")
+                }
             }
         }
 
         val jvmMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-java:2.0.0")
+                implementation("io.ktor:ktor-client-java:2.0.0") {
+                    exclude("org.jetbrains.kotlin")
+                }
             }
         }
 
         val jsMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-js:2.0.0")
+                implementation("io.ktor:ktor-client-js:2.0.0") {
+                    exclude("org.jetbrains.kotlin")
+                }
             }
         }
 
         val iosMain by creating {
             dependsOn(commonMain)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:2.0.0")
+                implementation("io.ktor:ktor-client-ios:2.0.0") {
+                    exclude("org.jetbrains.kotlin")
+                }
             }
         }
 
