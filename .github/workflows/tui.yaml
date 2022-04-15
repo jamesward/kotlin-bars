@@ -16,14 +16,14 @@ jobs:
             runs: ubuntu-latest
             platform-name: linuxX64
             asset-name: kotlin-bars-tui-linux-amd64
-          - os: macos
-            runs: macos-latest
-            artifact-name: kotlin-bars
-            asset-name: kotlin-bars-tui-macos-amd64
-          - os: windows
-            runs: windows-2019
-            artifact-name: kotlin-bars.exe
-            asset-name: kotlin-bars-tui-windows-amd64.exe
+#          - os: macos
+#            runs: macos-latest
+#            artifact-name: kotlin-bars
+#            asset-name: kotlin-bars-tui-macos-amd64
+#          - os: windows
+#            runs: windows-2019
+#            artifact-name: kotlin-bars.exe
+#            asset-name: kotlin-bars-tui-windows-amd64.exe
     runs-on: ${{ matrix.runs }}
 
     steps:
@@ -46,9 +46,7 @@ jobs:
         run: |
           ./gradlew :tui:linkReleaseExecutable -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
 
-      # disable on window: https://github.com/upx/upx/issues/559
       - name: run upx on ${{ matrix.os }}
-        if: matrix.os != 'windows'
         uses: svenstaro/upx-action@v2
         with:
           file: tui/build/bin/${{ matrix.platform-name }}/releaseExecutable/tui.kexe
