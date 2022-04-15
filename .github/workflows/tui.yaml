@@ -36,6 +36,12 @@ jobs:
           java-version: '11'
           cache: 'gradle'
 
+      - name: setup curl
+        if: matrix.os == 'ubuntu'
+        run: |
+          apt update
+          apt install -y libcurl4-openssl-dev
+
       - name: build for ${{ matrix.os }}
         run: |
           ./gradlew :tui:linkReleaseExecutable -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
