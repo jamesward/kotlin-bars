@@ -39,8 +39,8 @@ jobs:
       - name: setup curl
         if: matrix.os == 'ubuntu'
         run: |
-          apt update
-          apt install -y libcurl4-openssl-dev
+          sudo apt update
+          sudo apt install -y libcurl4-openssl-dev
 
       - name: build for ${{ matrix.os }}
         run: |
