@@ -26,59 +26,39 @@ kotlin {
     }
 }
 
-tasks.named<Exec>("runDebugExecutableLinuxX64") {
+tasks.withType<Exec> {
     standardInput = System.`in`
 }
 
-
-/*
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-}
-
-application {
-    mainClass.set("kotlinbars.cli.MainKt")
-}
-
-val generatedResourceDir = File("$buildDir/generated-resources/main")
-
-tasks.named<Copy>("processResources") {
-    from(tasks.named("generateResources"))
-}
-
-tasks.register("generateResources") {
-    outputs.upToDateWhen { false }
-    outputs.dir(generatedResourceDir)
+tasks.register("createConfig") {
     doLast {
         val barsUrl: String? by project
 
-        val props = Properties()
-        rootProject.file("local.properties").let {
-            if (it.exists()) it.inputStream().use(props::load)
-        }
+        // todo: local.properties
 
-        val barsUrlWithFallback = barsUrl ?: props["barsUrl"] as String?
+        val barsUrlWithFallback = barsUrl ?: "http://localhost:8080/api/bars"
 
-        if (barsUrlWithFallback != null) {
-            val metaInf = File(generatedResourceDir, "META-INF")
-            metaInf.mkdirs()
-            val generated = File(metaInf, "app.properties")
-            generated.writeText("barsUrl=$barsUrlWithFallback")
-        } else {
-            generatedResourceDir.deleteRecursively()
-        }
+        val configContents = """
+            package kotlinbars.tui
+            
+            object Config {
+                val barsUrl = "$barsUrlWithFallback"
+            }
+        """.trimIndent()
+
+        val configFile = project.file("src/commonMain/kotlin/kotlinbars/tui/Config.kt")
+        try { configFile.delete() } catch (_: Exception) { }
+        configFile.createNewFile()
+        configFile.writeText(configContents)
     }
 }
 
-// todo: this rebuilds the server container every run
-tasks.register<JavaExec>("dev") {
-    dependsOn(":server:bootBuildImage")
-    dependsOn("testClasses")
-    classpath = sourceSets["test"].runtimeClasspath
-    mainClass.set("kotlinbars.cli.DevKt")
-    standardInput = System.`in`
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile>().configureEach {
+    dependsOn("createConfig")
 }
-*/
+
+// todo: this rebuilds the server container every run
+// todo: this needs to run the server via the dev subproject and pass the connection info to the app
+tasks.register<Exec>("dev") {
+    dependsOn(":server:bootBuildImage", "runDebugExecutableLinuxX64")
+}

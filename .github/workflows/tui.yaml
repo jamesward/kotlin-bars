@@ -1,0 +1,64 @@
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+
+  build-and-upload:
+    name: build and upload
+    strategy:
+      matrix:
+        os: [ubuntu]
+#        os: [macos, ubuntu, windows]
+        include:
+          - os: ubuntu
+            runs: ubuntu-latest
+            platform-name: linuxX64
+            asset-name: kotlin-bars-tui-linux-amd64
+          - os: macos
+            runs: macos-latest
+            artifact-name: kotlin-bars
+            asset-name: kotlin-bars-tui-macos-amd64
+          - os: windows
+            runs: windows-2019
+            artifact-name: kotlin-bars.exe
+            asset-name: kotlin-bars-tui-windows-amd64.exe
+    runs-on: ${{ matrix.runs }}
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'gradle'
+
+      - name: build for ${{ matrix.os }}
+        run: |
+          ./gradlew :tui:linkReleaseExecutable -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
+
+      # disable on window: https://github.com/upx/upx/issues/559
+      - name: run upx on ${{ matrix.os }}
+        if: matrix.os != 'windows'
+        uses: svenstaro/upx-action@v2
+        with:
+          file: tui/build/bin/${{ matrix.platform-name }}/releaseExecutable/tui.kexe
+          args: --best --lzma
+
+      - name: upload ${{ matrix.os }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: kotlin-bars-tui-${{ matrix.os }}
+          path: tui/build/bin/${{ matrix.platform-name }}/releaseExecutable/tui.kexe
+
+      - name: release binaries
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: tui/build/bin/${{ matrix.platform-name }}/releaseExecutable/tui.kexe
+          asset_name: ${{ matrix.asset-name }}
+          overwrite: true
+          tag: ${{ github.ref }}

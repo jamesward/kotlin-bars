@@ -107,7 +107,7 @@ kotlin {
 
         val linuxX64Main by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-curl:1.6.7")
+                implementation("io.ktor:ktor-client-curl:2.0.0")
             }
         }
     }

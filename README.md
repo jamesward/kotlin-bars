@@ -10,6 +10,7 @@ graph TD
     rpc(<b>rpc</b><br/><i>Ktor REST client</i>)
     server{{<b>server</b><br/><i>Spring Boot REST</i>}}
     cli[<b>cli</b><br/><i>GraalVM Native Image<br/>Windows, Mac, Linux</i>]
+    tui[<b>tui</b><br/><i>Kotlin/Native<br/>Windows, Mac, Linux</i>]
     compose(<b>compose</b><br/><i>Shared UI</i>)
     web[<b>web</b><br/><i>Browser App</i>]
     iosApp[<b>iosApp</b><br/><i>SwiftUI iOS App</i>]
@@ -21,10 +22,10 @@ graph TD
 
     common --> cli
 
-    common --> rpc ---> web & iosApp
+    common --> rpc ---> web & iosApp & tui
                rpc --> compose --> android & desktop
 
-    server -.- dev -...- cli & web & desktop
+    server -.- dev -...- cli & tui & web & desktop
 
     classDef lib fill:#f96;
     classDef client fill:#96f;
@@ -32,7 +33,7 @@ graph TD
     classDef dev fill:#69f;
 
     class common,rpc,compose lib;
-    class cli,desktop,android,web,iosApp client;
+    class cli,tui,desktop,android,web,iosApp client;
     class server,postgresql server;
     class dev dev;
 
@@ -268,6 +269,21 @@ Build the native image executable:
 Run it:
 ```
 cli/build/graal/kotlin-bars
+```
+
+
+## TUI Client
+
+The Terminal User Interface will eventually be a rich / interactive CLI for Kotlin Bars but today is just a basic CLI.
+
+Run, connecting to the default `http://localhost:8080/api/bars`:
+```
+./gradlew :tui:runDebugExecutable -q --console=plain
+```
+
+Run, connecting to the specified url:
+```
+./gradlew :tui:runDebugExecutable -q --console=plain -PbarsUrl=http://YOUR_URL:8080/api/bars
 ```
 
 

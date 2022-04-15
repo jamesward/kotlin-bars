@@ -4,7 +4,6 @@ import kotlinbars.common.Bar
 import kotlinbars.rpc.BarsRPC
 import kotlinx.coroutines.runBlocking
 
-
 suspend fun loop(url: String) {
     val rpc = BarsRPC(url)
 
@@ -29,10 +28,8 @@ suspend fun loop(url: String) {
 }
 
 fun main() = runBlocking {
-    val url = "https://kotlinbars.jamesward.com/api/bars"
+    println("Connecting to: ${Config.barsUrl}")
 
-    println("Connecting to: $url")
-
-    loop(url)
+    loop(Config.barsUrl)
 }
 

@@ -39,7 +39,7 @@ fun loop(url: String) {
 
 fun main() {
 
-    val barsUrl = object {}.javaClass.classLoader.getResourceAsStream("META-INF/app.properties")?.use {
+    val barsUrl = object {}.javaClass.classLoader?.getResourceAsStream("META-INF/app.properties")?.use {
         val props = Properties()
         props.load(it)
         props["barsUrl"] as String?

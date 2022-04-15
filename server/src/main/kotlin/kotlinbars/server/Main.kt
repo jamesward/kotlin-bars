@@ -23,7 +23,9 @@ import org.springframework.nativex.hint.TypeHint
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.r2dbc.core.await
 import org.springframework.stereotype.Component
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -51,6 +53,12 @@ class WebApp(val barRepo: BarRepo) {
     suspend fun addBar(@RequestBody bar: Bar) = run {
         barRepo.save(bar)
         ResponseEntity<Unit>(HttpStatus.NO_CONTENT)
+    }
+
+    @DeleteMapping("/api/bars/{id}")
+    suspend fun deleteBar(@PathVariable id: Long) = run {
+        barRepo.deleteById(id)
+        ResponseEntity<Unit>(HttpStatus.OK)
     }
 
 }
