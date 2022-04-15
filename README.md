@@ -41,6 +41,7 @@ graph TD
     click rpc "https://github.com/jamesward/kotlin-bars/tree/main/rpc"
     click server "https://github.com/jamesward/kotlin-bars/tree/main/server"
     click cli "https://github.com/jamesward/kotlin-bars/tree/main/cli"
+    click tui "https://github.com/jamesward/kotlin-bars/tree/main/tui"
     click compose "https://github.com/jamesward/kotlin-bars/tree/main/compose"
     click web "https://github.com/jamesward/kotlin-bars/tree/main/web"
     click iosApp "https://github.com/jamesward/kotlin-bars/tree/main/iosApp"
