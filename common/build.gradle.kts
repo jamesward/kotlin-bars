@@ -48,12 +48,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+                api(kotlin("stdlib"))
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
             }
         }
         val jvmMain by getting {
             dependencies {
-                implementation("org.springframework.data:spring-data-commons:2.6.3")
+                implementation("org.springframework.data:spring-data-commons:2.7.2")
             }
         }
         val iosMain by creating {
@@ -76,8 +78,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 android {
+    namespace = "kotlinbars.common"
     compileSdk = 31
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 24
         targetSdk = 31

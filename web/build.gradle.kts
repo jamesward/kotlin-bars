@@ -7,6 +7,7 @@ kotlin {
     js(IR) {
         browser {
             runTask {
+                // todo: testcontainer server
                 devServer = devServer?.copy(port = 8081, proxy = mutableMapOf("/api" to "http://localhost:8080"))
             }
         }
@@ -23,6 +24,11 @@ kotlin {
         }
     }
 
+}
+
+// workaround for https://youtrack.jetbrains.com/issue/KT-52776
+rootProject.extensions.configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
+    versions.webpackCli.version = "4.10.0"
 }
 
 /*

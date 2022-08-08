@@ -3,7 +3,7 @@ import java.util.Properties
 plugins {
     application
     kotlin("jvm")
-    id("com.palantir.graal") version "0.10.0"
+    id("com.palantir.graal") version "0.12.0"
 }
 
 repositories {
@@ -14,7 +14,7 @@ dependencies {
     implementation(project(":common"))
     implementation(kotlin("stdlib-jdk8"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.3.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.3.3")
 
     testImplementation(project(":dev"))
 }
@@ -67,7 +67,7 @@ tasks.register("generateResources") {
 }
 
 graal {
-    graalVersion("22.0.0.2")
+    graalVersion("22.2.0")
     javaVersion("11")
     mainClass(application.mainClass.get())
     outputName("kotlin-bars")

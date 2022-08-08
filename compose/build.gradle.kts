@@ -11,24 +11,18 @@ java {
 }
 
 kotlin {
-    android()
+    android {
+
+    }
 
     jvm {
 
     }
 
-    /*
-    js(IR) {
-        browser()
-    }
-     */
-
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("stdlib"))
                 implementation(kotlin("reflect"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
 
                 api(project(":rpc"))
 
@@ -42,18 +36,10 @@ kotlin {
 }
 
 android {
+    namespace = "kotlinbars.compose"
     compileSdk = 31
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].java.srcDirs("src/commonMain/kotlin")
 
     defaultConfig {
         minSdk = 28
     }
-
-    /*
-    lintOptions {
-        disable("ObsoleteLintCustomCheck")
-    }
-     */
 }

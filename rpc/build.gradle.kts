@@ -50,48 +50,34 @@ kotlin {
             dependencies {
                 api(project(":common"))
 
-                implementation("io.ktor:ktor-client-core:2.0.0") {
-                    exclude("org.jetbrains.kotlin")
-                }
-                implementation("io.ktor:ktor-client-content-negotiation:2.0.0") {
-                    exclude("org.jetbrains.kotlin")
-                }
-                implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.0") {
-                    exclude("org.jetbrains.kotlin")
-                }
+                implementation("io.ktor:ktor-client-core:2.0.3")
+                implementation("io.ktor:ktor-client-content-negotiation:2.0.3")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.3")
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-android:2.0.0") {
-                    exclude("org.jetbrains.kotlin")
-                }
+                implementation("io.ktor:ktor-client-android:2.0.3")
             }
         }
 
         val jvmMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-java:2.0.0") {
-                    exclude("org.jetbrains.kotlin")
-                }
+                implementation("io.ktor:ktor-client-java:2.0.3")
             }
         }
 
         val jsMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-js:2.0.0") {
-                    exclude("org.jetbrains.kotlin")
-                }
+                implementation("io.ktor:ktor-client-js:2.0.3")
             }
         }
 
         val iosMain by creating {
             dependsOn(commonMain)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:2.0.0") {
-                    exclude("org.jetbrains.kotlin")
-                }
+                implementation("io.ktor:ktor-client-ios:2.0.3")
             }
         }
 
@@ -107,15 +93,15 @@ kotlin {
 
         val linuxX64Main by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-curl:2.0.0")
+                implementation("io.ktor:ktor-client-curl:2.0.3")
             }
         }
     }
 }
 
 android {
+    namespace = "kotlinbars.rpc"
     compileSdk = 31
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 24
         targetSdk = 31

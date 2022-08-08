@@ -8,16 +8,16 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     implementation(project(":compose"))
 
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("androidx.activity:activity-compose:1.4.0")
+    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("androidx.activity:activity-compose:1.5.1")
 }
 
 android {
-    compileSdk = 31 // This Android Gradle plugin (7.0.2) was tested up to compileSdk = 31
+    compileSdk = 31
 
     defaultConfig {
         minSdk = 28

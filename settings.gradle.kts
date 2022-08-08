@@ -1,11 +1,10 @@
 rootProject.name = "kotlin-bars"
 
-include("common", "rpc", "web", "server", "cli", "dev", "tui")
-
-// todo
-if (startParameter.taskRequests.find { it.args.contains(":server:jib") } == null) {
-    include("compose", "android", "desktop")
-}
+include("dev")
+include("common", "rpc")
+include("compose", "android", "desktop")
+include("server", "web")
+include("cli", "tui")
 
 pluginManagement {
     repositories {

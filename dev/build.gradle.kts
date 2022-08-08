@@ -12,7 +12,7 @@ dependencies {
 
     api("org.testcontainers:postgresql:1.16.3")
     runtimeOnly("org.slf4j:slf4j-simple:1.7.32")
-    runtimeOnly("org.postgresql:postgresql:42.3.1")
+    runtimeOnly("org.postgresql:postgresql:42.3.3")
 }
 
 java {
@@ -21,9 +21,11 @@ java {
     }
 }
 
+/*
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
+ */
