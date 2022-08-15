@@ -104,10 +104,25 @@ jobs:
 
           xcrun xcodebuild -exportArchive -archivePath build/Kotlin_Bars.xcarchive -exportOptionsPlist build/ExportOptions.plist -exportPath build
 
-      - name: upload app
+      - name: upload ipa
+        uses: actions/upload-artifact@v2
+        with:
+          name: kotlin-bars.ipa
+          path: iosApp/build/Kotlin_Bars.ipa
+
+      - name: release ipa
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          asset_name: kotlin-bars.ipa
+          file: iosApp/build/Kotlin_Bars.ipa
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: upload app to testflight
         uses: apple-actions/upload-testflight-build@v1
         with:
-          app-path: 'iosApp/build/Kotlin_Bars.ipa'
+          app-path: iosApp/build/Kotlin_Bars.ipa
           issuer-id: ${{ secrets.ASC_API_ISSUER }}
           api-key-id: ${{ secrets.ASC_API_KEY }}
           api-private-key: ${{ secrets.ASC_AUTH_KEY }}
