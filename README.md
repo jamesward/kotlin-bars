@@ -69,26 +69,26 @@ curl -X POST http://localhost:8080/api/bars \
 
 Fetch the bars: [localhost:8080/api/bars](http://localhost:8080/api/bars)
 
-
-Create container:
-```
-./gradlew :server:bootBuildImage --imageName=kotlin-bars-server
-```
+### Prod-Like
 
 Start Postgres manually:
 ```
-docker run --rm -ePOSTGRES_PASSWORD=password -p5432:5432 --name my-postgres postgres:13.1
+docker run --rm -ePOSTGRES_PASSWORD=password -p5432:5432 --name my-postgres postgres:13.3
 ```
 
-Init the schema:
+Create a native exec (with GraalVM installed / in PATH):
 ```
-docker run -it --network host \
-  -eSPRING_R2DBC_URL=r2dbc:postgresql://localhost/postgres \
-  -eSPRING_R2DBC_USERNAME=postgres \
-  -eSPRING_R2DBC_PASSWORD=password \
-  kotlin-bars-server \
-  init \
-  --spring.main.web-application-type=none
+./gradlew :server:nativeCompile
+
+SPRING_R2DBC_URL=r2dbc:postgresql://localhost/postgres \
+  SPRING_R2DBC_USERNAME=postgres \
+  SPRING_R2DBC_PASSWORD=password \
+  server/build/native/nativeCompile/server
+```
+
+Create container:
+```
+./gradlew :server:bootBuildImage
 ```
 
 Start the server:

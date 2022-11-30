@@ -46,29 +46,29 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
+        getByName("commonMain") {
             dependencies {
                 api(kotlin("stdlib"))
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
             }
         }
-        val jvmMain by getting {
+        getByName("jvmMain") {
             dependencies {
-                implementation("org.springframework.data:spring-data-commons:2.7.2")
+                implementation("org.springframework.data:spring-data-commons:3.0.0")
             }
         }
-        val iosMain by creating {
-            dependsOn(commonMain)
+        create("iosMain") {
+            dependsOn(getByName("commonMain"))
         }
-        val iosX64Main by getting {
-            dependsOn(iosMain)
+        getByName("iosX64Main") {
+            dependsOn(getByName("iosMain"))
         }
-        val iosArm64Main by getting {
-            dependsOn(iosMain)
+        getByName("iosArm64Main") {
+            dependsOn(getByName("iosMain"))
         }
-        val iosSimulatorArm64Main by getting {
-            dependsOn(iosMain)
+        getByName("iosX64Main") {
+            dependsOn(getByName("iosMain"))
         }
     }
 }

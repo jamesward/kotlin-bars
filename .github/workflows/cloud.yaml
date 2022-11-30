@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-          java-version: '11'
+          java-version: '17'
           cache: 'gradle'
 
       - name: Create & Publish Container
@@ -42,7 +42,6 @@ jobs:
           REGION: ${{ secrets.GCP_REGION }}
           DB_VERSION: POSTGRES_13
           DB_TIER: db-f1-micro
-          DB_INIT_ARGS: init --spring.main.web-application-type=none
 
       - name: Create Static Site
         run: |

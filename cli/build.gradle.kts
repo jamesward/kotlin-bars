@@ -14,14 +14,14 @@ dependencies {
     implementation(project(":common"))
     implementation(kotlin("stdlib-jdk8"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.3.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.4.1")
 
     testImplementation(project(":dev"))
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -67,8 +67,8 @@ tasks.register("generateResources") {
 }
 
 graal {
-    graalVersion("22.2.0")
-    javaVersion("11")
+    graalVersion("22.3.0")
+    javaVersion("17")
     mainClass(application.mainClass.get())
     outputName("kotlin-bars")
     option("--verbose")

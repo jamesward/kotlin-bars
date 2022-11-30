@@ -21,7 +21,7 @@ kotlin {
     }
 
     sourceSets {
-        val jvmMain by getting {
+        named("jvmMain") {
             dependencies {
                 implementation(kotlin("stdlib"))
                 implementation(project(":compose"))
@@ -29,7 +29,7 @@ kotlin {
             }
         }
 
-        val jvmTest by getting {
+        named("jvmTest") {
             dependencies {
                 implementation(project(":dev"))
             }

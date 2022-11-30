@@ -20,7 +20,7 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
+        named("commonMain") {
             dependencies {
                 implementation(kotlin("reflect"))
 

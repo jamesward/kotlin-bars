@@ -46,54 +46,56 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
+        val commonMain = getByName("commonMain") {
             dependencies {
                 api(project(":common"))
 
-                implementation("io.ktor:ktor-client-core:2.0.3")
-                implementation("io.ktor:ktor-client-content-negotiation:2.0.3")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.3")
+                implementation("io.ktor:ktor-client-core:2.1.3")
+                implementation("io.ktor:ktor-client-content-negotiation:2.1.3")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
             }
         }
 
-        val androidMain by getting {
+        getByName("androidMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-android:2.0.3")
+                implementation("io.ktor:ktor-client-android:2.1.3")
+                implementation("androidx.core:core:1.9.0")
             }
         }
 
-        val jvmMain by getting {
+        getByName("jvmMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-java:2.0.3")
+                implementation("io.ktor:ktor-client-java:2.1.3")
             }
         }
 
-        val jsMain by getting {
+        getByName("jsMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-js:2.0.3")
+                implementation("io.ktor:ktor-client-js:2.1.3")
             }
         }
 
-        val iosMain by creating {
+        val iosMain = create("iosMain") {
             dependsOn(commonMain)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:2.0.3")
+                implementation("io.ktor:ktor-client-ios:2.1.3")
             }
         }
 
-        val iosX64Main by getting {
-            dependsOn(iosMain)
-        }
-        val iosArm64Main by getting {
-            dependsOn(iosMain)
-        }
-        val iosSimulatorArm64Main by getting {
+        getByName("iosX64Main") {
             dependsOn(iosMain)
         }
 
-        val linuxX64Main by getting {
+        getByName("iosArm64Main") {
+            dependsOn(iosMain)
+        }
+        getByName("iosSimulatorArm64Main") {
+            dependsOn(iosMain)
+        }
+
+        getByName("linuxX64Main") {
             dependencies {
-                implementation("io.ktor:ktor-client-curl:2.0.3")
+                implementation("io.ktor:ktor-client-curl:2.1.3")
             }
         }
     }

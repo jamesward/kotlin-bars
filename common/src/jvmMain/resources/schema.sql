@@ -1,4 +1,4 @@
-CREATE TABLE bar (
+CREATE TABLE IF NOT EXISTS bar (
                      id   SERIAL PRIMARY KEY,
                      name VARCHAR(255) NOT NULL
 );
