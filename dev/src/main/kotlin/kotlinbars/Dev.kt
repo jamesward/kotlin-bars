@@ -35,9 +35,7 @@ class ServerContainer : GenericContainer<ServerContainer>("server") {
 
     private val myNetwork = Network.newNetwork()
 
-    override fun getNetwork(): Network {
-        return myNetwork
-    }
+    override fun getNetwork() = myNetwork
 
     private val testPostgresContainer = TestPostgresContainer().withNetwork(myNetwork).withNetworkAliases("postgres")
 

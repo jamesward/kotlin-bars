@@ -17,45 +17,29 @@
 package kotlinbars.server
 
 import kotlinbars.common.Bar
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.io.Resource
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.http.codec.json.KotlinSerializationJsonDecoder
-import org.springframework.nativex.hint.MethodHint
-import org.springframework.nativex.hint.TypeAccess
-import org.springframework.nativex.hint.TypeHint
-import org.springframework.r2dbc.core.DatabaseClient
-import org.springframework.r2dbc.core.await
-import org.springframework.stereotype.Component
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.reactive.config.WebFluxConfigurer
 import java.net.URI
 import java.util.*
 
 interface BarRepo : CoroutineCrudRepository<Bar, Long>
 
-@TypeHint(types = [kotlinx.serialization.encoding.CompositeEncoder::class, kotlinx.serialization.descriptors.SerialDescriptor::class])
-@TypeHint(types = [Object::class])
-@TypeHint(types = [Bar::class], access = [TypeAccess.DECLARED_FIELDS, TypeAccess.QUERY_DECLARED_METHODS, TypeAccess.QUERY_PUBLIC_METHODS, TypeAccess.QUERY_DECLARED_CONSTRUCTORS])
-@TypeHint(typeNames = ["kotlinbars.common.Bar\$\$serializer"])
-@TypeHint(typeNames = ["kotlinbars.common.Bar\$Companion"], methods = [MethodHint(name = "serializer", parameterTypes = [])])
+//@TypeHint(types = [kotlinx.serialization.encoding.CompositeEncoder::class, kotlinx.serialization.descriptors.SerialDescriptor::class])
+//@TypeHint(types = [Object::class])
+//@TypeHint(types = [Bar::class], access = [TypeAccess.DECLARED_FIELDS, TypeAccess.QUERY_DECLARED_METHODS, TypeAccess.QUERY_PUBLIC_METHODS, TypeAccess.QUERY_DECLARED_CONSTRUCTORS])
+//@TypeHint(typeNames = ["kotlinbars.common.Bar\$\$serializer"])
+//@TypeHint(typeNames = ["kotlinbars.common.Bar\$Companion"], methods = [MethodHint(name = "serializer", parameterTypes = [])])
 @SpringBootApplication
 @RestController
 class WebApp(val barRepo: BarRepo) {
@@ -79,10 +63,13 @@ class WebApp(val barRepo: BarRepo) {
 
 }
 
+/*
 @Component
-class InitDB(val databaseClient: DatabaseClient, @Value("classpath:init.sql") val initSql: Resource) : CommandLineRunner {
+class InitDB(val databaseClient: DatabaseClient, @Value("classpath:schema.sql") val initSql: Resource) : CommandLineRunner {
 
-    private val logger = LoggerFactory.getLogger(InitDB::class.java)
+    private val logger by lazy {
+        LoggerFactory.getLogger(InitDB::class.java)
+    }
 
     override fun run(vararg args: String?) {
         if (args.contains("init")) {
@@ -95,6 +82,7 @@ class InitDB(val databaseClient: DatabaseClient, @Value("classpath:init.sql") va
     }
 
 }
+ */
 
 @Configuration(proxyBeanMethods = false)
 class JsonConfig {

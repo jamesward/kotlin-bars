@@ -16,18 +16,21 @@
 
 package kotlinbars.server
 
-import kotlinbars.common.Bar
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.core.ResolvableType
-import org.springframework.core.codec.Decoder
-import org.springframework.core.io.buffer.DefaultDataBufferFactory
+import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.web.reactive.function.client.WebClient
+import org.assertj.core.api.Assertions.assertThat
+import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
+import org.springframework.web.reactive.function.client.awaitBodilessEntity
 
 
-@SpringBootTest
-class BarTest(@Autowired val decoder: Decoder<Any>) {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class WebAppTest(@LocalServerPort val randomServerPort: Int) {
+
+    val webClient = WebClient.create()
 
     @Test
     fun `bar deserialization works without an id`(): Unit = runBlocking {
@@ -37,12 +40,9 @@ class BarTest(@Autowired val decoder: Decoder<Any>) {
             |}
         """.trimMargin()
 
-        val dataBufferFactory = DefaultDataBufferFactory()
-        val dataBuffer = dataBufferFactory.wrap(json.encodeToByteArray())
-
-        val bar = decoder.decode(dataBuffer, ResolvableType.forClass(Bar::class.java), null, null) as Bar?
-        assert(bar?.id == null)
-        assert(bar?.name == "test")
+        val uri = "http://localhost:$randomServerPort/api/bars"
+        val resp = webClient.post().uri(uri).contentType(MediaType.APPLICATION_JSON).bodyValue(json).retrieve().awaitBodilessEntity()
+        assertThat(resp.statusCode).isEqualTo(HttpStatus.NO_CONTENT)
     }
 
 }

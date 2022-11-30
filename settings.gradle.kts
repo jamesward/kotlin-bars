@@ -11,7 +11,7 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
-        maven("https://repo.spring.io/release")
+        //maven("https://repo.spring.io/release")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }

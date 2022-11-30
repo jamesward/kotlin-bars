@@ -50,40 +50,42 @@ kotlin {
             dependencies {
                 api(project(":common"))
 
-                implementation("io.ktor:ktor-client-core:2.0.3")
-                implementation("io.ktor:ktor-client-content-negotiation:2.0.3")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.3")
+                implementation("io.ktor:ktor-client-core:2.1.3")
+                implementation("io.ktor:ktor-client-content-negotiation:2.1.3")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-android:2.0.3")
+                implementation("io.ktor:ktor-client-android:2.1.3")
+                implementation("androidx.core:core:1.9.0")
             }
         }
 
         val jvmMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-java:2.0.3")
+                implementation("io.ktor:ktor-client-java:2.1.3")
             }
         }
 
         val jsMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-js:2.0.3")
+                implementation("io.ktor:ktor-client-js:2.1.3")
             }
         }
 
         val iosMain by creating {
             dependsOn(commonMain)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:2.0.3")
+                implementation("io.ktor:ktor-client-ios:2.1.3")
             }
         }
 
         val iosX64Main by getting {
             dependsOn(iosMain)
         }
+
         val iosArm64Main by getting {
             dependsOn(iosMain)
         }
@@ -93,7 +95,7 @@ kotlin {
 
         val linuxX64Main by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-curl:2.0.3")
+                implementation("io.ktor:ktor-client-curl:2.1.3")
             }
         }
     }
