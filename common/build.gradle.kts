@@ -46,19 +46,19 @@ kotlin {
     }
 
     sourceSets {
-        named("commonMain") {
+        getByName("commonMain") {
             dependencies {
                 api(kotlin("stdlib"))
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
             }
         }
-        named("jvmMain") {
+        getByName("jvmMain") {
             dependencies {
                 implementation("org.springframework.data:spring-data-commons:3.0.0")
             }
         }
-        register("iosMain") {
+        create("iosMain") {
             dependsOn(getByName("commonMain"))
         }
         getByName("iosX64Main") {

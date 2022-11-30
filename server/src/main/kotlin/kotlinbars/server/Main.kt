@@ -19,10 +19,14 @@ package kotlinbars.server
 import kotlinbars.common.Bar
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import org.springframework.aot.hint.MemberCategory
+import org.springframework.aot.hint.RuntimeHints
+import org.springframework.aot.hint.RuntimeHintsRegistrar
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.ImportRuntimeHints
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -35,13 +39,9 @@ import java.util.*
 
 interface BarRepo : CoroutineCrudRepository<Bar, Long>
 
-//@TypeHint(types = [kotlinx.serialization.encoding.CompositeEncoder::class, kotlinx.serialization.descriptors.SerialDescriptor::class])
-//@TypeHint(types = [Object::class])
-//@TypeHint(types = [Bar::class], access = [TypeAccess.DECLARED_FIELDS, TypeAccess.QUERY_DECLARED_METHODS, TypeAccess.QUERY_PUBLIC_METHODS, TypeAccess.QUERY_DECLARED_CONSTRUCTORS])
-//@TypeHint(typeNames = ["kotlinbars.common.Bar\$\$serializer"])
-//@TypeHint(typeNames = ["kotlinbars.common.Bar\$Companion"], methods = [MethodHint(name = "serializer", parameterTypes = [])])
 @SpringBootApplication
 @RestController
+@ImportRuntimeHints(MyHints::class)
 class WebApp(val barRepo: BarRepo) {
 
     @GetMapping("/api/bars")
@@ -63,26 +63,11 @@ class WebApp(val barRepo: BarRepo) {
 
 }
 
-/*
-@Component
-class InitDB(val databaseClient: DatabaseClient, @Value("classpath:schema.sql") val initSql: Resource) : CommandLineRunner {
-
-    private val logger by lazy {
-        LoggerFactory.getLogger(InitDB::class.java)
+class MyHints : RuntimeHintsRegistrar {
+    override fun registerHints(hints: RuntimeHints, classLoader: ClassLoader?) {
+        hints.reflection().registerType(Bar::class.java, *MemberCategory.values())
     }
-
-    override fun run(vararg args: String?) {
-        if (args.contains("init")) {
-            logger.info("Init DB Schema")
-            val lines = initSql.inputStream.bufferedReader().use { it.readText() }
-            runBlocking {
-                databaseClient.sql(lines).await()
-            }
-        }
-    }
-
 }
- */
 
 @Configuration(proxyBeanMethods = false)
 class JsonConfig {

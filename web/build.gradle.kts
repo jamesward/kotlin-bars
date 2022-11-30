@@ -15,7 +15,7 @@ kotlin {
     }
 
     sourceSets {
-        val jsMain by getting {
+        named("jsMain") {
             dependencies {
                 implementation(project(":rpc"))
                 implementation(compose.web.core)

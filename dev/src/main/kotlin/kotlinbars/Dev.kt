@@ -23,13 +23,9 @@ import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.containers.output.Slf4jLogConsumer
 import org.testcontainers.containers.wait.strategy.Wait
 
-class TestPostgresContainer : PostgreSQLContainer<TestPostgresContainer>("postgres:13.1") {
-    init {
-        withInitScript("init.sql")
-    }
-}
+class TestPostgresContainer : PostgreSQLContainer<TestPostgresContainer>("postgres:13.3")
 
-class ServerContainer : GenericContainer<ServerContainer>("server") {
+class ServerContainer : GenericContainer<ServerContainer>("kotlin-bars-server") {
 
     val logger = LoggerFactory.getLogger(this.javaClass)
 

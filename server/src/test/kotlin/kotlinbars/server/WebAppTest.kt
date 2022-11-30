@@ -26,7 +26,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.awaitBodilessEntity
 
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class WebAppTest(@LocalServerPort val randomServerPort: Int) {
 
