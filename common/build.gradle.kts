@@ -70,6 +70,9 @@ kotlin {
         getByName("iosX64Main") {
             dependsOn(getByName("iosMain"))
         }
+        getByName("iosSimulatorArm64Main") {
+            dependsOn(getByName("iosMain"))
+        }
     }
 }
 
