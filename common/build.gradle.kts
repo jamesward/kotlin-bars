@@ -4,9 +4,13 @@ plugins {
     id("com.android.library")
 }
 
-kotlin {
-    jvmToolchain(11)
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
 
+kotlin {
     android {
 
     }
@@ -44,7 +48,6 @@ kotlin {
     sourceSets {
         getByName("commonMain") {
             dependencies {
-                api(kotlin("stdlib"))
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
             }

@@ -7,8 +7,6 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(11)
-
     jvm {
 
     }
@@ -16,7 +14,6 @@ kotlin {
     sourceSets {
         named("jvmMain") {
             dependencies {
-                implementation(kotlin("stdlib"))
                 implementation(project(":compose"))
                 implementation(compose.desktop.currentOs)
             }
