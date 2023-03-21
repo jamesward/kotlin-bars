@@ -24,10 +24,10 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: setup java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -63,7 +63,7 @@ jobs:
           NOTARIZATION_PASSWORD: ${{ secrets.NOTARIZATION_PASSWORD }}
         run: |
           ./gradlew :desktop:notarizeDmg -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
-          mv desktop/build/compose/notarization/main/*/*.dmg desktop/build/compose/binaries/${{ matrix.asset-name }}
+          mv desktop/build/compose/notarization/main/*/*/*.dmg desktop/build/compose/binaries/${{ matrix.asset-name }}
 
       - name: upload ${{ matrix.os }} package
         uses: actions/upload-artifact@v2
