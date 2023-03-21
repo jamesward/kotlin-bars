@@ -4,13 +4,9 @@ plugins {
     id("com.android.library")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
-}
-
 kotlin {
+    jvmToolchain(11)
+
     android {
 
     }
@@ -49,13 +45,13 @@ kotlin {
         getByName("commonMain") {
             dependencies {
                 api(kotlin("stdlib"))
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
             }
         }
         getByName("jvmMain") {
             dependencies {
-                implementation("org.springframework.data:spring-data-commons:3.0.0")
+                implementation("org.springframework.data:spring-data-commons:3.0.3")
             }
         }
         create("iosMain") {
@@ -82,10 +78,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 android {
     namespace = "kotlinbars.common"
-    compileSdk = 31
+    compileSdk = 33
     defaultConfig {
         minSdk = 24
-        targetSdk = 31
     }
     compileOptions {
         sourceCompatibility(JavaVersion.VERSION_11)

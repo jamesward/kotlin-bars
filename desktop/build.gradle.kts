@@ -1,5 +1,4 @@
 import java.util.Properties
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -7,17 +6,11 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
-}
-
 kotlin {
+    jvmToolchain(11)
+
     jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
-        }
+
     }
 
     sourceSets {

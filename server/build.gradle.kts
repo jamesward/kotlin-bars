@@ -39,17 +39,8 @@ dependencies {
     //developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = JavaLanguageVersion.of(17).toString()
-    }
+kotlin {
+    jvmToolchain(17)
 }
 
 application {

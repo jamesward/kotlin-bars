@@ -6,18 +6,23 @@ plugins {
     kotlin("android")
 }
 
+kotlin {
+    jvmToolchain(11)
+}
+
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     implementation(project(":compose"))
 
-    implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.activity:activity-compose:1.6.1")
 }
 
 android {
     compileSdk = 33
+    namespace = "kotlinbars.android"
 
     defaultConfig {
         minSdk = 28
@@ -37,6 +42,11 @@ android {
 
         val usesCleartextTraffic = barsUrlWithDefault.startsWith("http://")
         manifestPlaceholders["usesCleartextTraffic"] = usesCleartextTraffic
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
 }

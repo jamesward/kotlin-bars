@@ -4,13 +4,9 @@ plugins {
     id("com.android.library")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
-}
-
 kotlin {
+    jvmToolchain(11)
+
     android {
 
     }
@@ -37,9 +33,14 @@ kotlin {
 
 android {
     namespace = "kotlinbars.compose"
-    compileSdk = 31
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 28
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }

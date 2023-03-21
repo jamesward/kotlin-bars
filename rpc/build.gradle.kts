@@ -4,13 +4,9 @@ plugins {
     id("com.android.library")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
-}
-
 kotlin {
+    jvmToolchain(11)
+
     android {
 
     }
@@ -50,35 +46,35 @@ kotlin {
             dependencies {
                 api(project(":common"))
 
-                implementation("io.ktor:ktor-client-core:2.1.3")
-                implementation("io.ktor:ktor-client-content-negotiation:2.1.3")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
+                implementation("io.ktor:ktor-client-core:2.2.4")
+                implementation("io.ktor:ktor-client-content-negotiation:2.2.4")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
             }
         }
 
         getByName("androidMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-android:2.1.3")
+                implementation("io.ktor:ktor-client-android:2.2.4")
                 implementation("androidx.core:core:1.9.0")
             }
         }
 
         getByName("jvmMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-java:2.1.3")
+                implementation("io.ktor:ktor-client-java:2.2.4")
             }
         }
 
         getByName("jsMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-js:2.1.3")
+                implementation("io.ktor:ktor-client-js:2.2.4")
             }
         }
 
         val iosMain = create("iosMain") {
             dependsOn(commonMain)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:2.1.3")
+                implementation("io.ktor:ktor-client-ios:2.2.4")
             }
         }
 
@@ -95,7 +91,7 @@ kotlin {
 
         getByName("linuxX64Main") {
             dependencies {
-                implementation("io.ktor:ktor-client-curl:2.1.3")
+                implementation("io.ktor:ktor-client-curl:2.2.4")
             }
         }
     }
@@ -103,10 +99,9 @@ kotlin {
 
 android {
     namespace = "kotlinbars.rpc"
-    compileSdk = 31
+    compileSdk = 33
     defaultConfig {
         minSdk = 24
-        targetSdk = 31
     }
     compileOptions {
         sourceCompatibility(JavaVersion.VERSION_11)

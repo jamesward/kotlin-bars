@@ -12,24 +12,14 @@ repositories {
 
 dependencies {
     implementation(project(":common"))
-    implementation(kotlin("stdlib-jdk8"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.4.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.5.0")
 
     testImplementation(project(":dev"))
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
+kotlin {
+    jvmToolchain(17)
 }
 
 application {
