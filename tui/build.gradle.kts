@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     kotlin("multiplatform")
 }
@@ -20,9 +22,9 @@ kotlin {
             dependencies {
                 implementation(project(":rpc"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("com.varabyte.kotter:kotter:1.1.0-rc3")
             }
         }
-
     }
 }
 
@@ -34,9 +36,12 @@ tasks.register("createConfig") {
     doLast {
         val barsUrl: String? by project
 
-        // todo: local.properties
+        val props = Properties()
+        rootProject.file("local.properties").let {
+            if (it.exists()) it.inputStream().use(props::load)
+        }
 
-        val barsUrlWithFallback = barsUrl ?: "http://localhost:8080/api/bars"
+        val barsUrlWithFallback = barsUrl ?: props["barsUrl"] as String? ?: "http://localhost:8080/api/bars"
 
         val configContents = """
             package kotlinbars.tui

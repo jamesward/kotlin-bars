@@ -18,34 +18,48 @@ package kotlinbars.tui
 
 import kotlinbars.common.Bar
 import kotlinbars.rpc.BarsRPC
+import com.varabyte.kotter.foundation.input.*
+import com.varabyte.kotter.foundation.liveVarOf
+import com.varabyte.kotter.foundation.session
+import com.varabyte.kotter.foundation.text.*
 import kotlinx.coroutines.runBlocking
 
-suspend fun loop(url: String) {
-    val rpc = BarsRPC(url)
+fun main() = session {
+    val rpc = BarsRPC(Config.barsUrl)
 
-    while (true) {
-        val bars = rpc.fetchBars()
+    var bars by liveVarOf<List<Bar>>(emptyList())
 
-        if (bars.isEmpty()) {
-            println("\nNo Bars")
-        } else {
-            println("\nBars:")
-            bars.forEach { println("  ${it.name}") }
+    run {
+        section {
+            textLine("Connecting to: ${Config.barsUrl}")
         }
+    }.run {
+        bars = rpc.fetchBars()
+    }
 
-        print("\nCreate a Bar: ")
-        val name = readLine()
-        if (!name.isNullOrEmpty()) {
-            val bar = Bar(null, name)
-            rpc.addBar(bar)
-            // todo: check response code
+    run {
+        section {
+            if (bars.isEmpty()) {
+                textLine("No Bars")
+            } else {
+                textLine("Bars:")
+                bars.forEach {
+                    textLine("  ${it.name}")
+                }
+            }
+
+            textLine()
+            text("Create a Bar: ")
+            input()
+        }.runUntilKeyPressed(Keys.ESC) {
+            onInputEntered {
+                clearInput()
+                runBlocking {
+                    rpc.addBar(Bar(null, input))
+                    bars = rpc.fetchBars()
+                }
+            }
         }
     }
-}
-
-fun main() = runBlocking {
-    println("Connecting to: ${Config.barsUrl}")
-
-    loop(Config.barsUrl)
 }
 
