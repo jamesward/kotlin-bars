@@ -279,12 +279,12 @@ The Terminal User Interface will eventually be a rich / interactive CLI for Kotl
 
 Run, connecting to the default `http://localhost:8080/api/bars`:
 ```
-./gradlew :tui:runDebugExecutable -q --console=plain
+./gradlew :tui:linkDebugExecutable && tui/build/bin/linuxX64/debugExecutable/tui.kexe
 ```
 
 Run, connecting to the specified url:
 ```
-./gradlew :tui:runDebugExecutable -q --console=plain -PbarsUrl=http://YOUR_URL:8080/api/bars
+./gradlew :tui:linkDebugExecutable -PbarsUrl=http://YOUR_URL:8080/api/bars && tui/build/bin/linuxX64/debugExecutable/tui.kexe
 ```
 
 
@@ -372,6 +372,11 @@ Create GitHub secrets for:
 - `DOMAINS`
 
 Your `DOMAINS` then need to be mapped to the IP listed in the output of the `cloud` GitHub Action.
+
+### iOS / Mac Signing
+
+
+
 
 Tag a release to trigger the CLI, Android, and Desktop release builds.
 

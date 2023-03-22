@@ -63,7 +63,7 @@ jobs:
           NOTARIZATION_PASSWORD: ${{ secrets.NOTARIZATION_PASSWORD }}
         run: |
           ./gradlew :desktop:notarizeDmg -PbarsUrl=https://${{ secrets.DOMAINS }}/api/bars
-          mv desktop/build/compose/notarization/main/*/*/*.dmg desktop/build/compose/binaries/${{ matrix.asset-name }}
+          mv desktop/build/compose/notarization/*/*/*.dmg desktop/build/compose/binaries/${{ matrix.asset-name }}
 
       - name: upload ${{ matrix.os }} package
         uses: actions/upload-artifact@v2
