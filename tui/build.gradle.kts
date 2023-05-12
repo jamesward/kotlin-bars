@@ -22,7 +22,7 @@ kotlin {
             dependencies {
                 implementation(project(":rpc"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("com.varabyte.kotter:kotter:1.1.0-rc3")
+                implementation("com.varabyte.kotter:kotter:1.1.0")
             }
         }
     }

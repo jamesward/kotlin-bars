@@ -22,8 +22,8 @@ graph TD
 
     common --> cli
 
-    common --> rpc ---> web & iosApp & tui
-               rpc --> compose --> android & desktop
+    common --> rpc ---> web & tui
+               rpc --> compose --> android & desktop & iosApp
 
     server -.- dev -...- cli & tui & web & desktop
 
