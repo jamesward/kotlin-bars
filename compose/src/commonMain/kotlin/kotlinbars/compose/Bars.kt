@@ -30,10 +30,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import kotlinbars.rpc.BarsRPC
 
-
 @Composable
 fun Bars(barsRpc: BarsRPC) {
-
     val barsState = remember { mutableStateListOf<Bar>() }
 
     val nameState = remember { mutableStateOf(TextFieldValue()) }
@@ -77,5 +75,4 @@ fun Bars(barsRpc: BarsRPC) {
             Text("Add Bar")
         }
     }
-
 }

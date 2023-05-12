@@ -11,63 +11,30 @@ java {
 }
 
 kotlin {
-    android {
+    android()
 
-    }
-
-    jvm {
-
-    }
+    jvm()
 
     js(IR) {
         browser()
     }
 
-    iosX64 {
-        binaries.framework {
-            baseName = "KotlinbarsCommon"
-        }
-    }
+    ios()
 
-    iosArm64 {
-        binaries.framework {
-            baseName = "KotlinbarsCommon"
-        }
-    }
+    iosSimulatorArm64()
 
-    iosSimulatorArm64 {
-        binaries.framework {
-            baseName = "KotlinbarsCommon"
-        }
-    }
-
-    linuxX64 {
-
-    }
+    linuxX64()
 
     sourceSets {
         getByName("commonMain") {
             dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
             }
         }
         getByName("jvmMain") {
             dependencies {
-                implementation("org.springframework.data:spring-data-commons:3.0.3")
+                implementation("org.springframework.data:spring-data-commons:3.0.6")
             }
-        }
-        create("iosMain") {
-            dependsOn(getByName("commonMain"))
-        }
-        getByName("iosX64Main") {
-            dependsOn(getByName("iosMain"))
-        }
-        getByName("iosArm64Main") {
-            dependsOn(getByName("iosMain"))
-        }
-        getByName("iosX64Main") {
-            dependsOn(getByName("iosMain"))
         }
         getByName("iosSimulatorArm64Main") {
             dependsOn(getByName("iosMain"))

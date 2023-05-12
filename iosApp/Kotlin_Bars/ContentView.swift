@@ -15,101 +15,22 @@
  */
 
 import SwiftUI
-import KotlinbarsCommon
-import KotlinbarsRpc
+import KotlinbarsCompose
 
-@MainActor
-protocol BarsViewModel: ObservableObject {
-    var bars: [CommonBar] { get }
+struct ComposeView: UIViewControllerRepresentable {
+    let barsUrl: String
+    
+    func makeUIViewController(context: Context) -> UIViewController {
+        MainKt.MainViewController(barsUrl: barsUrl)
+    }
 
-    func refresh() async throws
-    func add(bar: CommonBar) async throws
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
-@MainActor
-class LiveBarsViewModel: BarsViewModel {
-    @Published var bars: [CommonBar] = []
-
-    let barsRPC: BarsRPC
-
-    required init(barsUrl: String) {
-        NSLog("init start")
-        barsRPC = BarsRPC(barsUrl: barsUrl)
-        NSLog("init done")
-    }
-
-    func refresh() async throws {
-        NSLog("do refresh")
-        bars = try await barsRPC.fetchBars()
-    }
-
-    func add(bar: CommonBar) async throws {
-        try await barsRPC.addBar(bar: bar)
-        try await refresh()
-    }
-
-    deinit {
-        barsRPC.close()
-    }
-}
-
-
-struct BarsView<ViewModel>: View where ViewModel: BarsViewModel {
-    @ObservedObject var viewModel: ViewModel
-
-    @State private var barName: String = ""
-
+struct ContentView: View {
+    let barsUrl: String
     var body: some View {
-        VStack {
-            Text("Bars:")
-
-            List(viewModel.bars, id: \.id) { bar in
-                Text(bar.name).padding()
-            }
-            .task {
-                NSLog("VStack.task")
-                try? await viewModel.refresh()
-            }
-            .refreshable {
-                try? await viewModel.refresh()
-            }
-
-            TextField(
-                    "New Bar",
-                    text: $barName
-                )
-                .onSubmit {
-                    Task {
-                        let bar = CommonBar(id: nil, name: barName)
-                        try? await viewModel.add(bar: bar)
-                        barName = ""
-                    }
-                }
-                .textFieldStyle(.roundedBorder)
-                .padding()
-
-        }
-    }
-
-}
-
-struct BarsView_Previews: PreviewProvider {
-    class PreviewBarsViewModel: BarsViewModel {
-        @Published var bars: [CommonBar] = [
-            CommonBar(id: 1, name: "Foo"),
-            CommonBar(id: 2, name: "Bar")
-        ]
-
-        func refresh() async throws {
-            // do nothing
-        }
-
-        func add(bar: CommonBar) async throws {
-            bars.append(bar) // todo: increment id
-        }
-    }
-
-    static var previews: some View {
-        BarsView<PreviewBarsViewModel>(viewModel: PreviewBarsViewModel())
+        ComposeView(barsUrl: barsUrl)
+                .ignoresSafeArea(.keyboard) // Compose has own keyboard handler
     }
 }

@@ -11,12 +11,9 @@ kotlin {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
-
     implementation(project(":compose"))
 
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.activity:activity-compose:1.6.1")
+    implementation("androidx.activity:activity-compose:1.7.1")
 }
 
 android {

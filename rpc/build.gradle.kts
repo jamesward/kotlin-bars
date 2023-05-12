@@ -11,91 +11,64 @@ java {
 }
 
 kotlin {
-    android {
+    android()
 
-    }
-
-    jvm {
-
-    }
+    jvm()
 
     js(IR) {
         browser()
     }
 
-    iosX64 {
-        binaries.framework {
-            baseName = "KotlinbarsRpc"
-        }
-    }
+    ios()
 
-    iosArm64 {
-        binaries.framework {
-            baseName = "KotlinbarsRpc"
-        }
-    }
+    iosSimulatorArm64()
 
-    iosSimulatorArm64 {
-        binaries.framework {
-            baseName = "KotlinbarsRpc"
-        }
-    }
-
-    linuxX64 {
-
-    }
+    linuxX64()
 
     sourceSets {
         val commonMain = getByName("commonMain") {
             dependencies {
                 api(project(":common"))
 
-                implementation("io.ktor:ktor-client-core:2.2.4")
-                implementation("io.ktor:ktor-client-content-negotiation:2.2.4")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
+                implementation("io.ktor:ktor-client-core:2.3.0")
+                implementation("io.ktor:ktor-client-content-negotiation:2.3.0")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.0")
             }
         }
 
         getByName("androidMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-android:2.2.4")
-                implementation("androidx.core:core:1.9.0")
+                implementation("io.ktor:ktor-client-android:2.3.0")
+                //implementation("androidx.core:core:1.10.1")
             }
         }
 
         getByName("jvmMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-java:2.2.4")
+                implementation("io.ktor:ktor-client-java:2.3.0")
             }
         }
 
         getByName("jsMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-js:2.2.4")
+                implementation("io.ktor:ktor-client-js:2.3.0")
             }
         }
 
-        val iosMain = create("iosMain") {
+        val iosMain = getByName("iosMain") {
             dependsOn(commonMain)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:2.2.4")
+                implementation("io.ktor:ktor-client-ios:2.3.0")
             }
         }
 
-        getByName("iosX64Main") {
-            dependsOn(iosMain)
-        }
-
-        getByName("iosArm64Main") {
-            dependsOn(iosMain)
-        }
         getByName("iosSimulatorArm64Main") {
             dependsOn(iosMain)
         }
 
         getByName("linuxX64Main") {
             dependencies {
-                implementation("io.ktor:ktor-client-curl:2.2.4")
+                implementation("io.ktor:ktor-client-curl:2.3.0")
             }
         }
     }

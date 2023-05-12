@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.plugin.extraProperties
+import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
+
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
@@ -11,26 +14,37 @@ java {
 }
 
 kotlin {
-    android {
+    android()
 
+    jvm()
+
+    ios {
+        binaries.framework {
+            isStatic = true
+            baseName = "KotlinbarsCompose"
+        }
     }
 
-    jvm {
-
+    iosSimulatorArm64 {
+        binaries.framework {
+            isStatic = true
+            baseName = "KotlinbarsCompose"
+        }
     }
 
     sourceSets {
-        named("commonMain") {
+        getByName("commonMain") {
             dependencies {
-                implementation(kotlin("reflect"))
-
                 api(project(":rpc"))
 
-                api(compose.runtime)
-                api(compose.ui)
-                api(compose.foundation)
-                api(compose.material)
+                implementation(compose.ui)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
             }
+        }
+        getByName("iosSimulatorArm64Main") {
+            dependsOn(getByName("iosMain"))
         }
     }
 }

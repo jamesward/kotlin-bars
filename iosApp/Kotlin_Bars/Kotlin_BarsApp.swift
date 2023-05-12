@@ -16,8 +16,7 @@
 
 import SwiftUI
 
-import KotlinbarsCommon
-import KotlinbarsRpc
+import KotlinbarsCompose
 
 @main
 struct Kotlin_BarsApp: App {
@@ -33,7 +32,7 @@ struct Kotlin_BarsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            BarsView<LiveBarsViewModel>(viewModel: LiveBarsViewModel(barsUrl: barsUrl))
+            ContentView(barsUrl: barsUrl)
         }
     }
 }

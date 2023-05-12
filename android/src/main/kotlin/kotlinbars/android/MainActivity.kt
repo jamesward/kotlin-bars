@@ -18,11 +18,11 @@ package kotlinbars.android
 
 import kotlinbars.compose.Bars
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import kotlinbars.rpc.BarsRPC
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     private val barsRpc by lazy {
         val url = resources.getString(R.string.bars_url)
