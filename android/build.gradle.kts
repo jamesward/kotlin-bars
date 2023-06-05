@@ -13,7 +13,7 @@ kotlin {
 dependencies {
     implementation(project(":compose"))
 
-    implementation("androidx.activity:activity-compose:1.7.1")
+    implementation("androidx.activity:activity-compose:1.7.2")
 }
 
 android {
