@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")              version "7.4.2" apply false // latest for IntelliJ & KMP compat
+    id("com.android.application")              version "8.0.2" apply false // latest for IntelliJ & KMP compat
     id("com.android.library")                  version "7.4.2" apply false // latest for IntelliJ & KMP compat
     id("org.jetbrains.compose")                version "1.4.0" apply false
     id("org.springframework.boot")             version "3.0.6" apply false
