@@ -9,7 +9,7 @@ plugins {
     kotlin("jvm")                              version "1.8.20" apply false
     kotlin("multiplatform")                    version "1.8.20" apply false
     kotlin("plugin.serialization")             version "1.8.20" apply false
-    kotlin("plugin.spring")                    version "1.8.20" apply false
+    kotlin("plugin.spring")                    version "1.8.21" apply false
 }
 
 allprojects {
