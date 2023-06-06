@@ -35,14 +35,14 @@ jobs:
           api-key-id: ${{ secrets.ASC_API_KEY }}
           api-private-key: ${{ secrets.ASC_AUTH_KEY }}
 
-      - name: download dist provisioning profiles
-        uses: apple-actions/download-provisioning-profiles@v1
-        with:
-          profile-type: 'IOS_APP_STORE'
-          bundle-id: ${{ secrets.ASC_BUNDLE_ID }}
-          issuer-id: ${{ secrets.ASC_API_ISSUER }}
-          api-key-id: ${{ secrets.ASC_API_KEY }}
-          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+#      - name: download dist provisioning profiles
+#        uses: apple-actions/download-provisioning-profiles@v1
+#        with:
+#          profile-type: 'IOS_APP_STORE'
+#          bundle-id: ${{ secrets.ASC_BUNDLE_ID }}
+#          issuer-id: ${{ secrets.ASC_API_ISSUER }}
+#          api-key-id: ${{ secrets.ASC_API_KEY }}
+#          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
 
       - name: create archive
         working-directory: iosApp
