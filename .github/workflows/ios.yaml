@@ -23,14 +23,8 @@ jobs:
       - name: import certs
         uses: apple-actions/import-codesign-certs@v2
         with:
-          p12-file-base64: ${{ secrets.DEV_CERTIFICATE_P12 }}
-          p12-password: ${{ secrets.DEV_CERTIFICATE_PASSWORD }}
-
-      - name: import certs
-        uses: apple-actions/import-codesign-certs@v2
-        with:
-          p12-file-base64: ${{ secrets.STORE_CERTIFICATE_P12 }}
-          p12-password: ${{ secrets.STORE_CERTIFICATE_PASSWORD }}
+          p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
+          p12-password: ${{ secrets.CERTIFICATES_PASSWORD }}
 
       - name: download dev provisioning profiles
         uses: apple-actions/download-provisioning-profiles@v1
