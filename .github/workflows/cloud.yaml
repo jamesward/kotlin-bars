@@ -2,6 +2,12 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '.github/workflows/android.yaml'
+      - '.github/workflows/cli.yaml'
+      - '.github/workflows/desktop.yaml'
+      - '.github/workflows/ios.yaml'
+      - '.github/workflows/tui.yaml'
 
 jobs:
   build:
