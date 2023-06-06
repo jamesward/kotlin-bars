@@ -76,6 +76,7 @@ kotlin {
 
 android {
     namespace = "kotlinbars.rpc"
+    buildToolsVersion = "33.0.2"
     compileSdk = 33
     defaultConfig {
         minSdk = 24

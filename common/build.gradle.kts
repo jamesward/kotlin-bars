@@ -48,6 +48,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 android {
     namespace = "kotlinbars.common"
+    buildToolsVersion = "33.0.2"
     compileSdk = 33
     defaultConfig {
         minSdk = 24

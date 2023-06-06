@@ -51,6 +51,7 @@ kotlin {
 
 android {
     namespace = "kotlinbars.compose"
+    buildToolsVersion = "33.0.2"
     compileSdk = 33
 
     defaultConfig {

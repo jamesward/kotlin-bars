@@ -17,8 +17,9 @@ dependencies {
 }
 
 android {
-    compileSdk = 33
     namespace = "kotlinbars.android"
+    buildToolsVersion = "33.0.2"
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 28
