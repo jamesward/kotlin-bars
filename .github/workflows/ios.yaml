@@ -71,7 +71,7 @@ jobs:
           
           xcrun agvtool new-version -all ${GITHUB_RUN_NUMBER}
         
-          xcrun xcodebuild -scheme Kotlin_Bars -sdk iphoneos -configuration Release -destination 'generic/platform=iOS' -archivePath build/Kotlin_Bars.xcarchive archive
+          xcrun xcodebuild -scheme Kotlin_Bars -sdk iphoneos -configuration Release -destination 'generic/platform=iOS' -archivePath build/Kotlin_Bars.xcarchive -allowProvisioningUpdates archive
 
       - name: export archive
         working-directory: iosApp
