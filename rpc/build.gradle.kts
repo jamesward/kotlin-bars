@@ -58,7 +58,7 @@ kotlin {
         val iosMain = getByName("iosMain") {
             dependsOn(commonMain)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:2.3.0")
+                implementation("io.ktor:ktor-client-ios:2.3.1")
             }
         }
 
