@@ -5,7 +5,7 @@ plugins {
     id("org.springframework.boot")             version "3.1.0" apply false
     id("io.spring.dependency-management")      version "1.1.0" apply false
     id("org.graalvm.buildtools.native")        version "0.9.20" apply false
-    kotlin("android")                          version "1.8.20" apply false // latest for Compose
+    kotlin("android")                          version "1.8.22" apply false // latest for Compose
     kotlin("jvm")                              version "1.8.20" apply false // latest for Compose
     kotlin("multiplatform")                    version "1.8.20" apply false // latest for Compose
     kotlin("plugin.serialization")             version "1.8.20" apply false // latest for Compose
