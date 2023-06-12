@@ -26,23 +26,32 @@ jobs:
           p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
           p12-password: ${{ secrets.CERTIFICATES_PASSWORD }}
 
-      - name: download dev provisioning profiles
-        uses: apple-actions/download-provisioning-profiles@v1
-        with:
-          profile-type: 'IOS_APP_DEVELOPMENT'
-          bundle-id: ${{ secrets.ASC_BUNDLE_ID }}
-          issuer-id: ${{ secrets.ASC_API_ISSUER }}
-          api-key-id: ${{ secrets.ASC_API_KEY }}
-          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+      - name: Install provisioning profile
+        env:
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+        run: |
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
-      - name: download dist provisioning profiles
-        uses: apple-actions/download-provisioning-profiles@v1
-        with:
-          profile-type: 'IOS_APP_STORE'
-          bundle-id: ${{ secrets.ASC_BUNDLE_ID }}
-          issuer-id: ${{ secrets.ASC_API_ISSUER }}
-          api-key-id: ${{ secrets.ASC_API_KEY }}
-          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+#      - name: download dev provisioning profiles
+#        uses: apple-actions/download-provisioning-profiles@v1
+#        with:
+#          profile-type: 'IOS_APP_DEVELOPMENT'
+#          bundle-id: ${{ secrets.ASC_BUNDLE_ID }}
+#          issuer-id: ${{ secrets.ASC_API_ISSUER }}
+#          api-key-id: ${{ secrets.ASC_API_KEY }}
+#          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+#
+#      - name: download dist provisioning profiles
+#        uses: apple-actions/download-provisioning-profiles@v1
+#        with:
+#          profile-type: 'IOS_APP_STORE'
+#          bundle-id: ${{ secrets.ASC_BUNDLE_ID }}
+#          issuer-id: ${{ secrets.ASC_API_ISSUER }}
+#          api-key-id: ${{ secrets.ASC_API_KEY }}
+#          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
 
       - name: create archive
         working-directory: iosApp
