@@ -51,7 +51,7 @@ kotlin {
 
         getByName("jsMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-js:2.3.0")
+                implementation("io.ktor:ktor-client-js:2.3.1")
             }
         }
 
