@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.compose")                version "1.4.0" apply false
     id("org.springframework.boot")             version "3.1.0" apply false
     id("io.spring.dependency-management")      version "1.1.0" apply false
-    id("org.graalvm.buildtools.native")        version "0.9.22" apply false
+    id("org.graalvm.buildtools.native")        version "0.9.23" apply false
     kotlin("android")                          version "1.8.20" apply false // latest for Compose
     kotlin("jvm")                              version "1.8.20" apply false // latest for Compose
     kotlin("multiplatform")                    version "1.8.20" apply false // latest for Compose
