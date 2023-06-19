@@ -33,7 +33,7 @@ kotlin {
         }
         getByName("jvmMain") {
             dependencies {
-                implementation("org.springframework.data:spring-data-commons:3.1.0")
+                implementation("org.springframework.data:spring-data-commons:3.1.1")
             }
         }
         getByName("iosSimulatorArm64Main") {
