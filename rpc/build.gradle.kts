@@ -68,7 +68,7 @@ kotlin {
 
         getByName("linuxX64Main") {
             dependencies {
-                implementation("io.ktor:ktor-client-curl:2.3.1")
+                implementation("io.ktor:ktor-client-curl:2.3.2")
             }
         }
     }
