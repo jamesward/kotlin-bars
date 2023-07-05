@@ -69,8 +69,10 @@ tasks.withType<org.springframework.boot.gradle.tasks.aot.ProcessAot> {
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
     imageName = "kotlin-bars-server"
     environment = mapOf("BP_BINARY_COMPRESSION_METHOD" to "upx")
-    docker {
-        host = "inherit"
-        bindHostToBuilder = true
+    if (System.getenv("DOCKER_HOST") != null) {
+        docker {
+            host = "inherit"
+            bindHostToBuilder = true
+        }
     }
 }
