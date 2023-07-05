@@ -23,7 +23,7 @@ kotlin {
 }
 
 application {
-    mainClass.set("kotlinbars.cli.MainKt")
+    mainClass = "kotlinbars.cli.MainKt"
 }
 
 val generatedResourceDir = File("$buildDir/generated-resources/main")
@@ -78,6 +78,6 @@ tasks.register<JavaExec>("dev") {
     dependsOn(":server:bootBuildImage")
     dependsOn("testClasses")
     classpath = sourceSets["test"].runtimeClasspath
-    mainClass.set("kotlinbars.cli.DevKt")
+    mainClass = "kotlinbars.cli.DevKt"
     standardInput = System.`in`
 }

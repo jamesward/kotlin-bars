@@ -67,12 +67,12 @@ compose.desktop {
             macOS {
                 bundleID = System.getenv()["ASC_BUNDLE_ID"]
                 signing {
-                    sign.set(System.getenv()["DESKTOP_CERT_NAME"] != null)
-                    identity.set(System.getenv()["DESKTOP_CERT_NAME"])
+                    sign = System.getenv()["DESKTOP_CERT_NAME"] != null
+                    identity = System.getenv()["DESKTOP_CERT_NAME"]
                 }
                 notarization {
-                    appleID.set(System.getenv()["NOTARIZATION_APPLEID"])
-                    password.set(System.getenv()["NOTARIZATION_PASSWORD"])
+                    appleID = System.getenv()["NOTARIZATION_APPLEID"]
+                    password = System.getenv()["NOTARIZATION_PASSWORD"]
                 }
             }
         }
@@ -86,5 +86,5 @@ tasks.register<JavaExec>("dev") {
         classpath += configurations["jvmTestRuntimeClasspath"]
         classpath += test.output.allOutputs
     }
-    mainClass.set("kotlinbars.desktop.DevKt")
+    mainClass = "kotlinbars.desktop.DevKt"
 }

@@ -44,7 +44,7 @@ kotlin {
 }
 
 application {
-    mainClass.set("kotlinbars.server.MainKt")
+    mainClass = "kotlinbars.server.MainKt"
 }
 
 // add the test stuff to the bootRun classpath
@@ -62,8 +62,15 @@ tasks.withType<Test> {
     }
 }
 
+tasks.withType<org.springframework.boot.gradle.tasks.aot.ProcessAot> {
+    systemProperty("spring.r2dbc.url", "placeholder_for_aot")
+}
+
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
-    imageName.set("kotlin-bars-server")
-    builder.set("paketobuildpacks/builder:tiny")
-    environment.set(mapOf("BP_NATIVE_IMAGE" to "1", "BP_JVM_VERSION" to "17", "BP_BINARY_COMPRESSION_METHOD" to "upx", "BP_NATIVE_IMAGE_BUILD_ARGUMENTS" to "--trace-object-instantiation=ch.qos.logback.classic.Logger"))
+    imageName = "kotlin-bars-server"
+    environment = mapOf("BP_BINARY_COMPRESSION_METHOD" to "upx")
+    docker {
+        host = "inherit"
+        bindHostToBuilder = true
+    }
 }
