@@ -54,6 +54,8 @@ jobs:
             <dict>
               <key>BarsUrl</key>
               <string>https://${{ secrets.DOMAINS }}/api/bars</string>
+              <key>ITSAppUsesNonExemptEncryption</key>
+              <false/>
             </dict>
           </plist>
           EOF
