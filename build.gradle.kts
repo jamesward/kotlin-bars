@@ -9,7 +9,7 @@ plugins {
     kotlin("jvm")                              version "1.8.20" apply false // latest for Compose
     kotlin("multiplatform")                    version "1.8.20" apply false // latest for Compose
     kotlin("plugin.serialization")             version "1.8.20" apply false // latest for Compose
-    kotlin("plugin.spring")                    version "1.8.20" apply false // latest for Compose
+    kotlin("plugin.spring")                    version "1.9.0" apply false // latest for Compose
 }
 
 allprojects {
