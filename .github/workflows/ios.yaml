@@ -79,6 +79,7 @@ jobs:
             PRODUCT_BUNDLE_IDENTIFIER="${{ secrets.BUNDLE_ID }}" \
             CODE_SIGN_STYLE="Manual" \
             PROVISIONING_PROFILE_SPECIFIER="${{ secrets.DEV_PROVISIONING_PROFILE_NAME }}" \
+            
             archive
 
       - name: "Generate ExportOptions.plist"
@@ -107,6 +108,8 @@ jobs:
                 <key>${{ secrets.BUNDLE_ID }}</key>
                 <string>${{ secrets.DIST_PROVISIONING_PROFILE_NAME }}</string>
               </dict>
+              <key>ITSAppUsesNonExemptEncryption</key>
+              <false/>
             </dict>
           </plist>
           EOF
