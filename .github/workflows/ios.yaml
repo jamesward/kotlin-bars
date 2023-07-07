@@ -107,8 +107,6 @@ jobs:
                 <key>${{ secrets.BUNDLE_ID }}</key>
                 <string>${{ secrets.DIST_PROVISIONING_PROFILE_NAME }}</string>
               </dict>
-              <key>ITSAppUsesNonExemptEncryption</key>
-              <false/>
             </dict>
           </plist>
           EOF
