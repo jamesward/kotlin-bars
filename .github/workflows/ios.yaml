@@ -26,37 +26,21 @@ jobs:
           p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
           p12-password: ${{ secrets.CERTIFICATES_PASSWORD }}
 
-#      - name: Install provisioning profile
-#        env:
-#          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
-#        run: |
-#          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-#          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
-#          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-#          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-
-      - name: download dev provisioning profiles
+      - name: download provisioning profiles
         uses: apple-actions/download-provisioning-profiles@v1
         with:
-          profile-type: 'IOS_APP_DEVELOPMENT'
-          bundle-id: ${{ secrets.ASC_BUNDLE_ID }}
-          issuer-id: ${{ secrets.ASC_API_ISSUER }}
-          api-key-id: ${{ secrets.ASC_API_KEY }}
-          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+          bundle-id: ${{ secrets.BUNDLE_ID }}
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
 
-      - name: download dist provisioning profiles
-        uses: apple-actions/download-provisioning-profiles@v1
-        with:
-          profile-type: 'IOS_APP_STORE'
-          bundle-id: ${{ secrets.ASC_BUNDLE_ID }}
-          issuer-id: ${{ secrets.ASC_API_ISSUER }}
-          api-key-id: ${{ secrets.ASC_API_KEY }}
-          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
-
-      - name: create archive
+      - name: build archive
         working-directory: iosApp
+        env:
+          SCHEME: Kotlin_Bars
+          CONFIGURATION: Release
+          SDK: iphoneos
         run: |
-          
           cat <<EOF > ../local.properties
           barsUrl=https://${{ secrets.DOMAINS }}/api/bars
           EOF
@@ -79,45 +63,73 @@ jobs:
           fi
           
           xcrun agvtool new-version -all ${GITHUB_RUN_NUMBER}
-        
-          xcrun xcodebuild -scheme Kotlin_Bars -sdk iphoneos -configuration Release -destination 'generic/platform=iOS' -archivePath build/Kotlin_Bars.xcarchive archive
+          
+          xcrun xcodebuild \
+            -scheme "${SCHEME}" \
+            -configuration "${CONFIGURATION}" \
+            -sdk "${SDK}" \
+            -parallelizeTargets \
+            -showBuildTimingSummary \
+            -disableAutomaticPackageResolution \
+            -derivedDataPath "${RUNNER_TEMP}/Build/DerivedData" \
+            -archivePath "${RUNNER_TEMP}/Build/Archives/${SCHEME}.xcarchive" \
+            -resultBundlePath "${RUNNER_TEMP}/Build/Artifacts/${SCHEME}.xcresult" \
+            -destination "generic/platform=iOS" \
+            DEVELOPMENT_TEAM="${{ secrets.APPSTORE_TEAM_ID }}" \
+            PRODUCT_BUNDLE_IDENTIFIER="${{ secrets.BUNDLE_ID }}" \
+            CODE_SIGN_STYLE="Manual" \
+            PROVISIONING_PROFILE_SPECIFIER="${{ secrets.DEV_PROVISIONING_PROFILE_NAME }}" \
+            archive
 
-      - name: export archive
-        working-directory: iosApp
+      - name: "Generate ExportOptions.plist"
         run: |
-
-          cat <<EOF > build/ExportOptions.plist
+          cat <<EOF > ${RUNNER_TEMP}/Build/ExportOptions.plist
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
             <dict>
-              <key>generateAppStoreInformation</key>
-              <false/>
-              <key>manageAppVersionAndBuildNumber</key>
-              <true/>
+              <key>destination</key>
+              <string>export</string>
               <key>method</key>
               <string>app-store</string>
               <key>signingStyle</key>
-              <string>automatic</string>
+              <string>manual</string>
+              <key>generateAppStoreInformation</key>
+              <true/>
               <key>stripSwiftSymbols</key>
               <true/>
               <key>teamID</key>
-              <string>${{ secrets.ASC_TEAM_ID }}</string>
-              <key>uploadBitcode</key>
-              <true/>
+              <string>${{ secrets.APPSTORE_TEAM_ID }}</string>
               <key>uploadSymbols</key>
               <true/>
+              <key>provisioningProfiles</key>
+              <dict>
+                <key>${{ secrets.BUNDLE_ID }}</key>
+                <string>${{ secrets.DIST_PROVISIONING_PROFILE_NAME }}</string>
+              </dict>
             </dict>
           </plist>
           EOF
 
-          xcrun xcodebuild -exportArchive -archivePath build/Kotlin_Bars.xcarchive -exportOptionsPlist build/ExportOptions.plist -exportPath build
+      - id: export_archive
+        name: export archive
+        env:
+          SCHEME: Kotlin_Bars
+        run: |
+          xcrun xcodebuild \
+            -exportArchive \
+            -exportOptionsPlist "${RUNNER_TEMP}/Build/ExportOptions.plist" \
+            -archivePath "${RUNNER_TEMP}/Build/Archives/${SCHEME}.xcarchive" \
+            -exportPath "${RUNNER_TEMP}/Build/Archives/${SCHEME}.xcarchive/${SCHEME}.ipa" \
+            PRODUCT_BUNDLE_IDENTIFIER="${{ secrets.BUNDLE_ID }}"
+          
+          echo "ipa_path=${RUNNER_TEMP}/Build/Archives/${SCHEME}.xcarchive/${SCHEME}.ipa/${SCHEME}.ipa" >> $GITHUB_OUTPUT
 
       - name: upload ipa
         uses: actions/upload-artifact@v2
         with:
           name: kotlin-bars.ipa
-          path: iosApp/build/Kotlin_Bars.ipa
+          path: ${{ steps.export_archive.outputs.ipa_path }}
 
       - name: release ipa
         uses: svenstaro/upload-release-action@v2
@@ -125,14 +137,13 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           asset_name: kotlin-bars.ipa
-          file: iosApp/build/Kotlin_Bars.ipa
+          file: ${{ steps.export_archive.outputs.ipa_path }}
           tag: ${{ github.ref }}
           overwrite: true
 
-      - name: upload app to testflight
-        uses: apple-actions/upload-testflight-build@v1
+      - uses: Apple-Actions/upload-testflight-build@v1
         with:
-          app-path: iosApp/build/Kotlin_Bars.ipa
-          issuer-id: ${{ secrets.ASC_API_ISSUER }}
-          api-key-id: ${{ secrets.ASC_API_KEY }}
-          api-private-key: ${{ secrets.ASC_AUTH_KEY }}
+          app-path: ${{ steps.export_archive.outputs.ipa_path }}
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
