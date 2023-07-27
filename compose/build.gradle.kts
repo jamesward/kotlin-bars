@@ -1,24 +1,20 @@
-import org.jetbrains.kotlin.gradle.plugin.extraProperties
-import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
-
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("com.android.library")
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
-}
-
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    android()
+    targetHierarchy.default()
+
+    jvmToolchain(11)
+
+    androidTarget()
 
     jvm()
 
-    ios {
+    iosX64 {
         binaries.framework {
             isStatic = true
             baseName = "KotlinbarsCompose"
@@ -40,17 +36,15 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-                implementation(compose.material)
+                implementation(compose.material3)
             }
-        }
-        getByName("iosSimulatorArm64Main") {
-            dependsOn(getByName("iosMain"))
         }
     }
 }
 
 android {
     namespace = "kotlinbars.compose"
+    @Suppress("UnstableApiUsage")
     buildToolsVersion = "33.0.2"
     compileSdk = 33
 

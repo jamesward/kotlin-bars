@@ -8,11 +8,12 @@ plugins {
 kotlin {
     js(IR) {
         browser {
-            runTask {
-                // todo: testcontainer server
+            runTask(
+                Action {
+                    // todo: testcontainer server
 
-                // todo: external proxy fails with ERR_TLS_CERT_ALTNAME_INVALID
-                /*
+                    // todo: external proxy fails with ERR_TLS_CERT_ALTNAME_INVALID
+                    /*
                 val barsUrl: String? by project
 
                 val props = Properties()
@@ -29,8 +30,9 @@ kotlin {
                     "http://localhost:8080"
                 }
                  */
-                devServer = devServer?.copy(port = 8081, proxy = mutableMapOf("/api" to "http://localhost:8080"))
-            }
+                    devServer = devServer?.copy(port = 8081, proxy = mutableMapOf("/api" to "http://localhost:8080"))
+                }
+            )
         }
         binaries.executable()
     }

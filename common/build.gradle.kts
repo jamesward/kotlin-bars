@@ -4,14 +4,13 @@ plugins {
     id("com.android.library")
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
-}
-
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    android()
+    targetHierarchy.default()
+
+    jvmToolchain(11)
+
+    androidTarget()
 
     jvm()
 
@@ -19,8 +18,8 @@ kotlin {
         browser()
     }
 
-    ios()
-
+    iosX64()
+    iosArm64()
     iosSimulatorArm64()
 
     linuxX64()
@@ -36,9 +35,6 @@ kotlin {
                 implementation("org.springframework.data:spring-data-commons:3.1.1")
             }
         }
-        getByName("iosSimulatorArm64Main") {
-            dependsOn(getByName("iosMain"))
-        }
     }
 }
 
@@ -48,6 +44,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 android {
     namespace = "kotlinbars.common"
+    @Suppress("UnstableApiUsage")
     buildToolsVersion = "33.0.2"
     compileSdk = 33
     defaultConfig {

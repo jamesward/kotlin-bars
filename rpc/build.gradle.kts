@@ -4,14 +4,13 @@ plugins {
     id("com.android.library")
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
-}
-
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    android()
+    targetHierarchy.default()
+
+    jvmToolchain(11)
+
+    androidTarget()
 
     jvm()
 
@@ -19,7 +18,8 @@ kotlin {
         browser()
     }
 
-    ios()
+    //ios()
+    iosX64()
 
     iosSimulatorArm64()
 
@@ -39,7 +39,6 @@ kotlin {
         getByName("androidMain") {
             dependencies {
                 implementation("io.ktor:ktor-client-android:2.3.2")
-                //implementation("androidx.core:core:1.10.1")
             }
         }
 
@@ -51,7 +50,7 @@ kotlin {
 
         getByName("jsMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-js:2.3.2")
+                api("io.ktor:ktor-client-js:2.3.2")
             }
         }
 
@@ -76,6 +75,7 @@ kotlin {
 
 android {
     namespace = "kotlinbars.rpc"
+    @Suppress("UnstableApiUsage")
     buildToolsVersion = "33.0.2"
     compileSdk = 33
     defaultConfig {
