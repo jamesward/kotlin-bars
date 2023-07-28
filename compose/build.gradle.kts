@@ -14,7 +14,7 @@ kotlin {
 
     jvm()
 
-    iosX64 {
+    ios {
         binaries.framework {
             isStatic = true
             baseName = "KotlinbarsCompose"

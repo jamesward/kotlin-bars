@@ -18,8 +18,7 @@ kotlin {
         browser()
     }
 
-    iosX64()
-    iosArm64()
+    ios()
     iosSimulatorArm64()
 
     linuxX64()
