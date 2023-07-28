@@ -32,7 +32,7 @@ kotlin {
         }
         getByName("jvmMain") {
             dependencies {
-                implementation("org.springframework.data:spring-data-commons:3.1.1")
+                implementation("org.springframework.data:spring-data-commons:3.1.2")
             }
         }
     }
