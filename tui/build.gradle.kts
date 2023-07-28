@@ -21,7 +21,7 @@ kotlin {
         named("commonMain") {
             dependencies {
                 implementation(project(":rpc"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("com.varabyte.kotter:kotter:1.1.1")
             }
         }
