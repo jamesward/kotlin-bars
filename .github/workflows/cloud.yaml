@@ -62,5 +62,5 @@ jobs:
           IMAGE_VERSION: ${{ github.sha }}
           REGION: ${{ secrets.GCP_REGION }}
           DOMAINS: ${{ secrets.DOMAINS }}
-          FILE_PATH: web/build/distributions
+          FILE_PATH: web/build/dist/js/productionExecutable
           API_PATH: /api
