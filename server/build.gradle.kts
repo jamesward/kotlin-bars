@@ -4,9 +4,10 @@ plugins {
     application
     id("org.springframework.boot")
     id("io.spring.dependency-management")
-    id("org.graalvm.buildtools.native")
     kotlin("jvm")
     kotlin("plugin.spring")
+    // workaround: has to be last for https://github.com/spring-projects/spring-boot/issues/36488
+    id("org.graalvm.buildtools.native")
 }
 
 dependencies {

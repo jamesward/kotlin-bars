@@ -19,14 +19,10 @@ package kotlinbars.server
 import kotlinbars.common.Bar
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import org.springframework.aot.hint.MemberCategory
-import org.springframework.aot.hint.RuntimeHints
-import org.springframework.aot.hint.RuntimeHintsRegistrar
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.ImportRuntimeHints
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -41,7 +37,6 @@ interface BarRepo : CoroutineCrudRepository<Bar, Long>
 
 @SpringBootApplication
 @RestController
-@ImportRuntimeHints(MyHints::class)
 class WebApp(val barRepo: BarRepo) {
 
     @GetMapping("/api/bars")
@@ -61,12 +56,6 @@ class WebApp(val barRepo: BarRepo) {
         ResponseEntity<Unit>(HttpStatus.OK)
     }
 
-}
-
-class MyHints : RuntimeHintsRegistrar {
-    override fun registerHints(hints: RuntimeHints, classLoader: ClassLoader?) {
-        hints.reflection().registerType(Bar::class.java, *MemberCategory.values())
-    }
 }
 
 @Configuration(proxyBeanMethods = false)

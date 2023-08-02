@@ -23,5 +23,6 @@ mkShell {
   buildInputs = [
 #    android-studio
     android-sdk
+    graalvm17-ce
   ];
 }
