@@ -42,7 +42,7 @@ kotlin {
 
         getByName("jvmMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-java:2.3.2")
+                implementation("io.ktor:ktor-client-java:2.3.3")
             }
         }
 
