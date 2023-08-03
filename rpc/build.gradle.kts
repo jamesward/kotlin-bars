@@ -36,7 +36,7 @@ kotlin {
 
         getByName("androidMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-android:2.3.2")
+                implementation("io.ktor:ktor-client-android:2.3.3")
             }
         }
 
