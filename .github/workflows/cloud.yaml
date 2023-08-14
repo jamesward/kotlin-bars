@@ -39,7 +39,7 @@ jobs:
           docker push gcr.io/${{ secrets.GCP_PROJECT }}/${{ github.event.repository.name }}:${{ github.sha }}
 
       - name: Deploy Service and DB
-        uses: jamesward/easycloudrun/vpcsql@main
+        uses: jamesward/easycloudrun/vpcegresssql@main
         env:
           PROJECT_ID: ${{ secrets.GCP_PROJECT }}
           COMMIT_SHA: ${{ github.sha }}
