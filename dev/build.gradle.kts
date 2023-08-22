@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    api("org.testcontainers:postgresql:1.18.3")
+    api("org.testcontainers:postgresql:1.19.0")
     runtimeOnly("org.slf4j:slf4j-simple:2.0.7")
     runtimeOnly("org.postgresql:postgresql:42.6.0")
 }
