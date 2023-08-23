@@ -13,7 +13,7 @@ repositories {
 dependencies {
     implementation(project(":common"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.0")
 
     testImplementation(project(":dev"))
 }
