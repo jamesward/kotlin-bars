@@ -6,7 +6,7 @@ plugins {
     id("io.spring.dependency-management")      version "1.1.3" apply false
     id("org.graalvm.buildtools.native")        version "0.9.24" apply false
     kotlin("android")                          version "1.9.0" apply false
-    kotlin("jvm")                              version "1.9.0" apply false
+    kotlin("jvm")                              version "1.9.10" apply false
     kotlin("multiplatform")                    version "1.9.0" apply false
     kotlin("plugin.serialization")             version "1.9.0" apply false
     kotlin("plugin.spring")                    version "1.9.0" apply false
