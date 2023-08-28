@@ -73,9 +73,8 @@ kotlin {
 
 android {
     namespace = "kotlinbars.rpc"
-    @Suppress("UnstableApiUsage")
-    buildToolsVersion = "33.0.2"
-    compileSdk = 33
+    buildToolsVersion = "34.0.0"
+    compileSdk = 34
     defaultConfig {
         minSdk = 24
     }
