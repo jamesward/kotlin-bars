@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")              version "8.1.1" apply false
     id("com.android.library")                  version "8.1.1" apply false
-    id("org.jetbrains.compose")                version "1.5.0" apply false
+    id("org.jetbrains.compose")                version "1.5.1" apply false
     id("org.springframework.boot")             version "3.1.3" apply false
     id("io.spring.dependency-management")      version "1.1.3" apply false
     id("org.graalvm.buildtools.native")        version "0.9.25" apply false
