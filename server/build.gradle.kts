@@ -40,9 +40,13 @@ dependencies {
     //developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
+// commented out due to:
+//   java.lang.IllegalStateException: The value for property 'languageVersion' is final and cannot be changed any further.
+/*
 kotlin {
     jvmToolchain(17)
 }
+ */
 
 application {
     mainClass = "kotlinbars.server.MainKt"
