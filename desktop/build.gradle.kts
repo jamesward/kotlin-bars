@@ -25,7 +25,7 @@ kotlin {
     }
 }
 
-val generatedResourceDir = File("$buildDir/generated-resources/main")
+val generatedResourceDir = layout.buildDirectory.dir("generated-resources/main").get()
 
 tasks.named<Copy>("jvmProcessResources") {
     from(tasks.named("generateResources"))
@@ -45,12 +45,12 @@ tasks.register("generateResources") {
         val barsUrlWithFallback = barsUrl ?: props["barsUrl"] as String?
 
         if (barsUrlWithFallback != null) {
-            val metaInf = File(generatedResourceDir, "META-INF")
-            metaInf.mkdirs()
-            val generated = File(metaInf, "app.properties")
+            val metaInf = generatedResourceDir.dir("META-INF")
+            metaInf.asFile.mkdirs()
+            val generated = metaInf.file("app.properties").asFile
             generated.writeText("barsUrl=$barsUrlWithFallback")
         } else {
-            generatedResourceDir.deleteRecursively()
+            generatedResourceDir.asFile.deleteRecursively()
         }
     }
 }
