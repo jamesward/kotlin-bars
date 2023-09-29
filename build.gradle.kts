@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")              version "8.3.0-alpha05" apply false
+    id("com.android.application")              version "8.3.0-alpha06" apply false
     id("com.android.library")                  version "8.3.0-alpha05" apply false
     id("org.jetbrains.compose")                version "1.5.1" apply false
     id("org.springframework.boot")             version "3.1.4" apply false
