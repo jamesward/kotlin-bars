@@ -1,20 +1,23 @@
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
-
     jvmToolchain(11)
 
-    androidTarget()
+    androidLibrary {
+        @Suppress("UnstableApiUsage")
+        namespace = "kotlinbars.compose"
+        @Suppress("UnstableApiUsage")
+        compileSdk = 34
+    }
 
     jvm()
 
-    ios {
+    iosArm64 {
         binaries.framework {
             isStatic = true
             baseName = "KotlinbarsCompose"
@@ -29,7 +32,7 @@ kotlin {
     }
 
     sourceSets {
-        getByName("commonMain") {
+        commonMain {
             dependencies {
                 api(project(":rpc"))
 
@@ -39,20 +42,5 @@ kotlin {
                 implementation(compose.material3)
             }
         }
-    }
-}
-
-android {
-    namespace = "kotlinbars.compose"
-    buildToolsVersion = "34.0.0"
-    compileSdk = 34
-
-    defaultConfig {
-        minSdk = 28
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
     }
 }

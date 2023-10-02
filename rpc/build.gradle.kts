@@ -1,30 +1,33 @@
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
-
     jvmToolchain(11)
 
-    androidTarget()
+    androidLibrary {
+        @Suppress("UnstableApiUsage")
+        namespace = "kotlinbars.rpc"
+        @Suppress("UnstableApiUsage")
+        compileSdk = 34
+    }
 
     jvm()
 
-    js(IR) {
+    js {
         browser()
     }
 
-    ios()
+    iosArm64()
     iosSimulatorArm64()
 
     linuxX64()
 
     sourceSets {
-        val commonMain = getByName("commonMain") {
+        commonMain {
             dependencies {
                 api(project(":common"))
 
@@ -34,52 +37,34 @@ kotlin {
             }
         }
 
-        getByName("androidMain") {
+        androidMain {
             dependencies {
                 implementation("io.ktor:ktor-client-android:2.3.4")
             }
         }
 
-        getByName("jvmMain") {
+        jvmMain {
             dependencies {
                 implementation("io.ktor:ktor-client-java:2.3.4")
             }
         }
 
-        getByName("jsMain") {
+        jsMain {
             dependencies {
                 api("io.ktor:ktor-client-js:2.3.4")
             }
         }
 
-        val iosMain = getByName("iosMain") {
-            dependsOn(commonMain)
+        iosMain {
             dependencies {
                 implementation("io.ktor:ktor-client-ios:2.3.4")
             }
         }
 
-        getByName("iosSimulatorArm64Main") {
-            dependsOn(iosMain)
-        }
-
-        getByName("linuxX64Main") {
+        linuxMain {
             dependencies {
                 implementation("io.ktor:ktor-client-curl:2.3.4")
             }
         }
-    }
-}
-
-android {
-    namespace = "kotlinbars.rpc"
-    buildToolsVersion = "34.0.0"
-    compileSdk = 34
-    defaultConfig {
-        minSdk = 24
-    }
-    compileOptions {
-        sourceCompatibility(JavaVersion.VERSION_11)
-        targetCompatibility(JavaVersion.VERSION_11)
     }
 }

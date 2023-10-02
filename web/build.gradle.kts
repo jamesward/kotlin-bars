@@ -1,12 +1,10 @@
-import java.util.*
-
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
 }
 
 kotlin {
-    js(IR) {
+    js {
         browser {
             runTask(
                 Action {
@@ -38,7 +36,7 @@ kotlin {
     }
 
     sourceSets {
-        named("jsMain") {
+        jsMain {
             dependencies {
                 implementation(project(":rpc"))
                 implementation(compose.html.core)

@@ -18,7 +18,7 @@ kotlin {
     }
 
     sourceSets {
-        named("commonMain") {
+        commonMain {
             dependencies {
                 implementation(project(":rpc"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")

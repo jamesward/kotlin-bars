@@ -10,14 +10,14 @@ kotlin {
     jvm()
 
     sourceSets {
-        named("jvmMain") {
+        jvmMain {
             dependencies {
                 implementation(project(":compose"))
                 implementation(compose.desktop.currentOs)
             }
         }
 
-        named("jvmTest") {
+        jvmTest {
             dependencies {
                 implementation(project(":dev"))
             }
