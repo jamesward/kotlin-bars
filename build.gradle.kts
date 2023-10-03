@@ -6,7 +6,7 @@ plugins {
     id("org.springframework.boot")                 version "3.1.4" apply false
     id("io.spring.dependency-management")          version "1.1.3" apply false
     id("org.graalvm.buildtools.native")            version "0.9.27" apply false
-    kotlin("android")                              version "1.9.0" apply false
+    kotlin("android")                              version "1.9.20-Beta2" apply false
     kotlin("jvm")                                  version "1.9.20-Beta2" apply false
     kotlin("multiplatform")                        version "1.9.20-Beta2" apply false
     kotlin("plugin.serialization")                 version "1.9.20-Beta2" apply false
