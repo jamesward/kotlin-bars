@@ -2,12 +2,12 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
     application
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
-    kotlin("jvm")
-    kotlin("plugin.spring")
+    alias(universe.plugins.spring.boot)
+    alias(universe.plugins.spring.dependency.management)
+    alias(universeunstable.plugins.kotlin.jvm)
+    alias(universeunstable.plugins.kotlin.plugin.spring)
     // workaround: has to be last for https://github.com/spring-projects/spring-boot/issues/36488
-    id("org.graalvm.buildtools.native")
+    alias(universe.plugins.graalvm.buildtools.native)
 }
 
 dependencies {
@@ -22,19 +22,19 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
      */
 
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation(universe.spring.boot.starter.webflux)
+    //implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation(universe.kotlinx.coroutines.reactor)
 
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation(universe.spring.boot.starter.data.r2dbc)
 
-    runtimeOnly("org.postgresql:r2dbc-postgresql")
+    runtimeOnly(universe.r2dbc.postgresql)
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation(universe.spring.boot.starter.test)
 
-    testImplementation("org.testcontainers:postgresql:1.19.1")
-    testImplementation("org.testcontainers:r2dbc:1.19.1")
+    testImplementation(universe.testcontainers.postgresql)
+    testImplementation(universe.testcontainers.r2dbc)
 
     // see: https://github.com/spring-projects-experimental/spring-native/issues/532
     //developmentOnly("org.springframework.boot:spring-boot-devtools")

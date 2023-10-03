@@ -1,6 +1,6 @@
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.compose")
+    alias(universeunstable.plugins.kotlin.multiplatform)
+    alias(universeunstable.plugins.jetbrains.compose)
 }
 
 kotlin {

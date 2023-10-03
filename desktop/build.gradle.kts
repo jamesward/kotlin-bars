@@ -2,8 +2,8 @@ import java.util.Properties
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.compose")
+    alias(universeunstable.plugins.kotlin.multiplatform)
+    alias(universeunstable.plugins.jetbrains.compose)
 }
 
 kotlin {

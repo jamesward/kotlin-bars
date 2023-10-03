@@ -1,9 +1,9 @@
 import java.util.Properties
 
 plugins {
-    id("org.jetbrains.compose")
-    id("com.android.application")
-    kotlin("android")
+    alias(universeunstable.plugins.jetbrains.compose)
+    alias(universeunstable.plugins.android.application)
+    alias(universeunstable.plugins.kotlin.android)
 }
 
 kotlin {
@@ -13,7 +13,7 @@ kotlin {
 dependencies {
     implementation(project(":compose"))
 
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation(universe.androidx.activity.compose)
 }
 
 android {

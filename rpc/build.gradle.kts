@@ -1,7 +1,7 @@
 plugins {
-    kotlin("multiplatform")
-    kotlin("plugin.serialization")
-    id("com.android.kotlin.multiplatform.library")
+    alias(universeunstable.plugins.kotlin.multiplatform)
+    alias(universeunstable.plugins.kotlin.plugin.serialization)
+    alias(universeunstable.plugins.android.kotlin.multiplatform.library)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -31,39 +31,40 @@ kotlin {
             dependencies {
                 api(project(":common"))
 
-                implementation("io.ktor:ktor-client-core:2.3.4")
-                implementation("io.ktor:ktor-client-content-negotiation:2.3.4")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.4")
+
+                implementation(universe.ktor.client.core)
+                implementation(universe.ktor.client.content.negotiation)
+                implementation(universe.ktor.serialization.kotlinx.json)
             }
         }
 
         androidMain {
             dependencies {
-                implementation("io.ktor:ktor-client-android:2.3.4")
+                implementation(universe.ktor.client.android)
             }
         }
 
         jvmMain {
             dependencies {
-                implementation("io.ktor:ktor-client-java:2.3.4")
+                implementation(universe.ktor.client.java)
             }
         }
 
         jsMain {
             dependencies {
-                api("io.ktor:ktor-client-js:2.3.4")
+                api(universe.ktor.client.js)
             }
         }
 
         iosMain {
             dependencies {
-                implementation("io.ktor:ktor-client-ios:2.3.4")
+                implementation(universe.ktor.client.ios)
             }
         }
 
         linuxMain {
             dependencies {
-                implementation("io.ktor:ktor-client-curl:2.3.4")
+                implementation(universe.ktor.client.curl)
             }
         }
     }

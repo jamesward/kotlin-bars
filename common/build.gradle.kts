@@ -1,7 +1,7 @@
 plugins {
-    kotlin("multiplatform")
-    kotlin("plugin.serialization")
-    id("com.android.kotlin.multiplatform.library")
+    alias(universeunstable.plugins.kotlin.multiplatform)
+    alias(universeunstable.plugins.kotlin.plugin.serialization)
+    alias(universeunstable.plugins.android.kotlin.multiplatform.library)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -29,12 +29,12 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+                api(universe.kotlinx.serialization.json)
             }
         }
         jvmMain {
             dependencies {
-                implementation("org.springframework.data:spring-data-commons:3.1.4")
+                implementation(universe.spring.data.commons)
             }
         }
     }

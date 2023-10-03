@@ -2,8 +2,8 @@ import java.util.Properties
 
 plugins {
     application
-    kotlin("jvm")
-    id("com.palantir.graal") version "0.12.0"
+    alias(universeunstable.plugins.kotlin.jvm)
+    alias(universe.plugins.palantir.graal)
 }
 
 repositories {
@@ -13,7 +13,7 @@ repositories {
 dependencies {
     implementation(project(":common"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.0")
+    implementation(universe.kotlinx.serialization.json.jvm)
 
     testImplementation(project(":dev"))
 }

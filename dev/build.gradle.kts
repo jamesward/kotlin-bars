@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    kotlin("jvm")
+    alias(universeunstable.plugins.kotlin.jvm)
 }
 
 repositories {
@@ -8,9 +8,9 @@ repositories {
 }
 
 dependencies {
-    api("org.testcontainers:postgresql:1.19.1")
-    runtimeOnly("org.slf4j:slf4j-simple:2.0.9")
-    runtimeOnly("org.postgresql:postgresql:42.6.0")
+    api(universe.testcontainers.postgresql)
+    runtimeOnly(universe.slf4j.simple)
+    runtimeOnly(universe.postgresql)
 }
 
 kotlin {

@@ -1,7 +1,7 @@
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.compose")
-    id("com.android.kotlin.multiplatform.library")
+    alias(universeunstable.plugins.kotlin.multiplatform)
+    alias(universeunstable.plugins.jetbrains.compose)
+    alias(universeunstable.plugins.android.kotlin.multiplatform.library)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
