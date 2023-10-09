@@ -8,7 +8,7 @@ pluginManagement {
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
-    id("com.jamesward.kotlin-universe-catalog") version "2023.10.03-2"
+    id("com.jamesward.kotlin-universe-catalog") version "2023.10.06-2"
 }
 
 rootProject.name = "kotlin-bars"
