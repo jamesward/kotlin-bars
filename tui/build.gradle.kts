@@ -1,7 +1,7 @@
 import java.util.Properties
 
 plugins {
-    alias(universeunstable.plugins.kotlin.multiplatform)
+    alias(universe.plugins.kotlin.multiplatform)
 }
 
 repositories {

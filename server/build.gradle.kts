@@ -4,8 +4,8 @@ plugins {
     application
     alias(universe.plugins.spring.boot)
     alias(universe.plugins.spring.dependency.management)
-    alias(universeunstable.plugins.kotlin.jvm)
-    alias(universeunstable.plugins.kotlin.plugin.spring)
+    alias(universe.plugins.kotlin.jvm)
+    alias(universe.plugins.kotlin.plugin.spring)
     // workaround: has to be last for https://github.com/spring-projects/spring-boot/issues/36488
     alias(universe.plugins.graalvm.buildtools.native)
 }

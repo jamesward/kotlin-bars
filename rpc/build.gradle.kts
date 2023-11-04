@@ -1,6 +1,6 @@
 plugins {
-    alias(universeunstable.plugins.kotlin.multiplatform)
-    alias(universeunstable.plugins.kotlin.plugin.serialization)
+    alias(universe.plugins.kotlin.multiplatform)
+    alias(universe.plugins.kotlin.plugin.serialization)
     alias(universeunstable.plugins.android.kotlin.multiplatform.library)
 }
 

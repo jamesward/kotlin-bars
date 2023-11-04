@@ -1,9 +1,9 @@
 import java.util.Properties
 
 plugins {
-    alias(universeunstable.plugins.jetbrains.compose)
+    alias(universe.plugins.jetbrains.compose)
     alias(universeunstable.plugins.android.application)
-    alias(universeunstable.plugins.kotlin.android)
+    alias(universe.plugins.kotlin.android)
 }
 
 kotlin {

@@ -1,6 +1,6 @@
 plugins {
-    alias(universeunstable.plugins.kotlin.multiplatform)
-    alias(universeunstable.plugins.jetbrains.compose)
+    alias(universe.plugins.kotlin.multiplatform)
+    alias(universe.plugins.jetbrains.compose)
     alias(universeunstable.plugins.android.kotlin.multiplatform.library)
 }
 

@@ -2,7 +2,7 @@ import java.util.Properties
 
 plugins {
     application
-    alias(universeunstable.plugins.kotlin.jvm)
+    alias(universe.plugins.kotlin.jvm)
     alias(universe.plugins.palantir.graal)
 }
 
