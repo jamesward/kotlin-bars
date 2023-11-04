@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package kotlinbars.web
+
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
