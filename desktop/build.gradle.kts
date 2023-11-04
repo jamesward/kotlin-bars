@@ -2,8 +2,9 @@ import java.util.Properties
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    alias(universeunstable.plugins.kotlin.multiplatform)
-    alias(universeunstable.plugins.jetbrains.compose)
+    alias(universe.plugins.kotlin.multiplatform)
+    //alias(universe.plugins.jetbrains.compose)
+    id("org.jetbrains.compose")
 }
 
 kotlin {

@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    alias(universeunstable.plugins.kotlin.jvm)
+    alias(universe.plugins.kotlin.jvm)
 }
 
 repositories {

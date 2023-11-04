@@ -1,10 +1,10 @@
 plugins {
-    alias(universeunstable.plugins.kotlin.multiplatform)
-    alias(universeunstable.plugins.kotlin.plugin.serialization)
-    alias(universeunstable.plugins.android.kotlin.multiplatform.library)
+    alias(universe.plugins.kotlin.multiplatform)
+    alias(universe.plugins.kotlin.plugin.serialization)
+    //alias(universeunstable.plugins.android.kotlin.multiplatform.library)
+    id("com.android.kotlin.multiplatform.library")
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     jvmToolchain(11)
 
@@ -21,6 +21,11 @@ kotlin {
         browser()
     }
 
+    @Suppress("OPT_IN_USAGE")
+    wasmJs {
+        browser()
+    }
+
     iosArm64()
     iosSimulatorArm64()
 
@@ -29,7 +34,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(universe.kotlinx.serialization.json)
+                // todo: to version catalog?
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1-wasm1")
             }
         }
         jvmMain {

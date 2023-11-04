@@ -1,10 +1,10 @@
 plugins {
-    alias(universeunstable.plugins.kotlin.multiplatform)
-    alias(universeunstable.plugins.jetbrains.compose)
+    alias(universe.plugins.kotlin.multiplatform)
+    //alias(universe.plugins.jetbrains.compose)
+    id("org.jetbrains.compose")
     alias(universeunstable.plugins.android.kotlin.multiplatform.library)
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     jvmToolchain(11)
 
@@ -16,6 +16,11 @@ kotlin {
     }
 
     jvm()
+
+    @Suppress("OPT_IN_USAGE")
+    wasmJs {
+        browser()
+    }
 
     iosArm64 {
         binaries.framework {
@@ -36,10 +41,17 @@ kotlin {
             dependencies {
                 api(project(":rpc"))
 
-                implementation(compose.ui)
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
+                api(compose.material3)
+            }
+        }
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        eachDependency {
+            if (name.startsWith("wasmJs") && requested.module.group == "io.ktor") {
+                useVersion("3.0.0-wasm1")
             }
         }
     }

@@ -1,11 +1,7 @@
 import java.util.Properties
 
 plugins {
-    alias(universeunstable.plugins.kotlin.multiplatform)
-}
-
-repositories {
-    mavenCentral()
+    alias(universe.plugins.kotlin.multiplatform)
 }
 
 kotlin {
