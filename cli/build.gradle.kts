@@ -1,29 +1,37 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import java.util.Properties
 
 plugins {
-    application
-    alias(universe.plugins.kotlin.jvm)
+    alias(universe.plugins.kotlin.multiplatform)
     alias(universe.plugins.palantir.graal)
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation(project(":common"))
-
-    implementation(universe.kotlinx.serialization.json.jvm)
-
-    testImplementation(project(":dev"))
 }
 
 kotlin {
     jvmToolchain(17)
-}
 
-application {
-    mainClass = "kotlinbars.cli.MainKt"
+    jvm {
+        withJava()
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        mainRun {
+            mainClass = "kotlinbars.cli.MainKt"
+        }
+    }
+
+    sourceSets {
+        jvmMain {
+            dependencies {
+                implementation(project(":common"))
+
+                implementation(universe.kotlinx.serialization.json.jvm)
+            }
+        }
+        jvmTest {
+            dependencies {
+                implementation(project(":dev"))
+            }
+        }
+    }
 }
 
 val generatedResourceDir = layout.buildDirectory.dir("generated-resources/main").get()
@@ -59,7 +67,7 @@ tasks.register("generateResources") {
 graal {
     graalVersion("22.3.0")
     javaVersion("17")
-    mainClass(application.mainClass.get())
+    mainClass("kotlinbars.cli.MainKt")
     outputName("kotlin-bars")
     option("--verbose")
     option("--no-fallback")
@@ -69,15 +77,15 @@ graal {
     option("--enable-https")
 }
 
-tasks.named<JavaExec>("run") {
+tasks.withType<JavaExec> {
     standardInput = System.`in`
 }
 
 // todo: this rebuilds the server container every run
 tasks.register<JavaExec>("dev") {
     dependsOn(":server:bootBuildImage")
-    dependsOn("testClasses")
-    classpath = sourceSets["test"].runtimeClasspath
+    dependsOn("jvmTestClasses")
+    classpath = kotlin.jvm().compilations["test"].runtimeDependencyFiles
     mainClass = "kotlinbars.cli.DevKt"
     standardInput = System.`in`
 }

@@ -2,18 +2,25 @@ import java.util.Properties
 
 plugins {
     alias(universe.plugins.jetbrains.compose)
-    alias(universeunstable.plugins.android.application)
-    alias(universe.plugins.kotlin.android)
+    alias(universe.plugins.android.application)
+    //alias(universe.plugins.kotlin.android)
+    alias(universe.plugins.kotlin.multiplatform)
 }
 
 kotlin {
     jvmToolchain(11)
-}
 
-dependencies {
-    implementation(project(":compose"))
+    androidTarget()
 
-    implementation(universe.androidx.activity.compose)
+    sourceSets {
+        androidMain {
+            dependencies {
+                implementation(project(":compose"))
+
+                implementation(universe.androidx.activity.compose)
+            }
+        }
+    }
 }
 
 android {

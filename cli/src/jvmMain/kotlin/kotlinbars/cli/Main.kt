@@ -18,7 +18,6 @@ package kotlinbars.cli
 
 import kotlinbars.common.Bar
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.decodeFromString
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -42,7 +41,7 @@ fun loop(url: String) {
         }
 
         print("\nCreate a Bar: ")
-        val name = readLine()
+        val name = readlnOrNull()
         if (!name.isNullOrEmpty()) {
             val bar = Bar(null, name)
             val body = Json.encodeToString(bar)
@@ -54,7 +53,6 @@ fun loop(url: String) {
 }
 
 fun main() {
-
     val barsUrl = object {}.javaClass.classLoader?.getResourceAsStream("META-INF/app.properties")?.use {
         val props = Properties()
         props.load(it)

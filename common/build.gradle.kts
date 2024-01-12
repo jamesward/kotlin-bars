@@ -1,7 +1,7 @@
 plugins {
     alias(universe.plugins.kotlin.multiplatform)
     alias(universe.plugins.kotlin.plugin.serialization)
-    alias(universeunstable.plugins.android.kotlin.multiplatform.library)
+    alias(universe.plugins.android.kotlin.multiplatform.library)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)

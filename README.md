@@ -249,12 +249,12 @@ Package a native app (for the current platform):
 
 Run, connecting to the default `http://localhost:8080/api/bars` url (if `barsUrl` is not set in the `local.properties` file):
 ```
-./gradlew :cli:run -q --console=plain
+./gradlew :cli:jvmRun -q --console=plain
 ```
 
 Run, connecting to the specified url:
 ```
-./gradlew :cli:run -q --console=plain -PbarsUrl=http://YOUR_URL:8080/api/bars
+./gradlew :cli:jvmRun -q --console=plain -PbarsUrl=http://YOUR_URL:8080/api/bars
 ```
 
 Start a server with Testcontainers and connect to it:
